@@ -63,7 +63,15 @@ function getQuestionIndex(questionItemDiv: HTMLElement) {
 
 async function querySingleQuestion(questionItemDiv: HTMLElement) {
     const domString = questionItemDiv.outerHTML;
-    const questionWithAnswers = await WELearnAPI.queryByDomString(domString);
+    
+    let questionWithAnswers: any[] = [];
+    if (store.userSettings.cloudCrowdsourcing) {
+        questionWithAnswers = await WELearnAPI.queryByDomString(domString);
+    } else {
+        logger.debug("云端众筹已关闭，跳过单题查询");
+        // Return a mock object or handle empty answers
+        questionWithAnswers = [{ answer_text: "" }]; 
+    }
 
     for (const [index, questionWithAnswer] of questionWithAnswers.entries()) {
         let questionIndex = "_";
@@ -145,16 +153,20 @@ export async function getAnswers() {
             const sheet_id = /sheetid\s*:\s*(-?\d*)/.exec(html_string);
             const stt_id = /sttid\s*:\s*(-?\d*)/.exec(html_string);
 
-            await WELearnAPI.collectAll({
-                dom_string: domString,
-                typical: !!questionItemDivNodes.length,
-                is_school_test: isSchoolTest,
-                part_index: getPartIndex() || null,
-                task_id: taskId,
-                tt_id: tt_id ? tt_id[1] || null : null,
-                sheet_id: sheet_id ? sheet_id[1] || null : null,
-                stt_id: stt_id ? stt_id[1] || null : null,
-            });
+            if (store.userSettings.cloudCrowdsourcing) {
+                await WELearnAPI.collectAll({
+                    dom_string: domString,
+                    typical: !!questionItemDivNodes.length,
+                    is_school_test: isSchoolTest,
+                    part_index: getPartIndex() || null,
+                    task_id: taskId,
+                    tt_id: tt_id ? tt_id[1] || null : null,
+                    sheet_id: sheet_id ? sheet_id[1] || null : null,
+                    stt_id: stt_id ? stt_id[1] || null : null,
+                });
+            } else {
+                logger.info({ content: "云端众筹已关闭，跳过答案收录" });
+            }
         } catch (e) {
             logger.debug(e);
         }

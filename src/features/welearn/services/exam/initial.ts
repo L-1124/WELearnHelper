@@ -80,5 +80,9 @@ if (location.href.includes(".sflep.com/test/") || location.href.includes("wetest
 }
 
 if (location.href.includes(".sflep.com/student/course_info.aspx?")) {
-    WELearnAPI.upload();
+    if (store.userSettings.cloudCrowdsourcing) {
+        WELearnAPI.upload();
+    } else {
+        logger.debug("云端众筹已关闭，跳过课程信息上传");
+    }
 }
