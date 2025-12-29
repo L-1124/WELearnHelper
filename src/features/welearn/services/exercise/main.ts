@@ -103,30 +103,6 @@ async function outputAnswers(answers: Answer[]) {
                 raw: {
                     element: answer.element,
                 },
-                solve: {
-                    couldSolve: true,
-                    hasSolved: false,
-                    solveThis: (answerText: string) => {
-                        try {
-                            const el = answer.element;
-                            if (answer.type === "choice") {
-                                el.click();
-                            } else {
-                                (el as any).value = answerText;
-                                el.dispatchEvent(new Event("input", { bubbles: true }));
-                                el.dispatchEvent(new Event("change", { bubbles: true }));
-                            }
-
-                            // Update store state
-                            const log = store.logs.find((l) => l.id === logId);
-                            if (log && log.type === "question") {
-                                log.content.solve.hasSolved = true;
-                            }
-                        } catch (error) {
-                            logger.error({ content: { message: `填入失败: ${String(error)}` } });
-                        }
-                    },
-                },
             },
         });
 
@@ -138,44 +114,6 @@ async function outputAnswers(answers: Answer[]) {
 
         await sleep(CONSTANT.QUERY_INTERVAL);
     }
-
-    // Clear previous monitor if it exists
-    if ((window as any)._answerMonitor) {
-        clearInterval((window as any)._answerMonitor);
-    }
-
-    // Monitor for filled answers
-    const monitor = setInterval(() => {
-        for (const answer of answers) {
-            try {
-                const el = answer.element;
-                let isFilled = false;
-                
-                if (answer.type === "choice") {
-                    // Typical WeLearn choice selection markers
-                    isFilled = el.classList.contains("selected") || 
-                               el.classList.contains("active") || 
-                               (el as any).checked === true;
-                } else {
-                    const val = (el as any).value || "";
-                    isFilled = val.trim().toLowerCase() === answer.text.trim().toLowerCase();
-                }
-
-                if (isFilled) {
-                    const log = store.logs.find(l => l.type === 'question' && (l.content as any).raw?.element === el);
-                    if (log && !(log.content as any).solve.hasSolved) {
-                        (log.content as any).solve.hasSolved = true;
-                    }
-                }
-            } catch (e) {
-                // Element might be gone
-            }
-        }
-    }, 1000);
-
-    // Clean up monitor after some time or on some event if necessary
-    // For now, let it run while the page is active or until next outputAnswers
-    (window as any)._answerMonitor = monitor;
 }
 
 export async function determineCourseType(iframeUrl: string) {
@@ -196,6 +134,7 @@ export async function determineCourseType(iframeUrl: string) {
     let hasAnswer = false;
 
     if (MANIFEST.includes(courseInfo)) {
+        store.courseContext = { courseInfo, identifier: identifier || "", type: "MANIFEST" };
         //需要查询名单
         dom = await queryManifest(manifestUrl, identifier as string, courseInfo);
 
@@ -204,11 +143,13 @@ export async function determineCourseType(iframeUrl: string) {
 
         if (store.userSettings.autoSolve) solveManifest(answers);
     } else if (ET.includes(courseInfo)) {
+        store.courseContext = { courseInfo, identifier: identifier || "", type: "ET" };
         dom = await queryData(answerUrl);
 
         answers = parseEt(dom);
         if (store.userSettings.autoSolve) solveEt(answers);
     } else if (DATA_SOLUTION.includes(courseInfo)) {
+        store.courseContext = { courseInfo, identifier: identifier || "", type: "DATA_SOLUTION" };
         //直接在原始页面查找
         setTimeout(() => {
             answers = parseDataSolution();
@@ -219,18 +160,21 @@ export async function determineCourseType(iframeUrl: string) {
                 outputAnswers(answers);
                 if (store.userSettings.autoSolve) solveDataSolution(answers);
             } else {
-                // 两种情况(同步 + 此处的timeout)都没有答案
                 if (!hasAnswer) {
                     logger.info({ content: "此页面已适配，无答案" });
                 }
             }
         }, 2000);
     } else if (READING.includes(courseInfo)) {
+        store.courseContext = { courseInfo, identifier: identifier || "", type: "READING" };
         let answerUrl =
             (location.href.split("&")[0] || "").replace("web.html?courseurl=", "data/") + ".xml";
         dom = await queryData(answerUrl);
         answers = parseReading(dom);
+    } else if (APP.includes(courseInfo)) {
+        store.courseContext = { courseInfo, identifier: identifier || "", type: "APP" };
     } else {
+        store.courseContext = { courseInfo, identifier: identifier || "", type: "UNSOLVED" };
         logger.info({ content: `未适配的课程类型，请在Github反馈` });
         logger.info({ content: `${courseInfo}` });
         logger.info({ content: `注意页面上是否有二维码，且注明需在app中使用，这种题型只能用app` });

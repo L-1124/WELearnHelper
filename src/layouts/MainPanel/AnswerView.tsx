@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import styled from "@emotion/styled";
-import { useStore } from "@core";
+import { useStore, store } from "@core";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { Button } from "../../shared/components";
@@ -120,21 +120,24 @@ export function AnswerView() {
                         >
                             {isQuestion ? (
                                 <QuestionRow>
-                                    <QuestionHeader>
-                                        <OrderBadge>{content.order}</OrderBadge>
-                                        <InfoBadge color={content.info.color}>{content.info.content}</InfoBadge>
+                                    <QuestionHeader style={{ justifyContent: "space-between", width: "100%" }}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                                            <OrderBadge>{content.order}</OrderBadge>
+                                            <InfoBadge color={content.info.color}>{content.info.content}</InfoBadge>
+                                        </div>
+                                        <Button 
+                                            type="secondary"
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(content.answerText);
+                                                store.setStatusMessage("已复制到剪贴板");
+                                            }}
+                                            style={{ height: '24px', padding: '0 8px', fontSize: '11px', borderRadius: '4px' }}
+                                        >
+                                            复制
+                                        </Button>
                                     </QuestionHeader>
                                     <AnswerText>
                                         <span>{content.answerText}</span>
-                                        {content.solve?.couldSolve && (
-                                            <Button 
-                                                onClick={() => content.solve.solveThis(content.answerText)}
-                                                disabled={content.solve.hasSolved}
-                                                style={{ height: '24px', padding: '0 8px', fontSize: '11px', borderRadius: '4px', marginLeft: '8px', marginRight: '4px' }}
-                                            >
-                                                {content.solve.hasSolved ? "已填入" : "填入"}
-                                            </Button>
-                                        )}
                                     </AnswerText>
                                 </QuestionRow>
                             ) : (

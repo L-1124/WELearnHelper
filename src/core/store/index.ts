@@ -12,6 +12,11 @@ class Store {
         config: false,
         floating: false,
     };
+    courseContext = {
+        courseInfo: "",
+        identifier: "",
+        type: "" as "MANIFEST" | "ET" | "DATA_SOLUTION" | "READING" | "APP" | "UNSOLVED" | "",
+    };
     statusMessage = "";
     private messageQueue: string[] = [];
     private isDisplayingMessage = false;

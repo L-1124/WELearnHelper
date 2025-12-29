@@ -1,5 +1,4 @@
 import { store } from "@store";
-import Button, { IButtonProps } from "@components/Button";
 
 function scrollDown() {
     //等待message渲染完成，不然不会拉到最底
@@ -16,7 +15,11 @@ export const RECORD_TYPES = ["info", "error", "question", "hr"] as const;
 
 export type RecordType = typeof RECORD_TYPES[number];
 
-export type IDynamicButton = Pick<IButtonProps, "children" | "onClick" | "disabled">;
+export interface IDynamicButton {
+    children: React.ReactNode;
+    onClick?: () => void;
+    disabled?: boolean;
+}
 
 export interface IRecord<T = RecordType, C = any> {
     id: string;
@@ -46,7 +49,7 @@ export interface IQuestionContent {
         element?: HTMLElement;
         // questionType?: 0;
     };
-    solve: {
+    solve?: {
         couldSolve: boolean;
         hasSolved: boolean;
         solveThis: (answerText: string) => void;

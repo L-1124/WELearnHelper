@@ -8,6 +8,9 @@ import welearnIcon from "../../assets/welearn.png";
 import { AnswerView } from "./AnswerView";
 import { SettingsView } from "./SettingsView";
 import { AboutView } from "./AboutView";
+import { DevView } from "./DevView";
+
+const isDev = import.meta.env.DEV;
 
 const statusFadeIn = keyframes`
     from { opacity: 0; transform: translateX(-5px); }
@@ -173,7 +176,7 @@ const ResizeHandle = styled.div`
 
 export function MainPanel() {
     const { visibility, statusMessage } = useStore();
-    const [activeTab, setActiveTab] = useState<"log" | "config" | "about">("log");
+    const [activeTab, setActiveTab] = useState<"log" | "config" | "about" | "dev">("log");
     const [size, setSize] = useState({ width: 500, height: 600 });
     const nodeRef = useRef<HTMLDivElement>(null);
 
@@ -230,11 +233,13 @@ export function MainPanel() {
                     <Tab active={activeTab === "log"} onClick={() => setActiveTab("log")}>答案</Tab>
                     <Tab active={activeTab === "config"} onClick={() => setActiveTab("config")}>设置</Tab>
                     <Tab active={activeTab === "about"} onClick={() => setActiveTab("about")}>说明</Tab>
+                    {isDev && <Tab active={activeTab === "dev"} onClick={() => setActiveTab("dev")}>调试</Tab>}
                 </TabBar>
                 <Content>
                     {activeTab === "log" && <AnswerView />}
                     {activeTab === "config" && <SettingsView />}
                     {activeTab === "about" && <AboutView />}
+                    {activeTab === "dev" && <DevView />}
                     <ResizeHandle onMouseDown={handleResizeStart} />
                 </Content>
             </Container>

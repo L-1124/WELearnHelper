@@ -26,13 +26,15 @@ export function parseEt(dom: Document) {
     let realAnswers = [];
     for (const answerType of ANSWER_TYPES) {
         let answers = dom.querySelectorAll(answerType);
-        logger.debug(answers);
+        if (answers.length > 0) {
+            logger.debug(`[EtParser] 查找到 ${answerType} 类型的元素:`, answers);
+        }
         let index = 1;
         for (const element of answers) {
             const answer = parseAnswer(element as HTMLElement) as Answer | null;
             if (answer) {
                 answer.index = index;
-                logger.debug(answer);
+                logger.debug(`[EtParser] 解析 ${answerType} 题目:`, answer);
                 realAnswers.push(answer);
 
                 index++;

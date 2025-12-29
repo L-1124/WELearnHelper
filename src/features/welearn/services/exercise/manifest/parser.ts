@@ -5,14 +5,14 @@ export function parseManifest(dom: Document) {
     let realAnswers: Answer[] = [];
 
     let answers = dom.querySelectorAll("correctResponse value");
-    logger.debug(answers);
+    logger.debug("[ManifestParser] 查找到 correctResponse 元素:", answers);
     let index = 1;
     for (const element of answers) {
         const answerArray = parseAnswer(element as HTMLElement, dom) as any;
         for (const answer of answerArray) {
             if (answer) {
                 answer.index = index;
-                logger.debug(answer);
+                logger.debug(`[ManifestParser] 解析第 ${index} 题:`, answer);
                 realAnswers.push(answer);
             }
             index++;
