@@ -18,8 +18,7 @@ export default function PopOver({
     content,
     placement = "top-start",
     disabled = false,
-    offsetPixel = 8,
-    backgroundColor = "rgba(104, 101, 101, 0.89)",
+    offsetPixel = 10,
     delay = false,
     openDelay = false,
     border = false,
@@ -29,7 +28,6 @@ export default function PopOver({
     placement?: Placement;
     disabled?: boolean;
     offsetPixel?: number;
-    backgroundColor?: string;
     delay?: boolean;
     openDelay?: boolean;
     border?: boolean;
@@ -81,27 +79,26 @@ export default function PopOver({
                             position: strategy,
                             top: y ?? 0,
                             left: x ?? 0,
-                            backgroundColor,
-                            // display: "flex",
-                            // backgroundColor: theme.colors.secondary,
-                            // width: "max-content",
+                            backgroundColor: (theme as any).sys.color.inverseSurface || "#313033",
                             maxWidth: "400px",
-                            color: "white",
-                            border: border ? "2px solid black" : undefined,
-                            borderRadius: 4,
-                            fontSize: 20,
-                            padding: 8,
-                            zIndex: 9999,
-                            fontFamily: "华文新魏",
-                            lineHeight: "normal",
+                            color: (theme as any).sys.color.inverseOnSurface || "#F4EFF4",
+                            border: border ? `1px solid ${(theme as any).sys.color.outline}` : undefined,
+                            borderRadius: (theme as any).sys.shape.small || "4px",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            padding: "6px 12px",
+                            zIndex: 11000,
+                            fontFamily: (theme as any).sys.typescale.bodySmall.fontFamily,
+                            lineHeight: "1.4",
                             whiteSpace: "pre-wrap",
+                            boxShadow: (theme as any).sys.elevation.level2,
                         }}
                         {...getFloatingProps()}
                     >
                         <FloatingArrow
                             ref={arrowRef}
                             context={context}
-                            fill={"rgba(104, 101, 101, 0.89)"}
+                            fill={(theme as any).sys.color.inverseSurface || "#313033"}
                         />
                         {content}
                     </div>

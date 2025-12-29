@@ -48,7 +48,6 @@ export function ConfigControl({
                     onBlur={(e) => setLocalValue(e.target.value)}
                     onChange={(e) => setLocalValue(e.target.value)}
                     disabled={readonly}
-                    style={{ height: 38 }}
                 />
             );
             break;
@@ -59,8 +58,8 @@ export function ConfigControl({
                     value={localValue as number}
                     onBlur={(e) => setLocalValue(e.target.value)}
                     onChange={(e) => setLocalValue(e.target.value)}
-                    style={{ width: 80, textAlign: "center" }}
                     disabled={readonly}
+                    style={{ width: "100px" }}
                 />
             );
             break;

@@ -97,6 +97,7 @@ async function outputAnswers(answers: Answer[]) {
                 order: `${String(answer.index).padStart(2, "0")}`,
                 info: {
                     content: "标答",
+                    color: "#2e7d32",
                 },
                 answerText: answer.text,
                 raw: {

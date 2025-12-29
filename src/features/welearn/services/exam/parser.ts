@@ -114,6 +114,7 @@ async function querySingleQuestion(questionItemDiv: HTMLElement) {
                         : questionWithAnswer.answer_text_gpt
                         ? "GPT"
                         : "无答案",
+                    color: questionWithAnswer.answer_text ? "#2e7d32" : undefined,
                 },
                 answerText:
                     questionWithAnswer.answer_text ||

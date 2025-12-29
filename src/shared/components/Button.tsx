@@ -14,22 +14,49 @@ const StyledButton = styled.button<{ disabled?: boolean; btnType?: string }>`
     align-items: center;
     justify-content: center;
     padding: 8px 16px;
-    border-radius: ${props => props.theme.sys.shape.small};
+    border-radius: ${props => props.theme.sys.shape.full};
     border: none;
-    background-color: ${props => props.disabled ? props.theme.sys.color.surfaceVariant : props.theme.sys.color.primary};
-    color: ${props => props.disabled ? props.theme.sys.color.onSurfaceVariant : props.theme.sys.color.onPrimary};
     font-size: ${props => props.theme.sys.typescale.labelLarge.fontSize};
-    font-weight: ${props => props.theme.sys.typescale.labelLarge.fontWeight};
+    font-weight: 600;
     cursor: ${props => props.disabled ? "not-allowed" : "pointer"};
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 8px;
 
-    &:hover:not(:disabled) {
-        opacity: 0.9;
-        box-shadow: ${props => props.theme.sys.elevation.level1};
-    }
+    /* Base styles by type */
+    ${props => {
+        const { color } = props.theme.sys;
+        if (props.disabled) {
+            return `
+                background-color: ${color.surfaceVariant};
+                color: ${color.onSurfaceVariant};
+                opacity: 0.4;
+            `;
+        }
+        
+        switch (props.btnType) {
+            case 'secondary':
+                return `
+                    background-color: ${color.secondaryContainer};
+                    color: ${color.onSecondaryContainer};
+                    &:hover { filter: brightness(0.95); }
+                `;
+            case 'text':
+                return `
+                    background-color: transparent;
+                    color: ${color.primary};
+                    &:hover { background-color: ${color.surfaceVariant}; }
+                `;
+            default: // primary
+                return `
+                    background-color: ${color.primary};
+                    color: ${color.onPrimary};
+                    &:hover { filter: brightness(1.1); box-shadow: ${props.theme.sys.elevation.level1}; }
+                `;
+        }
+    }}
 
     &:active:not(:disabled) {
-        transform: scale(0.98);
+        transform: scale(0.96);
     }
 `;
 

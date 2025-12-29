@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Github } from "@icon-park/react";
 
 const Container = styled.div`
     padding: 24px;
@@ -45,6 +46,8 @@ const Badge = styled.span<{ type: 'original' | 'fork' }>`
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
+    min-width: 65px;
+    text-align: center;
 `;
 
 const Link = styled.a`
@@ -52,6 +55,9 @@ const Link = styled.a`
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     
     &:hover {
         border-bottom-color: ${props => props.theme.sys.color.primary};
@@ -71,14 +77,19 @@ export function AboutView() {
             <AuthorSection>
                 <AuthorItem>
                     <Badge type="original">Original</Badge>
-                    <span>SSmJaE</span>
+                    <Link href="https://github.com/SSmJaE" target="_blank" rel="noopener noreferrer">
+                        SSmJaE
+                    </Link>
                 </AuthorItem>
                 <AuthorItem>
                     <Badge type="fork">Fork</Badge>
-                    <span>l-1124</span>
+                    <Link href="https://github.com/l-1124" target="_blank" rel="noopener noreferrer">
+                        l-1124
+                    </Link>
                 </AuthorItem>
                 <div style={{ marginTop: 8 }}>
-                    <Link href="https://github.com/L-1124/WELearnHelper" target="_blank" rel="noopener noreferrer">
+                    <Link href="https://github.com/L-1124/WELearnHelper" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>
+                        <Github theme="outline" size="18" />
                         GitHub Repository
                     </Link>
                 </div>

@@ -20,7 +20,7 @@ const Container = styled.div<{ width: number, height: number }>`
     left: 100px; /* Use left for more intuitive resizing expansion */
     width: ${props => props.width}px;
     height: ${props => props.height}px;
-    min-width: 400px;
+    min-width: 350px;
     min-height: 300px;
     max-height: 90vh;
     max-width: 90vw;
@@ -174,7 +174,7 @@ const ResizeHandle = styled.div`
 export function MainPanel() {
     const { visibility, statusMessage } = useStore();
     const [activeTab, setActiveTab] = useState<"log" | "config" | "about">("log");
-    const [size, setSize] = useState({ width: 700, height: 600 });
+    const [size, setSize] = useState({ width: 500, height: 600 });
     const nodeRef = useRef<HTMLDivElement>(null);
 
     if (!visibility.log && !visibility.config) return null;

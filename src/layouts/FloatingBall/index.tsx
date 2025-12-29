@@ -97,9 +97,8 @@ export function FloatingBall() {
                     style={{
                         width: "100%",
                         height: "100%",
-                        background: theme.sys.color.surfaceContainerHigh,
-                        backdropFilter: "blur(8px)",
-                        color: theme.sys.color.primary,
+                        background: theme.sys.color.primaryContainer,
+                        color: theme.sys.color.onPrimaryContainer,
                         borderRadius: theme.sys.shape.full,
                         border: `1px solid ${theme.sys.color.outlineVariant}`,
                         display: "flex",
@@ -107,6 +106,7 @@ export function FloatingBall() {
                         alignItems: "center",
                         cursor: isDragging ? "grabbing" : "grab",
                         fontWeight: 600,
+                        boxShadow: theme.sys.elevation.level2,
                         ...(visibility.floating ? spring : {}),
                     }}
                     onDoubleClick={() => {

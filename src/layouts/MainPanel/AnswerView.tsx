@@ -61,36 +61,40 @@ const OrderBadge = styled.span`
     padding: 0px 8px;
     border-radius: 4px;
     font-size: 11px;
-    font-weight: 800;
-    font-family: "JetBrains Mono", "Cascadia Code", monospace;
+    font-weight: 700;
+    font-family: inherit;
     border: 1px solid ${props => (props.theme as any).sys.color.outlineVariant};
     display: inline-flex;
     align-items: center;
-    height: 18px;
+    justify-content: center;
+    height: 20px;
+    line-height: 1;
 `;
 
 const InfoBadge = styled.span<{ color?: string }>`
     background-color: ${props => props.color || (props.theme as any).sys.color.secondaryContainer};
-    color: ${props => (props.theme as any).sys.color.onSecondaryContainer};
-    padding: 0px 6px;
+    color: ${props => props.color ? "#FFFFFF" : (props.theme as any).sys.color.onSecondaryContainer};
+    padding: 0px 8px;
     border-radius: 4px;
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
     display: inline-flex;
     align-items: center;
-    height: 18px;
+    justify-content: center;
+    height: 20px;
+    line-height: 1;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 `;
 
 const AnswerText = styled.div`
     font-family: ${props => (props.theme as any).sys.typescale.bodyLarge.fontFamily};
     font-size: 16px;
     font-weight: 500;
-    color: ${props => (props.theme as any).sys.color.primary};
-    padding: 2px 12px;
-    border-left: 3px solid ${props => (props.theme as any).sys.color.primary};
-    margin-left: 2px;
+    color: ${props => (props.theme as any).sys.color.onSurface};
+    padding: 2px 0;
+    margin-left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
