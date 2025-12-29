@@ -14,7 +14,7 @@
                 "*://centercourseware.sflep.com/*"
             ],
             "namespace": "https://github.com/l-1124/WELearnHelper",
-            "description": "显示WE Learn随行课堂题目答案；支持班级测试；自动答题；刷时长；基于生成式AI(ChatGPT)的答案生成",
+            "description": "显示WE Learn随行课堂题目答案",
             "connect": [
                 "localhost"
             ]

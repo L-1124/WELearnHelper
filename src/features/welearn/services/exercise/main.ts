@@ -3,6 +3,7 @@ import { sleep } from "@utils";
 // import {  } from "@src/store/actions";
 
 import logger from "@utils/logger";
+import { AnswerHub } from "../answerHub";
 
 import { MANIFEST, DATA_SOLUTION, ET, READING, APP } from "./courses";
 
@@ -91,24 +92,21 @@ async function outputAnswers(answers: Answer[]) {
 
         const logId = `q-${Math.random().toString(36).substr(2, 9)}`;
 
-        logger.question({
-            id: logId,
-            content: {
-                order: `${String(answer.index).padStart(2, "0")}`,
-                info: {
-                    content: "标答",
-                    color: "#2e7d32",
-                },
-                answerText: answer.text,
-                raw: {
-                    element: answer.element,
-                },
+        AnswerHub.addQuestion({
+            order: `${String(answer.index).padStart(2, "0")}`,
+            info: {
+                content: "标答",
+                color: "#2e7d32",
+            },
+            answerText: answer.text,
+            raw: {
+                element: answer.element,
             },
         });
 
         const currentTag = answer.element.tagName;
         if (bufferTag !== "" && currentTag !== bufferTag) {
-            logger.hr();
+            // logger.hr();
             bufferTag = currentTag;
         }
 

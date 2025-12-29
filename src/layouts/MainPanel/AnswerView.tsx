@@ -103,55 +103,57 @@ const AnswerText = styled.div`
 `;
 
 export function AnswerView() {
-    const { logs } = useStore();
+    const { answers } = useStore();
     const scrollRef = useRef<any>(null);
 
     return (
         <SimpleBar ref={scrollRef} style={{ height: "100%" }}>
             <LogContainer>
-                {logs.map((log, i) => {
-                    const isQuestion = log.type === 'question';
-                    const content = log.content as any;
-                    
+                {answers.map((answer, i) => {
                     return (
                         <LogLine 
-                            key={log.id || i} 
-                            type={log.type} 
+                            key={i} 
+                            type="question"
                         >
-                            {isQuestion ? (
-                                <QuestionRow>
-                                    <QuestionHeader style={{ justifyContent: "space-between", width: "100%" }}>
-                                        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                                            <OrderBadge>{content.order}</OrderBadge>
-                                            <InfoBadge color={content.info.color}>{content.info.content}</InfoBadge>
-                                        </div>
+                            <QuestionRow>
+                                <QuestionHeader style={{ justifyContent: "space-between", width: "100%" }}>
+                                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                                        <OrderBadge>{answer.order}</OrderBadge>
+                                        <InfoBadge color={answer.info.color}>{answer.info.content}</InfoBadge>
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        {/* Render Dynamic Actions (e.g. Play Audio) */}
+                                        {answer.action?.map((btn, idx) => (
+                                            <Button
+                                                key={`action-${idx}`}
+                                                type="secondary"
+                                                onClick={btn.onClick}
+                                                disabled={btn.disabled}
+                                                style={{ height: '24px', padding: '0 8px', fontSize: '11px', borderRadius: '4px' }}
+                                            >
+                                                {btn.label}
+                                            </Button>
+                                        ))}
                                         <Button 
                                             type="secondary"
                                             onClick={() => {
-                                                navigator.clipboard.writeText(content.answerText);
+                                                navigator.clipboard.writeText(answer.answerText);
                                                 store.setStatusMessage("已复制到剪贴板");
                                             }}
                                             style={{ height: '24px', padding: '0 8px', fontSize: '11px', borderRadius: '4px' }}
                                         >
                                             复制
                                         </Button>
-                                    </QuestionHeader>
-                                    <AnswerText>
-                                        <span>{content.answerText}</span>
-                                    </AnswerText>
-                                </QuestionRow>
-                            ) : (
-                                <>
-                                    <span style={{ fontWeight: 600, opacity: 0.8, flexShrink: 0 }}>
-                                        {log.type === 'error' ? '[ERR]' : log.type === 'info' ? '[INF]' : '[LOG]'}
-                                    </span>
-                                    <span dangerouslySetInnerHTML={{ __html: typeof content === 'object' ? JSON.stringify(content) : String(content) }} />
-                                </>
-                            )}
+                                    </div>
+                                </QuestionHeader>
+                                <AnswerText>
+                                    <span>{answer.answerText}</span>
+                                </AnswerText>
+                            </QuestionRow>
                         </LogLine>
                     );
                 })}
-                {logs.length === 0 && (
+                {answers.length === 0 && (
                     <div style={{ color: "gray", padding: "20px", textAlign: "center", opacity: 0.5 }}>
                         {`// 等待解析答案...`}
                     </div>

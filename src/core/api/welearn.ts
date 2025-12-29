@@ -1,7 +1,7 @@
 // import { VERSION } from "@src/store";
 // import { addMessage } from "@src/store/actions";
 
-import metadata from "@/metadata.json";
+import metadata from "@/config/metadata.json";
 import logger from "@utils/logger";
 import request from "@utils/polyfill/request";
 

@@ -2,6 +2,7 @@ import { proxy, subscribe, useSnapshot } from "valtio";
 import { devtools } from "valtio/utils";
 
 import logger, { IRecord } from "../../utils/logger";
+import { IQuestionContent } from "../../features/welearn/services/answerHub";
 import { setValue } from "../../utils/polyfill";
 import { IWELearnSettings, SectionSetting } from "../../utils/setting";
 import { ICommonSettings } from "../../utils/setting/common";
@@ -103,6 +104,16 @@ class Store {
         }
     }
 
+    answers: IQuestionContent[] = [];
+
+    addAnswer(answer: IQuestionContent) {
+        this.answers.push(answer);
+    }
+
+    clearAnswers() {
+        this.answers = [];
+    }
+
     logs: IRecord[] = [];
     clearLogs(remain?: number) {
         if (remain) {
@@ -119,7 +130,7 @@ class Store {
     //     const index = this.logs.findIndex((log) => log.id === record.id);
     //     if (index !== -1) {
     //         logger.debug("in updateRecord", record)
-
+    //
     //         this.logs[index] = { ...this.logs[index], ...record };
     //     }
     // }

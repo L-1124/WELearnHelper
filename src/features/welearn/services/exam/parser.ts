@@ -2,7 +2,8 @@
 import { CONSTANT } from "@core/store";
 import { store } from "@core";
 import { sleep } from "@utils";
-import logger, { IDynamicButton } from "@utils/logger";
+import logger from "@utils/logger";
+import { AnswerHub } from "../answerHub";
 
 /** 判断当前页面是否是详情/解析页面，或是答题页面 */
 export function isFinished() {
@@ -86,8 +87,8 @@ async function querySingleQuestion(questionItemDiv: HTMLElement) {
 
         const isListening = !!questionItemDiv.querySelector('a[href^="javascript:PlaySound"]');
 
-        const replayButton: IDynamicButton = {
-            children: "播放音频",
+        const replayButton = {
+            label: "播放音频",
             disabled: false,
             onClick: () => {
                 const mainAudio = <HTMLElement>questionItemDiv.querySelector('a[id*="btnPlay"]');
@@ -107,29 +108,27 @@ async function querySingleQuestion(questionItemDiv: HTMLElement) {
             },
         };
 
-        logger.question({
-            content: {
-                order: `${questionIndexString}`,
-                info: {
-                    content: questionWithAnswer.answer_text
-                        ? "标答"
-                        : questionWithAnswer.answer_text_gpt
-                        ? "GPT"
-                        : "无答案",
-                    color: questionWithAnswer.answer_text ? "#2e7d32" : undefined,
-                },
-                answerText:
-                    questionWithAnswer.answer_text ||
-                    questionWithAnswer.answer_text_gpt ||
-                    "尚未收录答案",
-                raw: {
-                    element: questionItemDiv,
-                },
-                solve: {
-                    couldSolve: false,
-                    hasSolved: false,
-                    solveThis: () => {},
-                },
+        AnswerHub.addQuestion({
+            order: `${questionIndexString}`,
+            info: {
+                content: questionWithAnswer.answer_text
+                    ? "标答"
+                    : questionWithAnswer.answer_text_gpt
+                    ? "GPT"
+                    : "无答案",
+                color: questionWithAnswer.answer_text ? "#2e7d32" : undefined,
+            },
+            answerText:
+                questionWithAnswer.answer_text ||
+                questionWithAnswer.answer_text_gpt ||
+                "尚未收录答案",
+            raw: {
+                element: questionItemDiv,
+            },
+            solve: {
+                couldSolve: false,
+                hasSolved: false,
+                solveThis: () => {},
             },
             action: isListening ? [replayButton] : undefined,
         });
