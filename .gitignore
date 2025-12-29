@@ -1,5 +1,7 @@
 node_modules
 /dist/*
+*.user.js
+*.meta.js
 /private/
 /src/plugins/onetap/*
 
