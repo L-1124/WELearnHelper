@@ -28,7 +28,8 @@ const SwitchLabel = styled.label<{ width: number; height: number }>`
         bottom: 0;
         transition: 0.4s;
         border-radius: 38px;
-        background-color: rgb(234, 234, 234);
+        background-color: ${(props: any) => props.theme.sys?.color?.surfaceContainerHighest || "rgb(234, 234, 234)"};
+        border: 1px solid ${(props: any) => props.theme.sys?.color?.outlineVariant || "transparent"};
     }
 
     #switch {
@@ -38,15 +39,16 @@ const SwitchLabel = styled.label<{ width: number; height: number }>`
         width: ${(props) => props.height - 2}px;
         left: 1px;
         bottom: 1px;
-        background-color: white;
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 0 rgba(0, 0, 0, 0.08);
+        background-color: ${(props: any) => props.theme.sys?.color?.outline || "white"};
+        box-shadow: ${(props: any) => props.theme.sys?.elevation?.level1 || "0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 0 rgba(0, 0, 0, 0.08)"};
         border-radius: 50%;
         border-radius: 38px;
+        transition: background-color 0.2s ease;
     }
 
     /* 未选中，点击时滑条效果 */
     input:not(:checked):active ~ #slider {
-        background-color: rgb(187, 187, 187);
+        background-color: ${(props: any) => props.theme.sys?.color?.surfaceContainerHigh || "rgb(187, 187, 187)"};
     }
 
     /* 未选中，点击时滑块效果 */
@@ -61,6 +63,7 @@ const SwitchLabel = styled.label<{ width: number; height: number }>`
         animation-name: slide_to_right;
         animation-duration: 0.2s;
         animation-fill-mode: forwards;
+        background-color: ${(props: any) => props.theme.sys?.color?.onPrimary || "white"};
     }
 
     /* 选中时，滑条效果 */
