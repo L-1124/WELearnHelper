@@ -1,5 +1,5 @@
 // Shared Components Barrel Export
-export { default as ErrorBoundary } from './ErrorBoundary';
+export { ErrorBoundary } from './ErrorBoundary';
 export { default as PopOver } from './PopOver';
 export { default as Switch } from './Switch';
 export { MenuBar } from './MenuBar';
