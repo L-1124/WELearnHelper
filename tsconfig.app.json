@@ -39,16 +39,21 @@
     "paths": {
       "@/*": ["./*"],
       "@src/*": ["src/*"],
-      "@api": ["src/api"],
-      "@api/*": ["src/api/*"],
-      "@components/*": ["src/views/components/*"],
+      "@core": ["src/core"],
+      "@core/*": ["src/core/*"],
+      "@features/*": ["src/features/*"],
+      "@shared/*": ["src/shared/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@api": ["src/core/api"],
+      "@api/*": ["src/core/api/*"],
+      "@components/*": ["src/shared/components/*"],
       "@views/*": ["src/views/*"],
-      "@store": ["src/store"],
-      "@store/*": ["src/store/*"],
+      "@store": ["src/core/store"],
+      "@store/*": ["src/core/store/*"],
       "@utils": ["src/utils"],
       "@utils/*": ["src/utils/*"],
       "@styles/*": ["src/styles/*"],
-      "@static/*": ["src/static/*"]
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": ["src"]
