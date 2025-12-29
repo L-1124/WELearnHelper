@@ -1,9 +1,9 @@
 import {
     IWELearnExerciseSettings,
     WELearnExerciseSettings,
-} from "@src/projects/welearn/exercise/setting";
-import { IWELearnExamSettings, WELearnExamSettings } from "@src/projects/welearn/exam/setting";
-import { IWELearnTimeSettings, WELearnTimeSettings } from "@src/projects/welearn/time/setting";
+} from "@src/features/welearn/services/exercise/setting";
+import { IWELearnExamSettings, WELearnExamSettings } from "@src/features/welearn/services/exam/setting";
+import { IWELearnTimeSettings, WELearnTimeSettings } from "@src/features/welearn/services/time/setting";
 import { store } from "@store";
 import { getValue } from "@utils/polyfill";
 import { commonSettings } from "./common";

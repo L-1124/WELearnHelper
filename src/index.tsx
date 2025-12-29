@@ -1,4 +1,4 @@
-import "@src/projects/welearn/initial";
+import "@src/features/welearn/services/initial";
 import "@icon-park/react/styles/index.css";
 
 import React from "react";
