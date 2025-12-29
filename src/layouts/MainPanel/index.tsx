@@ -1,6 +1,6 @@
-
 import { useState, useRef } from "react";
 import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import Draggable from "react-draggable";
 import { store, useStore } from "@core";
 // Placeholders
@@ -8,6 +8,11 @@ import welearnIcon from "../../assets/welearn.png";
 import { AnswerView } from "./AnswerView";
 import { SettingsView } from "./SettingsView";
 import { AboutView } from "./AboutView";
+
+const statusFadeIn = keyframes`
+    from { opacity: 0; transform: translateX(-5px); }
+    to { opacity: 1; transform: translateX(0); }
+`;
 
 const Container = styled.div<{ width: number, height: number }>`
     position: fixed;
@@ -60,6 +65,21 @@ const Icon = styled.img`
     height: 24px;
     border-radius: 6px;
     object-fit: contain;
+`;
+
+const StatusText = styled.span`
+    margin-left: 8px; 
+    font-size: 11px;
+    font-weight: 600; 
+    color: ${props => props.theme.sys?.color?.onSecondaryContainer || "#FFFFFF"};
+    background-color: ${props => props.theme.sys?.color?.secondaryContainer || "#4caf50"};
+    padding: 2px 10px;
+    border-radius: ${props => props.theme.sys?.shape?.full || "20px"};
+    opacity: 1;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    animation: ${statusFadeIn} 0.3s ease-out;
 `;
 
 const WindowControls = styled.div`
@@ -152,7 +172,7 @@ const ResizeHandle = styled.div`
 `;
 
 export function MainPanel() {
-    const { visibility } = useStore();
+    const { visibility, statusMessage } = useStore();
     const [activeTab, setActiveTab] = useState<"log" | "config" | "about">("log");
     const [size, setSize] = useState({ width: 700, height: 600 });
     const nodeRef = useRef<HTMLDivElement>(null);
@@ -190,6 +210,9 @@ export function MainPanel() {
                     <Title>
                         <Icon src={welearnIcon} alt="WeLearn" />
                         WELearn 助手
+                        {statusMessage && (
+                            <StatusText>{statusMessage}</StatusText>
+                        )}
                     </Title>
                     <WindowControls>
                         <ControlButton 

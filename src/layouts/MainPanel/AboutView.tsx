@@ -5,6 +5,8 @@ const Container = styled.div`
     color: ${props => props.theme.sys.color.onSurface};
     line-height: 1.6;
     font-family: ${props => props.theme.sys.typescale.bodyLarge.fontFamily};
+    height: 100%;
+    overflow-y: auto;
 `;
 
 const Title = styled.h1`
@@ -14,36 +16,77 @@ const Title = styled.h1`
     margin-bottom: 24px;
 `;
 
-const Pre = styled.pre`
-    background: ${props => props.theme.sys.color.surfaceContainerHighest};
-    padding: 16px;
-    border-radius: ${props => props.theme.sys.shape.medium};
-    overflow-x: auto;
-    font-family: ${props => props.theme.typography.monoFont};
-    font-size: 12px;
-    color: ${props => props.theme.sys.color.onSurfaceVariant};
+const Footer = styled.p`
+    margin-top: 32px;
+    opacity: 0.5;
+    font-size: 0.85em;
+    border-top: 1px solid ${props => props.theme.sys.color.outlineVariant};
+    padding-top: 16px;
+`;
+
+const AuthorSection = styled.div`
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+`;
+
+const AuthorItem = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+`;
+
+const Badge = styled.span<{ type: 'original' | 'fork' }>`
+    background: ${props => props.type === 'original' ? props.theme.sys.color.secondaryContainer : props.theme.sys.color.tertiaryContainer};
+    color: ${props => props.type === 'original' ? props.theme.sys.color.onSecondaryContainer : props.theme.sys.color.onTertiaryContainer};
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+`;
+
+const Link = styled.a`
+    color: ${props => props.theme.sys.color.primary};
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+    
+    &:hover {
+        border-bottom-color: ${props => props.theme.sys.color.primary};
+        filter: brightness(1.2);
+    }
 `;
 
 export function AboutView() {
     return (
         <Container>
             <Title>关于项目</Title>
-            <p>WELearn 助手 - 高级教育辅助工具</p>
-            <p>版本: 1.1.0 build_20251229</p>
+            <div style={{ marginBottom: 24 }}>
+                <div style={{ fontSize: '1.1em', fontWeight: 600 }}>WELearn 助手</div>
+                <div style={{ opacity: 0.7, fontSize: '0.9em' }}>版本: 1.1.0 (Fork Edition)</div>
+            </div>
             
-            <h3>系统状态</h3>
-            <Pre>
-{`[OK] 核心模块已加载
-[OK] 网络拦截器已激活
-[OK] UI 子系统: 终端模式`}
-            </Pre>
+            <AuthorSection>
+                <AuthorItem>
+                    <Badge type="original">Original</Badge>
+                    <span>SSmJaE</span>
+                </AuthorItem>
+                <AuthorItem>
+                    <Badge type="fork">Fork</Badge>
+                    <span>l-1124</span>
+                </AuthorItem>
+                <div style={{ marginTop: 8 }}>
+                    <Link href="https://github.com/L-1124/WELearnHelper" target="_blank" rel="noopener noreferrer">
+                        GitHub Repository
+                    </Link>
+                </div>
+            </AuthorSection>
             
-            <p style={{marginTop: 20, opacity: 0.6}}>
-                本工具仅供学习交流使用，请勿用于违反学校规定的用途。
-            </p>
-            <p style={{marginTop: 8, opacity: 0.6}}>
-                Developed by Luren. 未经授权禁止分发。
-            </p>
+            <Footer>
+                免责声明：本工具仅供学习交流使用，对于使用本脚本造成的任何后果，均由使用者本人承担。
+            </Footer>
         </Container>
     );
 }

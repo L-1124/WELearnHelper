@@ -1,8 +1,6 @@
 import { useDebounceFn } from "ahooks";
 import { useEffect, useState } from "react";
 
-import { animated, config, useSpring } from "@react-spring/web";
-
 import { store, useStore } from "@core";
 import { GenericSetting } from "@utils/setting";
 import Switch from "./Switch";
@@ -13,14 +11,6 @@ export function ConfigControl({
 }: {
     genericSetting: GenericSetting;
 }) {
-    const [statusText, setStatusText] = useState("");
-
-    const [spring, api] = useSpring<{ right: string; opacity: number }>(() => ({
-        config: {
-            ...config.wobbly,
-        },
-    }));
-
     const { userSettings } = useStore();
 
     const value = userSettings[id as keyof typeof userSettings];
@@ -33,23 +23,12 @@ export function ConfigControl({
 
             // Use setUserSettings to properly trigger valtio reactivity
             store.setUserSettings({ [id]: newValue });
-            setStatusText("已保存");
-
-            setTimeout(() => {
-                setStatusText("");
-            }, 1000);
+            store.setStatusMessage("设置已生效");
         },
         {
-            wait: 500, // Reduced debounce for faster feedback
+            wait: 800, // Increased debounce for stability
         },
     );
-
-    useEffect(() => {
-        api.start({
-            right: statusText ? "0%" : "-100%",
-            opacity: statusText ? 1 : 0,
-        });
-    }, [statusText]);
 
     useEffect(() => {
         setLocalValue(value);
@@ -116,17 +95,6 @@ export function ConfigControl({
 
     return (
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            {/* @ts-ignore */}
-            <animated.div
-                style={{
-                    position: "relative",
-                    fontSize: 12,
-                    color: "green",
-                    ...spring,
-                }}
-            >
-                {statusText}
-            </animated.div>
             {element}
         </div>
     );

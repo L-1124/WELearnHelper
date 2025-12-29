@@ -12,6 +12,35 @@ class Store {
         config: false,
         floating: false,
     };
+    statusMessage = "";
+    private messageQueue: string[] = [];
+    private isDisplayingMessage = false;
+
+    setStatusMessage(message: string) {
+        this.messageQueue.push(message);
+        if (!this.isDisplayingMessage) {
+            this.processMessageQueue();
+        }
+    }
+
+    private async processMessageQueue() {
+        if (this.messageQueue.length === 0) {
+            this.isDisplayingMessage = false;
+            return;
+        }
+
+        this.isDisplayingMessage = true;
+        this.statusMessage = this.messageQueue.shift()!;
+
+        // Show for 1.5s
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Brief clear gap before next message
+        this.statusMessage = "";
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        this.processMessageQueue();
+    }
     setVisibility(key: keyof typeof this.visibility, value: boolean) {
         this.visibility[key] = value;
     }
