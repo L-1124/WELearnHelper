@@ -85,7 +85,7 @@ let GM_xmlhttpRequest: any;
 
 async function initializeXhr() {
     if (process.env.CRX) {
-        GM_xmlhttpRequest = (options: any) => {
+        GM_xmlhttpRequest = (_options: any) => {
             logger.debug("should not invoke placeholder function GM_xmlhttpRequest");
         };
     } else {

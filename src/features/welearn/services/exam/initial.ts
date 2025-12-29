@@ -1,6 +1,6 @@
-import { store } from "@/src/store";
-import { sleep } from "@/src/utils";
-import logger from "@/src/utils/logger";
+import { store } from "@core";
+import { sleep } from "@utils";
+import logger from "@utils/logger";
 import { WELearnAPI } from "@api/welearn";
 
 import { getAnswers, isFinished } from "./parser";
@@ -58,7 +58,7 @@ function notify() {
         action: [
             {
                 children: `${finished ? "上传" : "查询"}答案`,
-                disabled: 5000,
+                disabled: false, // Fixed: should be boolean
                 onClick() {
                     getAnswers();
                 },

@@ -18,9 +18,9 @@ function event_trigger(element: HTMLElement) {
     } catch (error) {}
 }
 
-import logger from "@/src/utils/logger";
-import { store } from "@src/store";
-import { sleep } from "@src/utils";
+import logger from "@utils/logger";
+import { store } from "@core";
+import { sleep } from "@utils";
 
 export async function solveEt(answers: any[]) {
     const tofOnPaper = document.querySelectorAll("et-tof span.controls span") as NodeListOf<
@@ -66,42 +66,48 @@ export async function solveEt(answers: any[]) {
                     default:
                         throw new Error("tof解答出错");
                 }
-                tofOnPaper[tofOption].click();
+                tofOnPaper[tofOption]?.click();
 
                 tofOrder++;
                 break;
 
             case "et-blank": //普通填空题
-                ready_in(blankOnPaper[blankOrder]);
-                blankOnPaper[blankOrder].textContent = answer.text;
-                event_trigger(blankOnPaper[blankOrder]);
+                if (blankOnPaper[blankOrder]) {
+                    ready_in(blankOnPaper[blankOrder] as HTMLElement);
+                    blankOnPaper[blankOrder]!.textContent = answer.text;
+                    event_trigger(blankOnPaper[blankOrder] as HTMLElement);
+                }
 
                 blankOrder++;
                 break;
 
             case "et-textarea": //回答问题
-                if (answer.text.length) {
-                    ready_in(textareaOnPaper[textareaOrder]);
-                    textareaOnPaper[textareaOrder].textContent = answer.text;
-                    textareaOnPaper[textareaOrder].value = answer.text;
-                    event_trigger(textareaOnPaper[textareaOrder]);
+                if (answer.text.length && textareaOnPaper[textareaOrder]) {
+                    ready_in(textareaOnPaper[textareaOrder] as HTMLElement);
+                    textareaOnPaper[textareaOrder]!.textContent = answer.text;
+                    textareaOnPaper[textareaOrder]!.value = answer.text;
+                    event_trigger(textareaOnPaper[textareaOrder] as HTMLElement);
                 } //有et-blank，但是无答案，不做处理
 
                 textareaOrder++;
                 break;
 
             case "et-select":
-                const watchedElement = selectOnPaper[selectOrder].querySelector("select") as any;
+                const currentSelect = selectOnPaper[selectOrder];
+                if (currentSelect) {
+                    const watchedElement = currentSelect.querySelector("select") as any;
 
-                watchedElement!.value = `choice${answer.text}`;
-
-                watchedElement.dispatchEvent(new Event("change"));
+                    if (watchedElement) {
+                        watchedElement.value = `choice${answer.text}`;
+                        watchedElement.dispatchEvent(new Event("change"));
+                    }
+                }
 
                 selectOrder++;
                 break;
 
             case "et-choice":
-                let targetOption, options, optionCount;
+                let targetOption: number, options: string[], optionCount: number;
                 let spanFlag = false;
 
                 try {
@@ -127,7 +133,7 @@ export async function solveEt(answers: any[]) {
                     if (isNaN(parseInt(option))) {
                         //key是字母
                         targetOption =
-                            optionCount * optionOrder + option.toUpperCase().charCodeAt() - 65;
+                            optionCount * optionOrder + option.toUpperCase().charCodeAt(0) - 65;
                     } else {
                         //key是数字
                         targetOption = optionCount * optionOrder + parseInt(option) - 1;
@@ -138,12 +144,12 @@ export async function solveEt(answers: any[]) {
                     );
                     if (spanFlag && optionCount) {
                         try {
-                            optionSpanOnPaper[targetOption].click();
+                            optionSpanOnPaper[targetOption]?.click();
                         } catch (error) {
-                            optionOnPaper[targetOption].click();
+                            optionOnPaper[targetOption]?.click();
                         }
                     } else {
-                        optionOnPaper[targetOption].click();
+                        optionOnPaper[targetOption]?.click();
                     }
                 }
 
@@ -168,14 +174,20 @@ export async function solveEt(answers: any[]) {
                             .getAttribute("key")
                             .split(",")
                             [matchingOrder].split("-")[1] - 1;
-                    let x1 = leftCircles[matchingOrder].getAttribute("cx");
-                    let y1 = leftCircles[matchingOrder].getAttribute("cy");
-                    let x2 = rightCircles[targetCircle].getAttribute("cx");
-                    let y2 = rightCircles[targetCircle].getAttribute("cy");
+                    const leftCircles = document.querySelectorAll('circle[id^="left_"]');
+                    const rightCircles = document.querySelectorAll('circle[id^="right_"]');
+                    const lineElements = document.querySelectorAll('g[id^="line_"]');
+
+                    let x1 = leftCircles[matchingOrder]?.getAttribute("cx");
+                    let y1 = leftCircles[matchingOrder]?.getAttribute("cy");
+                    let x2 = rightCircles[targetCircle]?.getAttribute("cx");
+                    let y2 = rightCircles[targetCircle]?.getAttribute("cy");
 
                     // ready_in(leftCircles[matchingOrder]);
                     // ready_in(rightCircles[targetCircle]);
-                    lineElements[matchingOrder].innerHTML = `
+                    const currentLine = lineElements[matchingOrder];
+                    if (currentLine) {
+                        currentLine.innerHTML = `
                     <line 
                         ng-class="{incorrect:!matching.isKey($parent.$index,b)}"
                         ng-click="matching.removeLine($parent.$index, b)" 
@@ -190,6 +202,7 @@ export async function solveEt(answers: any[]) {
                         y2="${y2}" 
                         class=""
                     ></line>`;
+                    }
                     // event_trigger(lineElements[matchingOrder]);
                     // event_trigger(leftCircles[matchingOrder]);
                     // event_trigger(rightCircles[targetCircle]);

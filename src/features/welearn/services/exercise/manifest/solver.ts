@@ -1,5 +1,5 @@
-import { store } from "@src/store";
-import { sleep } from "@src/utils";
+import { store } from "@core";
+import { sleep } from "@utils";
 
 export async function solveManifest(answers: any[]) {
     let inputPatternOnPaper = document.querySelectorAll(
@@ -17,9 +17,16 @@ export async function solveManifest(answers: any[]) {
             case "blank":
                 for (const inputAnswer of answer.text.split(",")) {
                     try {
-                        inputPatternOnPaper[inputOrder].value = inputAnswer;
+                        const currentInput = inputPatternOnPaper[inputOrder];
+                        if (currentInput) {
+                            currentInput.value = inputAnswer;
+                        } else {
+                            const textarea = document.querySelector(".pattern textarea");
+                            if (textarea) textarea.textContent = inputAnswer;
+                        }
                     } catch (error) {
-                        document.querySelector(".pattern textarea")!.textContent = inputAnswer;
+                        const textarea = document.querySelector(".pattern textarea");
+                        if (textarea) textarea.textContent = inputAnswer;
                     } finally {
                         inputOrder++;
                     }
@@ -27,17 +34,21 @@ export async function solveManifest(answers: any[]) {
 
                 break;
             case "textarea":
-                (document.querySelector(".pattern textarea") as HTMLTextAreaElement).value =
-                    store.userSettings.defaultBlankAnswer;
+                const textarea = document.querySelector(".pattern textarea") as HTMLTextAreaElement;
+                if (textarea) {
+                    textarea.value = store.userSettings.defaultBlankAnswer;
+                }
 
                 break;
             case "choice":
                 for (const label of optionLabelOnPaper) {
-                    if (label.getAttribute("for")!.split("_")[1] == answer.identifier) {
+                    const forAttr = label.getAttribute("for");
+                    if (forAttr && forAttr.split("_")[1] == answer.identifier) {
                         label.click();
                         try {
                             let labelHeight = label.getBoundingClientRect().top; //自动跳转页面至选项处
-                            document.querySelector("#divTest")!.scrollTo(0, labelHeight - 50);
+                            const container = document.querySelector("#divTest");
+                            if (container) container.scrollTo(0, labelHeight - 50);
                         } catch (error) {}
                     }
                 }

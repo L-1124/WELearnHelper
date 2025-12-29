@@ -1,5 +1,5 @@
-import { store } from "@src/store";
-import { sleep } from "@src/utils";
+import { store } from "@core";
+import { sleep } from "@utils";
 
 export async function solveDataSolution(answers: any[]) {
     const inputOnPaper = document.querySelectorAll("input[data-itemtype]") as NodeListOf<
@@ -12,7 +12,10 @@ export async function solveDataSolution(answers: any[]) {
         switch (answer.type) {
             case "blank":
                 // ready_in(inputOnPaper[inputOrder]);
-                inputOnPaper[inputOrder].value = answer.text;
+                const currentInput = inputOnPaper[inputOrder];
+                if (currentInput) {
+                    currentInput.value = answer.text;
+                }
                 // event_trigger(inputOnPaper[inputOrder]);
 
                 inputOrder++;

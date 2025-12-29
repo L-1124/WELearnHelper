@@ -10,7 +10,7 @@ let GM_setValue: any;
 
 async function initializeSetValue() {
     if (process.env.CRX) {
-        GM_setValue = (key: string, value: any) => {
+        GM_setValue = (_key: string, _value: any) => {
             logger.debug("should not invoke placeholder function GM_setValue");
         };
     } else {
@@ -45,7 +45,7 @@ let GM_getValue: any;
 
 async function initializeGetValue() {
     if (process.env.CRX) {
-        GM_getValue = (key: string, defaultValue?: any): any => {
+        GM_getValue = (_key: string, _defaultValue?: any): any => {
             logger.debug("should not invoke placeholder function GM_getValue");
         };
     } else {

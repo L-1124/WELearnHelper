@@ -6,7 +6,7 @@ import { createRoot } from "react-dom/client";
 
 import logger from "./utils/logger";
 import { initialUserSettings } from "./utils/setting";
-import App from "./views/App";
+import App from "./layouts/App";
 
 const EXTENSION_ID = "eocs-helper";
 

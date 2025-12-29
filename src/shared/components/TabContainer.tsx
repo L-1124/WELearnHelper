@@ -1,43 +1,39 @@
 import { useEffect, useState } from "react";
-
-import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { animated, config, useSpringRef, useTransition } from "@react-spring/web";
-import { premium } from "@/src/styles/premium";
 
-import { store, useStore } from "../../store";
+import { store, useStore } from "@core";
 
 export interface IPanel {
     label: string;
     content: React.ReactNode;
 }
 
-const TabHeader = styled.div({
-    height: 36,
-    fontSize: 14,
-    fontWeight: 600,
-    cursor: "pointer",
-    borderRadius: premium.shape.radius.md,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontFamily: premium.typography.fontFamily,
-    lineHeight: "normal",
-    transition: "all 0.2s ease",
-    marginBottom: 4,
-    color: premium.color.slate[600],
+const TabHeader = styled.div`
+    height: 36px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: ${props => (props.theme as any).sys.shape.medium};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: inherit;
+    line-height: normal;
+    transition: all 0.2s ease;
+    margin-bottom: 4px;
+    color: ${props => (props.theme as any).sys.color.onSurfaceVariant};
     
-    "&:hover": {
-        backgroundColor: premium.color.slate[100],
-        color: premium.color.slate[900],
+    &:hover {
+        background-color: ${props => (props.theme as any).sys.color.surfaceContainerHighest};
+        color: ${props => (props.theme as any).sys.color.onSurface};
     }
-});
+`;
 
 export function TabContainer({ panel }: { panel: IPanel[] }) {
     const { tabIndex } = useStore();
 
-    const theme = useTheme();
-    const [hoverTab, setHoverTab] = useState<null | number>(null);
+    const [_hoverTab, _setHoverTab] = useState<null | number>(null);
 
     const transRef = useSpringRef();
     const [direction, setDirection] = useState(true);
@@ -95,20 +91,20 @@ export function TabContainer({ panel }: { panel: IPanel[] }) {
                             setDirection(index > tabIndex);
                         }}
                         onMouseEnter={() => {
-                            setHoverTab(index);
+                            _setHoverTab(index);
                         }}
                         onMouseLeave={() => {
-                            setHoverTab(null);
+                            _setHoverTab(null);
                         }}
                         style={{
                             backgroundColor:
                                 tabIndex === index
-                                    ? premium.color.accent.surface
+                                    ? "rgba(0,0,0,0.1)" // Fallback if container color feels too heavy as primary
                                     : "transparent",
-                            color: tabIndex === index ? premium.color.accent.text : premium.color.slate[600],
+                            background: tabIndex === index ? `linear-gradient(to right, ${(props: any) => props.theme.sys.color.secondaryContainer}, ${(props: any) => props.theme.sys.color.surfaceContainer})` : "transparent",
+                            color: tabIndex === index ? "inherit" : "inherit", // Managed by styled component mostly, but ensuring inline safety
                             marginTop: index === 0 ? 0 : 4,
                             lineHeight: "normal",
-                            fontFamily: premium.typography.fontFamily,
                         }}
                     >
                         {p.label}
@@ -129,16 +125,16 @@ export function TabContainer({ panel }: { panel: IPanel[] }) {
                 {transition((style: any, index) => (
                     // @ts-ignore
                     <animated.div
-                        key={`${panel[index].label}-${index}-content`}
+                        key={`${panel[index]?.label || index}-${index}-content`}
                         style={{
                             width: "100%",
                             flexGrow: 1,
                             lineHeight: "normal",
-                            fontFamily: premium.typography.fontFamily,
+                            fontFamily: "inherit",
                             ...style,
                         }}
                     >
-                        {panel[index].content}
+                        {panel[index]?.content}
                     </animated.div>
                 ))}
             </div>

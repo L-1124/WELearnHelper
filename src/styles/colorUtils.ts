@@ -16,6 +16,15 @@ export interface MD3ColorScheme {
         onTertiary: string;
         tertiaryContainer: string;
         onTertiaryContainer: string;
+        background: string;
+        onBackground: string;
+        surface: string;
+        onSurface: string;
+        surfaceVariant: string;
+        onSurfaceVariant: string;
+        surfaceContainer: string;
+        outline: string;
+        outlineVariant: string;
     };
     dark: {
         primary: string;
@@ -30,6 +39,15 @@ export interface MD3ColorScheme {
         onTertiary: string;
         tertiaryContainer: string;
         onTertiaryContainer: string;
+        background: string;
+        onBackground: string;
+        surface: string;
+        onSurface: string;
+        surfaceVariant: string;
+        onSurfaceVariant: string;
+        surfaceContainer: string;
+        outline: string;
+        outlineVariant: string;
     };
 }
 
@@ -49,6 +67,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#FFFFFF",
             tertiaryContainer: "#CCE5FF",
             onTertiaryContainer: "#001E32",
+            background: "#F4FBFA",
+            onBackground: "#171D1C",
+            surface: "#F4FBFA",
+            onSurface: "#171D1C",
+            surfaceVariant: "#DAE5E1",
+            onSurfaceVariant: "#3F4947",
+            surfaceContainer: "#E9F1EF",
+            outline: "#6F7977",
+            outlineVariant: "#BFC9C6",
         },
         dark: {
             primary: "#4ECDC4",
@@ -63,6 +90,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#1A344A",
             tertiaryContainer: "#2E4A61",
             onTertiaryContainer: "#CCE5FF",
+            background: "#0E1513",
+            onBackground: "#DEE4E2",
+            surface: "#0E1513",
+            onSurface: "#DEE4E2",
+            surfaceVariant: "#3F4947",
+            onSurfaceVariant: "#BFC9C6",
+            surfaceContainer: "#171D1C",
+            outline: "#899391",
+            outlineVariant: "#3F4947",
         },
     },
     violet: {
@@ -80,6 +116,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#FFFFFF",
             tertiaryContainer: "#FFD8E4",
             onTertiaryContainer: "#31111D",
+            background: "#FEFBFF",
+            onBackground: "#1C1B1F",
+            surface: "#FEFBFF",
+            onSurface: "#1C1B1F",
+            surfaceVariant: "#E7E0EB",
+            onSurfaceVariant: "#49454E",
+            surfaceContainer: "#F3EDF7",
+            outline: "#79747E",
+            outlineVariant: "#CAC4D0",
         },
         dark: {
             primary: "#D0BCFF",
@@ -94,6 +139,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#492532",
             tertiaryContainer: "#633B48",
             onTertiaryContainer: "#FFD8E4",
+            background: "#1C1B1F",
+            onBackground: "#E6E1E5",
+            surface: "#1C1B1F",
+            onSurface: "#E6E1E5",
+            surfaceVariant: "#49454E",
+            onSurfaceVariant: "#CAC4D0",
+            surfaceContainer: "#1D192B",
+            outline: "#938F99",
+            outlineVariant: "#49454E",
         },
     },
     blue: {
@@ -111,6 +165,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#FFFFFF",
             tertiaryContainer: "#F6D9FF",
             onTertiaryContainer: "#27132F",
+            background: "#F8FAFF",
+            onBackground: "#1A1C1E",
+            surface: "#F8FAFF",
+            onSurface: "#1A1C1E",
+            surfaceVariant: "#E0E2EC",
+            onSurfaceVariant: "#44474E",
+            surfaceContainer: "#EDF0F7",
+            outline: "#74777F",
+            outlineVariant: "#C4C6D0",
         },
         dark: {
             primary: "#90CAF9",
@@ -125,6 +188,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#3E2845",
             tertiaryContainer: "#563F5D",
             onTertiaryContainer: "#F6D9FF",
+            background: "#1A1C1E",
+            onBackground: "#E2E2E6",
+            surface: "#1A1C1E",
+            onSurface: "#E2E2E6",
+            surfaceVariant: "#44474E",
+            onSurfaceVariant: "#C4C6D0",
+            surfaceContainer: "#1C1B1F",
+            outline: "#8E9199",
+            outlineVariant: "#44474E",
         },
     },
     magenta: {
@@ -142,6 +214,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#FFFFFF",
             tertiaryContainer: "#FFDBCA",
             onTertiaryContainer: "#301400",
+            background: "#FFFBFB",
+            onBackground: "#201A1B",
+            surface: "#FFFBFB",
+            onSurface: "#201A1B",
+            surfaceVariant: "#F4DDE1",
+            onSurfaceVariant: "#534346",
+            surfaceContainer: "#F9EFF1",
+            outline: "#857376",
+            outlineVariant: "#D8C2C5",
         },
         dark: {
             primary: "#FFB0CA",
@@ -156,6 +237,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#4A2800",
             tertiaryContainer: "#653C1F",
             onTertiaryContainer: "#FFDBCA",
+            background: "#201A1B",
+            onBackground: "#EDE0E1",
+            surface: "#201A1B",
+            onSurface: "#EDE0E1",
+            surfaceVariant: "#534346",
+            onSurfaceVariant: "#D8C2C5",
+            surfaceContainer: "#2B151C",
+            outline: "#A08C90",
+            outlineVariant: "#534346",
         },
     },
     orange: {
@@ -173,6 +263,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#FFFFFF",
             tertiaryContainer: "#E0E7B3",
             onTertiaryContainer: "#191D00",
+            background: "#FFFBFF",
+            onBackground: "#201B17",
+            surface: "#FFFBFF",
+            onSurface: "#201B17",
+            surfaceVariant: "#F3E0D1",
+            onSurfaceVariant: "#52443A",
+            surfaceContainer: "#F8EEE5",
+            outline: "#847469",
+            outlineVariant: "#D7C3B5",
         },
         dark: {
             primary: "#FFB77C",
@@ -187,6 +286,15 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onTertiary: "#2E330D",
             tertiaryContainer: "#444923",
             onTertiaryContainer: "#E0E7B3",
+            background: "#201B17",
+            onBackground: "#EBE0D9",
+            surface: "#201B17",
+            onSurface: "#EBE0D9",
+            surfaceVariant: "#52443A",
+            onSurfaceVariant: "#D7C3B5",
+            surfaceContainer: "#281806",
+            outline: "#9F8D81",
+            outlineVariant: "#52443A",
         },
     },
 };
@@ -195,6 +303,6 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
  * Get preset color scheme by key
  */
 export function getPresetScheme(schemeKey: string, isDark: boolean) {
-    const scheme = presetColorSchemes[schemeKey] || presetColorSchemes.teal;
+    const scheme = (presetColorSchemes[schemeKey] || presetColorSchemes["teal"])!;
     return isDark ? scheme.dark : scheme.light;
 }

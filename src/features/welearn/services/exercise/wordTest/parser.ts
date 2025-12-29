@@ -1,6 +1,4 @@
-// import { addMessage } from "@src/store/actions";
-import logger from "@utils/logger";
-import { store } from "@src/store";
+import { store } from "@core";
 
 let wordTestTimer: any;
 export function parseWordTest() {
@@ -10,9 +8,9 @@ export function parseWordTest() {
         try {
             // store.messages = [];
             store.clearLogs();
-            let answer = document.querySelector(
+            document.querySelector(
                 'ul[id^="wordTest"][style=""] > li:last-child',
-            )!.textContent;
+            );
 
             // TODO
             // addMessage(answer as string);

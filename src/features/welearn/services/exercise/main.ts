@@ -1,10 +1,10 @@
-import { CONSTANT, store } from "@src/store";
+import { CONSTANT, store } from "@core";
 import { sleep } from "@utils";
 // import {  } from "@src/store/actions";
 
 import logger from "@utils/logger";
 
-import { MANIFEST, DATA_SOLUTION, ET, READING, APP, UNSOLVED } from "./courses";
+import { MANIFEST, DATA_SOLUTION, ET, READING, APP } from "./courses";
 
 import { parseEt } from "./et/parser";
 import { solveEt } from "./et/solver";
@@ -17,7 +17,7 @@ import { parseDataSolution } from "./dataSolution/parser";
 import { solveDataSolution } from "./dataSolution/solver";
 
 import { parseReading } from "./reading/parser";
-import { WELearnAPI } from "@api/welearn";
+import { WELearnAPI } from "@core/api/welearn";
 
 export async function initialCourseCatalog() {
     const catalog = await WELearnAPI.getCourseCatalog();
@@ -89,7 +89,10 @@ async function outputAnswers(answers: Answer[]) {
             // await sleep(store.userSettings.solveInterval);
         }
 
+        const logId = `q-${Math.random().toString(36).substr(2, 9)}`;
+
         logger.question({
+            id: logId,
             content: {
                 order: `${String(answer.index).padStart(2, "0")}`,
                 info: {
@@ -101,9 +104,26 @@ async function outputAnswers(answers: Answer[]) {
                 },
                 solve: {
                     couldSolve: true,
-                    hasSolved: true,
-                    solveThis: async () => {
-                        logger.debug("solve this");
+                    hasSolved: false,
+                    solveThis: (answerText: string) => {
+                        try {
+                            const el = answer.element;
+                            if (answer.type === "choice") {
+                                el.click();
+                            } else {
+                                (el as any).value = answerText;
+                                el.dispatchEvent(new Event("input", { bubbles: true }));
+                                el.dispatchEvent(new Event("change", { bubbles: true }));
+                            }
+
+                            // Update store state
+                            const log = store.logs.find((l) => l.id === logId);
+                            if (log && log.type === "question") {
+                                log.content.solve.hasSolved = true;
+                            }
+                        } catch (error) {
+                            logger.error({ content: { message: `填入失败: ${String(error)}` } });
+                        }
                     },
                 },
             },
@@ -117,16 +137,54 @@ async function outputAnswers(answers: Answer[]) {
 
         await sleep(CONSTANT.QUERY_INTERVAL);
     }
+
+    // Clear previous monitor if it exists
+    if ((window as any)._answerMonitor) {
+        clearInterval((window as any)._answerMonitor);
+    }
+
+    // Monitor for filled answers
+    const monitor = setInterval(() => {
+        for (const answer of answers) {
+            try {
+                const el = answer.element;
+                let isFilled = false;
+                
+                if (answer.type === "choice") {
+                    // Typical WeLearn choice selection markers
+                    isFilled = el.classList.contains("selected") || 
+                               el.classList.contains("active") || 
+                               (el as any).checked === true;
+                } else {
+                    const val = (el as any).value || "";
+                    isFilled = val.trim().toLowerCase() === answer.text.trim().toLowerCase();
+                }
+
+                if (isFilled) {
+                    const log = store.logs.find(l => l.type === 'question' && (l.content as any).raw?.element === el);
+                    if (log && !(log.content as any).solve.hasSolved) {
+                        (log.content as any).solve.hasSolved = true;
+                    }
+                }
+            } catch (e) {
+                // Element might be gone
+            }
+        }
+    }, 1000);
+
+    // Clean up monitor after some time or on some event if necessary
+    // For now, let it run while the page is active or until next outputAnswers
+    (window as any)._answerMonitor = monitor;
 }
 
 export async function determineCourseType(iframeUrl: string) {
-    let courseInfo = /com\/(.*?)\//.exec(iframeUrl)![1];
-    courseInfo = decodeURI(courseInfo);
+    let courseInfoMatch = /com\/(.*?)\//.exec(iframeUrl);
+    let courseInfo = courseInfoMatch ? decodeURI(courseInfoMatch[1] || "") : "";
     logger.debug(courseInfo);
 
     let identifier: string | undefined = undefined;
     try {
-        identifier = /#(.*)\?/.exec(iframeUrl)![1];
+        identifier = (/#(.*)\?/.exec(iframeUrl) || [])[1];
     } catch (error) {}
 
     let manifestUrl = `https://centercourseware.sflep.com/${courseInfo}/resource/manifest.xml`;
@@ -168,7 +226,7 @@ export async function determineCourseType(iframeUrl: string) {
         }, 2000);
     } else if (READING.includes(courseInfo)) {
         let answerUrl =
-            location.href.split("&")[0].replace("web.html?courseurl=", "data/") + ".xml";
+            (location.href.split("&")[0] || "").replace("web.html?courseurl=", "data/") + ".xml";
         dom = await queryData(answerUrl);
         answers = parseReading(dom);
     } else {

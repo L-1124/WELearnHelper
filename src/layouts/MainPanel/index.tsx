@@ -2,9 +2,10 @@
 import { useState, useRef } from "react";
 import styled from "@emotion/styled";
 import Draggable from "react-draggable";
-import { store, useStore } from "../../store";
+import { store, useStore } from "@core";
 // Placeholders
-import { TerminalLog } from "./TerminalLog";
+import welearnIcon from "../../assets/welearn.png";
+import { AnswerView } from "./AnswerView";
 import { SettingsView } from "./SettingsView";
 import { AboutView } from "./AboutView";
 
@@ -18,14 +19,14 @@ const Container = styled.div<{ width: number, height: number }>`
     min-height: 300px;
     max-height: 90vh;
     max-width: 90vw;
-    background-color: ${props => props.theme.sys.color.surfaceContainer};
-    border-radius: ${props => props.theme.sys.shape.extraLarge};
-    box-shadow: ${props => props.theme.sys.elevation.level3};
+    background-color: ${props => (props.theme as any).sys.color.surfaceContainer};
+    border-radius: ${props => (props.theme as any).sys.shape.extraLarge};
+    box-shadow: ${props => (props.theme as any).sys.elevation.level3};
     display: flex;
     flex-direction: column;
     z-index: 9999;
-    font-family: ${props => props.theme.sys.typescale.bodyLarge.fontFamily};
-    color: ${props => props.theme.sys.color.onSurface};
+    font-family: ${props => (props.theme as any).sys.typescale.bodyLarge.fontFamily};
+    color: ${props => (props.theme as any).sys.color.onSurface};
     overflow: hidden;
 `;
 
@@ -46,21 +47,19 @@ const Header = styled.div`
 `;
 
 const Title = styled.div`
-    font-weight: 500;
+    font-weight: 600;
     font-size: ${props => props.theme.sys.typescale.titleMedium.fontSize};
     color: ${props => props.theme.sys.color.primary};
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+`;
 
-    &::before {
-        content: "WL";
-        color: ${props => props.theme.sys.color.onSurfaceVariant};
-        background: ${props => props.theme.sys.color.surfaceVariant};
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 10px;
-    }
+const Icon = styled.img`
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    object-fit: contain;
 `;
 
 const WindowControls = styled.div`
@@ -100,18 +99,17 @@ const TabBar = styled.div`
 `;
 
 const Tab = styled.div<{ active?: boolean }>`
-    padding: 10px 24px;
-    font-size: ${props => props.theme.sys.typescale.labelLarge.fontSize};
-    font-weight: ${props => props.theme.sys.typescale.labelLarge.fontWeight};
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: ${props => props.active ? "600" : "500"};
     cursor: pointer;
     border-radius: ${props => props.theme.sys.shape.full};
     transition: all 0.2s;
-    color: ${props => props.active ? props.theme.sys.color.onSecondaryContainer : props.theme.sys.color.onSurfaceVariant};
-    background-color: ${props => props.active ? props.theme.sys.color.secondaryContainer : "transparent"};
+    color: ${props => props.active ? props.theme.sys.color.primary : props.theme.sys.color.onSurfaceVariant};
+    background-color: transparent;
 
     &:hover {
         color: ${props => props.theme.sys.color.onSurface};
-        background-color: ${props => !props.active && props.theme.sys.color.surfaceVariant};
     }
 `;
 
@@ -189,7 +187,10 @@ export function MainPanel() {
         <Draggable handle=".terminal-header" nodeRef={nodeRef}>
             <Container ref={nodeRef} width={size.width} height={size.height}>
                 <Header className="terminal-header">
-                    <Title>WELearn 助手</Title>
+                    <Title>
+                        <Icon src={welearnIcon} alt="WeLearn" />
+                        WELearn 助手
+                    </Title>
                     <WindowControls>
                         <ControlButton 
                             type="min"
@@ -200,24 +201,15 @@ export function MainPanel() {
                             }} 
                             title="最小化"
                         />
-                        <ControlButton 
-                            type="close"
-                            onClick={() => {
-                                store.setVisibility("log", false);
-                                store.setVisibility("config", false);
-                                store.setVisibility("floating", true);
-                            }} 
-                            title="关闭"
-                        />
                     </WindowControls>
                 </Header>
                 <TabBar>
-                    <Tab active={activeTab === "log"} onClick={() => setActiveTab("log")}>控制台</Tab>
+                    <Tab active={activeTab === "log"} onClick={() => setActiveTab("log")}>答案</Tab>
                     <Tab active={activeTab === "config"} onClick={() => setActiveTab("config")}>设置</Tab>
                     <Tab active={activeTab === "about"} onClick={() => setActiveTab("about")}>说明</Tab>
                 </TabBar>
                 <Content>
-                    {activeTab === "log" && <TerminalLog />}
+                    {activeTab === "log" && <AnswerView />}
                     {activeTab === "config" && <SettingsView />}
                     {activeTab === "about" && <AboutView />}
                     <ResizeHandle onMouseDown={handleResizeStart} />

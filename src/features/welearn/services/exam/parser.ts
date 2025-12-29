@@ -1,6 +1,6 @@
-import { WELearnAPI } from "@api/welearn";
-import { CONSTANT } from "@src/store";
-import { store } from "@store";
+import { WELearnAPI } from "@core/api/welearn";
+import { CONSTANT } from "@core/store";
+import { store } from "@core";
 import { sleep } from "@utils";
 import logger, { IDynamicButton } from "@utils/logger";
 
@@ -19,9 +19,9 @@ function getTaskId() {
     try {
         if (location.href.includes("schooltest")) {
             isSchoolTest = true;
-            taskId = /schooltestid=(\d*)/.exec(location.href)![1];
+            taskId = /schooltestid=(\d*)/.exec(location.href)?.[1] || null;
         } else {
-            taskId = /testId=(\d*)/.exec(location.href)![1];
+            taskId = /testId=(\d*)/.exec(location.href)?.[1] || null;
         }
     } catch {
         logger.debug("testId获取失败");
@@ -54,7 +54,7 @@ function getQuestionIndex(questionItemDiv: HTMLElement) {
     for (const element of questionItemDiv.querySelectorAll('span[id^="question_"]')) {
         // 有些题型，test number可能不存在，比如小猫钓鱼
         // id一定存在
-        const index = /question_(\d*)/.exec(<string>element.id)![1];
+        const index = /question_(\d*)/.exec(<string>element.id)?.[1] || "";
         indexOfQuestions.push(index);
     }
 
@@ -78,6 +78,7 @@ async function querySingleQuestion(questionItemDiv: HTMLElement) {
 
         const replayButton: IDynamicButton = {
             children: "播放音频",
+            disabled: false,
             onClick: () => {
                 const mainAudio = <HTMLElement>questionItemDiv.querySelector('a[id*="btnPlay"]');
                 const questionId = /btnPlay_(.*)/.exec(mainAudio.id)![1];
@@ -85,7 +86,7 @@ async function querySingleQuestion(questionItemDiv: HTMLElement) {
                 let mainAudioFile: string | null = null;
                 const match = /"(.*?.mp3)"/.exec(<string>mainAudio.getAttribute("href"));
                 if (match) {
-                    mainAudioFile = match[1];
+                    mainAudioFile = match[1] || null;
                 } else {
                     mainAudioFile = mainAudio.getAttribute("data-soundsrc");
                 }
@@ -116,7 +117,7 @@ async function querySingleQuestion(questionItemDiv: HTMLElement) {
                 solve: {
                     couldSolve: false,
                     hasSolved: false,
-                    solveThis: (answerText: string) => {},
+                    solveThis: () => {},
                 },
             },
             action: isListening ? [replayButton] : undefined,
@@ -150,9 +151,9 @@ export async function getAnswers() {
                 is_school_test: isSchoolTest,
                 part_index: getPartIndex() || null,
                 task_id: taskId,
-                tt_id: tt_id ? tt_id[1] : null,
-                sheet_id: sheet_id ? sheet_id[1] : null,
-                stt_id: stt_id ? stt_id[1] : null,
+                tt_id: tt_id ? tt_id[1] || null : null,
+                sheet_id: sheet_id ? sheet_id[1] || null : null,
+                stt_id: stt_id ? stt_id[1] || null : null,
             });
         } catch (e) {
             logger.debug(e);

@@ -16,7 +16,7 @@ export function backendErrorToString(errorDetail: IErrorDetail | null) {
  * 如果使用了装饰器，但是未提供message，输出默认值
  */
 export function requestErrorHandler(message: string = "请求异常，稍后再试") {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    return function (_target: any, _propertyKey: string, descriptor: PropertyDescriptor) {
         const originalMethod = descriptor.value;
 
         descriptor.value = function (...args: any[]) {
@@ -57,7 +57,7 @@ export function requestErrorHandler(message: string = "请求异常，稍后再�
 
 /** 通过装饰器，实现每次会话仅请求一次——限流 */
 export function perSession(storageKey: string) {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    return function (_target: any, _propertyKey: string, descriptor: PropertyDescriptor) {
         const originalMethod = descriptor.value;
 
         descriptor.value = function (...args: any[]) {

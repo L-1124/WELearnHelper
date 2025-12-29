@@ -1,5 +1,5 @@
-import logger from "@/src/utils/logger";
-import { store } from "@src/store";
+import logger from "@utils/logger";
+import { store } from "@core";
 import { Answer } from "../main";
 
 type AnswerType =
@@ -53,7 +53,7 @@ function parseAnswer(element: HTMLElement) {
 
         case "et-blank":
             if (isRepeat(element)) return;
-            answerText = element.textContent!.split("|")[0];
+            answerText = (element.textContent || "").split("|")[0] || "";
             if (element.hasAttribute("block")) tag = "et-textarea";
 
             break;

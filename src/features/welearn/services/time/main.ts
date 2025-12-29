@@ -1,6 +1,5 @@
-// import Swal from "sweetalert2";
-import logger from "@/src/utils/logger";
-import { CONSTANT, store } from "@src/store";
+import logger from "@utils/logger";
+import { CONSTANT, store } from "@core";
 import { getValue, setValue } from "@utils/polyfill";
 
 let time = Date.now();
@@ -37,7 +36,7 @@ function nextChapter() {
 
     if (currentButton == jumpButtons[jumpButtons.length - 1]) {
         if (store.userSettings.loopRefresh) {
-            jumpButtons[1].click(); //跳到开头，并跳过可能的课程说明页
+            jumpButtons[1]?.click(); //跳到开头，并跳过可能的课程说明页
         }
     } else {
         // currentNext.click();

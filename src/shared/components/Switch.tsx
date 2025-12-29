@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
 
 const SwitchLabel = styled.label<{ width: number; height: number }>`
     /* 限定label标签属性，也就是checkbox的包装器 */
@@ -66,7 +65,8 @@ const SwitchLabel = styled.label<{ width: number; height: number }>`
 
     /* 选中时，滑条效果 */
     input:checked ~ #slider {
-        background-color: ${(props) => props.theme.colors.active};
+        background-color: ${(props: any) =>
+            props.theme.sys?.color?.primary || "#00897B"};
     }
 
     /* 已选中，点击时滑块效果 */

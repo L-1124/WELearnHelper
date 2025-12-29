@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 import { animated, config, useSpring } from "@react-spring/web";
 
-import { store, useStore } from "../../store";
-import { GenericSetting } from "../../utils/setting";
-import Switch from "../components/Switch";
+import { store, useStore } from "@core";
+import { GenericSetting } from "@utils/setting";
+import Switch from "./Switch";
 import { StyledInput, StyledTextArea, StyledSelect } from "./styles";
 
 export function ConfigControl({
