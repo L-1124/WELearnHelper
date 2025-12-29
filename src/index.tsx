@@ -39,12 +39,7 @@ function initialize() {
         logger.debug("already initialized");
         return;
     }
-
-    // Fix: Prevent double UI instances (Popups)
-    // StudyCourse.aspx is often just a wrapper/shell. The actual content (and the instance we want)
-    // runs in the iframe (e.g., centercourseware).
-    // If we render in both, we get two floating balls/panels.
-    // So, we skip rendering the UI in the top-level StudyCourse frame.
+    
     if (window.self === window.top && location.href.includes("StudyCourse.aspx")) {
         logger.debug("Skip UI initialization in StudyCourse wrapper");
         return;

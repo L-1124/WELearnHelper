@@ -3,7 +3,6 @@ import { SectionSetting } from ".";
 export interface ICommonSettings {
     themeColor: string;
     autoScrollDown: boolean;
-    enableTyping: boolean;
 }
 
 export const commonSettings: SectionSetting<ICommonSettings>[] = [
@@ -31,16 +30,6 @@ export const commonSettings: SectionSetting<ICommonSettings>[] = [
                 default: true,
                 valueType: "boolean",
                 description: "有新消息时，窗口是否自动下滑到新消息处",
-            },
-
-            {
-                id: "enableTyping",
-                name: "打字效果",
-                default: true,
-                valueType: "boolean",
-                description:
-                    "如果电脑配置比较低，启用打字效果时，可能会出现打字动画自身的卡顿" +
-                    "或者打字动画导致的整个页面的卡顿；这种情况下，建议关闭",
             },
         ],
     },
