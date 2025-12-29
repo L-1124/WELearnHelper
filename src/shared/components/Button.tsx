@@ -1,11 +1,7 @@
 import styled from "@emotion/styled";
 
-export interface IButtonProps {
+export interface IButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
     children: React.ReactNode;
-    onClick?: (e: React.MouseEvent) => void;
-    disabled?: boolean;
-    style?: React.CSSProperties;
-    className?: string;
     type?: "primary" | "secondary" | "text";
 }
 
@@ -60,13 +56,10 @@ const StyledButton = styled.button<{ disabled?: boolean; btnType?: string }>`
     }
 `;
 
-export default function Button({ children, onClick, disabled, style, className, type = "primary" }: IButtonProps) {
+export default function Button({ children, type = "primary", ...props }: IButtonProps) {
     return (
         <StyledButton 
-            disabled={disabled} 
-            onClick={onClick} 
-            style={style} 
-            className={className}
+            {...props}
             btnType={type}
         >
             {children}

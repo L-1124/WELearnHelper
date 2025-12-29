@@ -16,4 +16,5 @@ declare global {
     let currentSoundId: any;
 
     const unsafeWindow: Window;
+    function GM_setClipboard(data: any, info: string | { type?: string, minibar?: boolean }): void;
 }

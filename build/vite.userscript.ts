@@ -38,6 +38,7 @@ export default defineConfig({
                 homepage: metadata.homepage,
                 "run-at": "document-end",
                 version: project.version,
+                grant: ["GM_setClipboard"],
             },
             server: { mountGmApi: true },
             build: {

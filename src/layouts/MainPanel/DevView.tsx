@@ -4,6 +4,7 @@ import { store } from "@store";
 import { useTheme } from "@styles/theme";
 
 import { determineCourseType } from "../../features/welearn/services/exercise/main";
+import { AnswerHub } from "../../features/welearn/services/answerHub";
 
 const Container = styled.div`
     padding: 24px;
@@ -118,23 +119,12 @@ const ActionButton = styled.button<{ variant?: 'primary' | 'outline' }>`
     }
 `;
 
-const LogItem = styled.div`
-    font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
-    font-size: 11px;
-    padding: 4px 8px;
-    border-bottom: 1px solid ${props => (props.theme as any).sys.color.outlineVariant};
-    opacity: 0.8;
-    white-space: pre-wrap;
-    word-break: break-all;
-
-    &:last-child { border-bottom: none; }
-`;
 
 export function DevView() {
     const snap = useSnapshot(store);
     const theme = useTheme() as any;
-    const { courseContext, logs } = snap;
-    const currentQuestions = (logs as any[]).filter(l => l.type === 'question');
+    const { courseContext, answers } = snap;
+    const currentQuestions = answers;
 
     return (
         <Container>
@@ -145,6 +135,7 @@ export function DevView() {
                     <Label>页面判定上下文</Label>
                     <ActionButton variant="outline" onClick={() => {
                         store.clearLogs();
+                        AnswerHub.clear();
                         determineCourseType(location.href);
                     }}>
                         强制重新解析
@@ -187,19 +178,19 @@ export function DevView() {
                                 flexShrink: 0
                             }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                                    <span style={{ fontWeight: 700, fontSize: '13px' }}>#{q.content.order}</span>
+                                    <span style={{ fontWeight: 700, fontSize: '13px' }}>#{q.order}</span>
                                     <span style={{ 
                                         fontSize: '10px', 
                                         padding: '2px 6px', 
                                         borderRadius: '4px',
-                                        background: q.content.info.color || theme.sys.color.secondaryContainer,
-                                        color: q.content.info.color ? '#FFF' : theme.sys.color.onSecondaryContainer
+                                        background: q.info.color || theme.sys.color.secondaryContainer,
+                                        color: q.info.color ? '#FFF' : theme.sys.color.onSecondaryContainer
                                     }}>
-                                        {q.content.info.content}
+                                        {q.info.content}
                                     </span>
                                 </div>
                                 <div style={{ fontSize: '13px', lineHeight: 1.5, opacity: 0.9 }}>
-                                    {q.content.answerText}
+                                    {q.answerText}
                                 </div>
                             </div>
                         ))
@@ -218,26 +209,6 @@ export function DevView() {
                 </div>
             </InfoSection>
 
-            <InfoSection>
-                <Label>原始日志流流监控 (最近 20 条)</Label>
-                <div style={{ 
-                    background: theme.sys.color.surfaceContainerLow, 
-                    borderRadius: '8px', 
-                    border: `1px solid ${theme.sys.color.outlineVariant}`,
-                    maxHeight: '300px',
-                    overflowY: 'auto'
-                }}>
-                    {logs.length > 0 ? (
-                        [...logs].reverse().slice(0, 20).map((log, i) => (
-                            <LogItem key={i}>
-                                <span style={{ color: theme.sys.color.primary, fontWeight: 700 }}>[{log.type.toUpperCase()}]</span> {JSON.stringify(log.content)}
-                            </LogItem>
-                        ))
-                    ) : (
-                        <div style={{ padding: '16px', textAlign: 'center', opacity: 0.5, fontSize: '12px' }}>日志流为空</div>
-                    )}
-                </div>
-            </InfoSection>
 
             <InfoSection>
                 <Label>快捷操作</Label>
@@ -245,8 +216,11 @@ export function DevView() {
                     <ActionButton variant="outline" onClick={() => console.log('Current Global Store Snap:', store)}>
                         打印 Store 快照
                     </ActionButton>
-                    <ActionButton variant="outline" onClick={() => store.clearLogs()}>
-                        清空日志
+                    <ActionButton variant="outline" onClick={() => {
+                        store.clearLogs();
+                        AnswerHub.clear();
+                    }}>
+                        清空日志与题目
                     </ActionButton>
                     <ActionButton variant="outline" onClick={() => window.location.reload()}>
                         刷新页面
