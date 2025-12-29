@@ -1,6 +1,5 @@
 import queryString from "query-string";
 
-import metadata from "@/metadata.json";
 import { injectToContent } from "@utils/polyfill/extension/inject";
 
 import {
@@ -12,24 +11,7 @@ import {
 } from "./types";
 import logger from "../../logger";
 
-/**
- * 如果url以/开头，则自动拼接BASE_URL，比如 /query => [apiServer]/[platform]/xxx
- *
- * 不然，则直接使用url，比如 https://www.baidu.com => https://www.baidu.com
- */
-export function getFullUrl(url: string, query: any = {}) {
-    for (const [, value] of Object.entries(query)) {
-        if (typeof value === "object")
-            throw new Error("query params不应为嵌套对象，拍平或者手动序列化子对象");
-    }
 
-    return queryString.stringifyUrl({
-        url: url.startsWith("/")
-            ? `${metadata.apiServer}/${process.env.COMPILE_PLATFORM}${url}`
-            : url,
-        query: query,
-    });
-}
 
 /**对crx sendMessage的封装，以实现一致的fetch风格的request通用接口 */
 export async function requestForExtension<T = any>(
@@ -50,7 +32,7 @@ export async function requestForExtension<T = any>(
         injectToContent<RequestMessagePayload>(
             "request",
             {
-                url: getFullUrl(url, query),
+                url: queryString.stringifyUrl({ url, query }),
                 init: {
                     method,
                     headers: {
@@ -125,7 +107,7 @@ export function requestForUserscript<T = any>(
         // throw new Error("GM_xmlhttpRequest is xxxxxxxxxx");
 
         GM_xmlhttpRequest({
-            url: getFullUrl(url, query),
+            url: queryString.stringifyUrl({ url, query }),
             method: method as any,
             // GM_xmlhttpRequest需要手动设置Content-Type，不然默认是text/plain，后端无法识别
             headers: {
