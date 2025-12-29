@@ -21,6 +21,9 @@ export default defineConfig({
         "process.env.COMPILE_PLATFORM": JSON.stringify(process.env.COMPILE_PLATFORM),
         "process.env.CRX": false,
     },
+    server: {
+        open: true,
+    },
     plugins: [
         react(),
         monkey({

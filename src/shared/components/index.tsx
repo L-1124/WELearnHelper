@@ -1,27 +1,36 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Draggable from "react-draggable";
 
+import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import Close from "@icon-park/react/es/icons/Close";
 import { animated, config, useSpring } from "@react-spring/web";
 import { premium } from "@/src/styles/premium";
 
-import { store, useStore } from "../../core/store";
-import { MenuBar } from "../../shared/components/MenuBar";
-import { MenuButton } from "../../shared/components/MenuButton";
-import PopOver from "../../shared/components/PopOver";
+import { store, useStore } from "../../store";
+import { MenuBar } from "../components/MenuBar";
+import { MenuButton } from "../components/MenuButton";
+import PopOver from "../components/PopOver";
 import { ConfigSection } from "./ConfigSection";
 import { IPanel, TabContainer } from "./TabContainer";
 
-export const ConfigItem = styled.div({
-    position: "relative",
-    border: "1px solid black",
-    padding: 8,
-    borderRadius: 4,
-});
+export const ConfigItem = styled.div(
+    {
+        position: "relative",
+        border: "1px solid black",
+        padding: 8,
+        // margin: 4,
+        borderRadius: 4,
+    },
+    ({ theme }) => ({
+        "&:hover": {
+            boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.75)",
+            // backgroundColor: theme.colors.secondary,
+        },
+    }),
+);
 
-
-const ConfigPanelContainer = styled(animated.div as any)(
+const ConfigPanelContainer = styled(animated.div)<{}>(
     {
         flexDirection: "column",
 
@@ -44,8 +53,10 @@ const ConfigPanelContainer = styled(animated.div as any)(
 export function ConfigPanel() {
     const { sectionSettings, visibility } = useStore();
 
+    const theme = useTheme();
+
     const panel: IPanel[] = useMemo(() => {
-        return sectionSettings.map((sectionSetting: any) => ({
+        return sectionSettings.map((sectionSetting, index) => ({
             label: sectionSetting.title,
             content: <ConfigSection settings={sectionSetting.settings} />,
         }));

@@ -1,48 +1,61 @@
-import { css, Global, Theme, ThemeProvider } from "@emotion/react";
+import { css, Global, ThemeProvider } from "@emotion/react";
 
-import { ErrorBoundary } from "./components/ErrorBoundary";
-import { ConfigPanel } from "./Config";
-import { FloatingBall } from "./Floating";
-import { LogPanel } from "./Log";
-
-export const theme: Theme = {
-    colors: {
-        primary: "rgb(255, 255, 255)", // 60%
-        secondary: "rgb(230, 230, 230)", // 30%
-        active: "#2196f3", // 10%
-        activeSecondary: "rgb(231, 243, 255)",
-        error: "rgb(231, 71, 93)",
-    },
-    answerTypeColorMapping: {
-        GPT: "orange",
-        标答: "limegreen",
-        无答案: "rgb(231, 71, 93)",
-    },
-};
+import { ErrorBoundary } from "../shared/components/ErrorBoundary";
+import { FloatingBall } from "../layouts/FloatingBall";
+import { MainPanel } from "../layouts/MainPanel";
+import { useTheme } from "../styles/theme";
 
 export default function App() {
+    const theme = useTheme();
+
     return (
         <>
             <Global
-                // 某些页面，会修改lineHeight，所以手动重置回来
                 styles={css`
                     #eocs-helper {
                         all: initial;
-                        font-family: 华文新魏 !important;
-                        line-height: normal !important;
-                        /* 页面可能很长，所以这里使用 fixed 定位 */
+                        font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+                        line-height: 1.5 !important;
                         position: fixed;
                         top: 0;
                         left: 0;
-                        z-index: 99;
+                        z-index: 10000;
+                    }
+
+                    /* MD3 Scrollbar Styles */
+                    #eocs-helper *::-webkit-scrollbar {
+                        width: 8px;
+                        height: 8px;
+                    }
+
+                    #eocs-helper *::-webkit-scrollbar-track {
+                        background: transparent;
+                        border-radius: 4px;
+                    }
+
+                    #eocs-helper *::-webkit-scrollbar-thumb {
+                        background: ${theme.sys.color.outlineVariant};
+                        border-radius: 4px;
+                        border: 2px solid transparent;
+                        background-clip: padding-box;
+                    }
+
+                    #eocs-helper *::-webkit-scrollbar-thumb:hover {
+                        background: ${theme.sys.color.outline};
+                        border: 2px solid transparent;
+                        background-clip: padding-box;
+                    }
+
+                    #eocs-helper *::-webkit-scrollbar-corner {
+                        background: transparent;
                     }
                 `}
             ></Global>
             <ThemeProvider theme={theme}>
                 <ErrorBoundary>
-                    <LogPanel />
-                    <ConfigPanel />
+                    {/* <ActionKey /> */}
                     <FloatingBall />
+                    <MainPanel />
                 </ErrorBoundary>
             </ThemeProvider>
         </>

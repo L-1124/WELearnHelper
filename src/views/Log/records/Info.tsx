@@ -8,7 +8,7 @@ import { animated } from "@react-spring/web";
 import { InlineTag, useSlideIn } from "../../components/InlineTag";
 import Button from "../../components/Button";
 
-export const InfoRecordContainer = styled(animated.span)(
+export const InfoRecordContainer = styled(animated.span as any)(
     {
         lineHeight: "24px",
         position: "relative",
@@ -46,6 +46,7 @@ export function InfoRecord({ record }: { record: IInfoRecord }) {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
+            {/* @ts-ignore */}
             <InlineTag
                 style={{
                     backgroundColor: theme.colors.active,

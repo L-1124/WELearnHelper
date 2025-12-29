@@ -93,17 +93,20 @@ export const About = memo(function () {
                 }}
             >
                 {versionInfo.length !== 0 &&
-                    versionInfo.map((message) => (
-                        <InfoRecordContainer
-                            style={{
-                                display: "block",
-                                marginBottom: 4,
-                            }}
-                            dangerouslySetInnerHTML={{
-                                __html: `${message}`,
-                            }}
-                        />
-                    ))}
+                    versionInfo.map((message) => {
+                        // @ts-ignore
+                        return (
+                            <InfoRecordContainer
+                                style={{
+                                    display: "block",
+                                    marginBottom: 4,
+                                }}
+                                dangerouslySetInnerHTML={{
+                                    __html: `${message}`,
+                                }}
+                            />
+                        );
+                    })}
             </div>
         </div>
     );

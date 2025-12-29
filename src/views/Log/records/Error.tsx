@@ -15,6 +15,7 @@ export function ErrorRecord({ record }: { record: IErrorRecord }) {
                 lineHeight: "24px",
             }}
         >
+            {/* @ts-ignore */}
             <InlineTag
                 style={{
                     backgroundColor: theme.colors.error,
@@ -25,6 +26,7 @@ export function ErrorRecord({ record }: { record: IErrorRecord }) {
                 异常
             </InlineTag>
 
+            {/* @ts-ignore */}
             <animated.span
                 style={{
                     lineHeight: "24px",

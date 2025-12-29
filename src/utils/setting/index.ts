@@ -28,6 +28,8 @@ export interface GenericSetting<T = any, K extends keyof T = keyof T> {
         : never;
 
     description: string;
+    type?: "selection" | "input" | "switch";
+    options?: readonly { readonly label: string; readonly value: T[K] }[];
 }
 
 // 保留映射关系，但是没有数量约束

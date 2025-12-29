@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode - recommended for Vite */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Interop */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+
+    /* Decorators */
+    "experimentalDecorators": true,
+
+    /* Types */
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+
+    /* Paths */
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./*"],
+      "@src/*": ["src/*"],
+      "@api": ["src/api"],
+      "@api/*": ["src/api/*"],
+      "@components/*": ["src/views/components/*"],
+      "@views/*": ["src/views/*"],
+      "@store": ["src/store"],
+      "@store/*": ["src/store/*"],
+      "@utils": ["src/utils"],
+      "@utils/*": ["src/utils/*"],
+      "@styles/*": ["src/styles/*"],
+      "@static/*": ["src/static/*"]
+    }
+  },
+  "include": ["src"]
+}

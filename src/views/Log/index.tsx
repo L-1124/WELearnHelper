@@ -1,21 +1,24 @@
 import "simplebar-react/dist/simplebar.min.css";
 
-import { useEffect, useMemo, useState } from "react";
-import { Rnd } from "react-rnd";
+import { useEffect, useMemo, useRef, useState } from "react";
+// import { Rnd } from "react-rnd";
+import Draggable from "react-draggable";
 import SimpleBar from "simplebar-react";
 
-import { Global, useTheme } from "@emotion/react";
+import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import Close from "@icon-park/react/es/icons/Close";
 import Info from "@icon-park/react/es/icons/Info";
 import SettingTwo from "@icon-park/react/es/icons/SettingTwo";
 import { animated, config, useSpring } from "@react-spring/web";
 
+import { premium } from "@/src/styles/premium";
+
 import metadata from "../../../metadata.json";
-import { store, useStore } from "../../store";
-import { MenuBar } from "../components/MenuBar";
-import { MenuButton } from "../components/MenuButton";
-import PopOver from "../components/PopOver";
+import { store, useStore } from "../../core/store";
+import { MenuBar } from "../../shared/components/MenuBar";
+import { MenuButton } from "../../shared/components/MenuButton";
+import PopOver from "../../shared/components/PopOver";
 import { About } from "./About";
 import { ErrorRecord } from "./records/Error";
 import { InfoRecord } from "./records/Info";
@@ -65,6 +68,8 @@ export function dispatchRecord(record: any) {
     return recordDisplay;
 }
 
+// Debug buffer - commented out
+/*
 const buffer = [
     {
         type: "info",
@@ -148,10 +153,10 @@ const buffer = [
         type: "error",
         timestamp: `${Math.random()}`,
         content: "这是一条未知类型的记录",
-    },
 ];
+*/
 
-let status = false;
+// let status = false; // Debug status - commented out
 
 const RecordContainer = styled.div(
     {
@@ -178,7 +183,7 @@ export function LogPanel() {
 
     const [isDragging, setIsDragging] = useState(false);
 
-    const theme = useTheme();
+    // const theme = useTheme(); // Unused
 
     // useEffect(() => {
     //     if (status) return;
@@ -196,88 +201,73 @@ export function LogPanel() {
     //     floating,
     // });
 
-    const [spring, api] = useSpring(
-        () => ({
-            opacity: visibility.log ? 1 : 0,
-            scale: visibility.log ? 1 : 0,
-            // translate: visibility.log ? 0 : `${floating.y - log.y}px`,
-            // transform: visibility.log ? "translateX(200px)" : `translateX(${floating.x - log.x}px)`,
-
-            // x: visibility.log ? 100 : floating.x,
-            // y: visibility.log ? 100 : floating.y,
-
-            config: {
-                ...config.wobbly,
-            },
-            onRest: () => {
-                if (!visibility.log) {
-                    setDisplay(false);
-                }
-            },
-        }),
-        [visibility.log],
-    );
+    // Imperative Spring API for robust visibility control
+    const [spring, api] = useSpring(() => ({
+        opacity: 0,
+        scale: 0,
+        config: { ...config.wobbly },
+        // onRest: () => {} // handled in start()
+    }));
 
     const [display, setDisplay] = useState(false);
 
     useEffect(() => {
         if (visibility.log) {
-            setDisplay(true);
+            setDisplay(true); // Render first
+            api.start({
+                opacity: 1,
+                scale: 1,
+            });
+        } else {
+             api.start({
+                opacity: 0,
+                scale: 0,
+                onRest: () => {
+                    setDisplay(false); // Hide after animation
+                }
+            });
         }
-    }, [visibility.log]);
+    }, [visibility.log, api]);
+
+    // Fix findDOMNode for Rnd/Draggable
+    const nodeRef = useRef(null);
 
     return (
-        <Rnd
-            default={{
-                x: 100,
-                y: 100,
-                width: 600,
-                height: 100,
-            }}
-            minWidth={350}
-            maxWidth={600}
-            minHeight={100}
-            maxHeight={600}
-            bounds="window"
-            cancel="#log-panel-menu-buttons"
-            dragHandleClassName="log-panel-menu-bar"
-            onDragStart={() => {
-                setIsDragging(true);
-            }}
-            onDragStop={() => {
-                setIsDragging(false);
-            }}
-            // 默认grid为1，导致rerender次数过多，看起来很卡顿
-            // 所以主动调大grid增加卡顿感，掩盖因为render导致的卡顿
-            resizeGrid={[20, 20]}
-            enableResizing={{
-                top: false,
-                right: true,
-                bottom: false,
-                left: true,
-                topRight: false,
-                bottomRight: false,
-                bottomLeft: false,
-                topLeft: false,
-            }}
+        <Draggable
+            nodeRef={nodeRef}
+            handle=".log-panel-menu-bar"
+            bounds="body"
+            defaultPosition={{ x: 100, y: 100 }}
+            onStart={() => setIsDragging(true)}
+            onStop={() => setIsDragging(false)}
         >
-            <animated.div
+            <div
+                ref={nodeRef}
                 style={{
+                    width: 600,
+                    minWidth: 350,
+                    position: "fixed", 
                     zIndex: 99,
-                    width: "100%",
-                    maxHeight: 600,
-
-                    background: "rgba(255, 255, 255, 0.95)",
-                    border: "black 2px solid",
-                    borderRadius: 10,
-                    boxShadow:
-                        "0 11px 15px -7px rgba(0, 0, 0, 0.2),0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12)",
                     display: display ? "flex" : "none",
-                    flexDirection: "column",
-                    lineHeight: "24px !important",
-                    ...spring,
                 }}
             >
+                {/* @ts-ignore */}
+                <animated.div
+                    style={{
+                        width: "100%",
+                        background: premium.effect.glass.backgroundColor,
+                        backdropFilter: premium.effect.glass.backdropFilter,
+                        color: premium.color.slate[800],
+                        border: premium.effect.glass.border,
+                        borderRadius: premium.shape.radius.xl,
+                        boxShadow: premium.effect.glass.boxShadow,
+                        display: "flex",
+                        flexDirection: "column",
+                        lineHeight: "24px !important",
+                        overflow: "hidden",
+                        ...spring,
+                    }}
+                >
                 <MenuBar
                     id="log-panel-menu-bar"
                     className="log-panel-menu-bar"
@@ -311,10 +301,10 @@ export function LogPanel() {
                         >
                             <MenuButton>
                                 <Info
-                                    theme="filled"
-                                    size="28"
-                                    fill={theme.colors.active}
-                                    strokeWidth={5}
+                                    theme="outline"
+                                    size="24"
+                                    fill={premium.color.slate[700]}
+                                    strokeWidth={3}
                                 />
                             </MenuButton>
                         </PopOver>
@@ -334,9 +324,9 @@ export function LogPanel() {
                             >
                                 {/* ⚙️ */}
                                 <SettingTwo
-                                    theme="multi-color"
-                                    size="28"
-                                    fill={["#333", "#E6E6E6", "#000000", "#ffffff"]}
+                                    theme="outline"
+                                    size="24"
+                                    fill={premium.color.slate[700]}
                                     strokeWidth={3}
                                 />
                             </MenuButton>
@@ -347,6 +337,7 @@ export function LogPanel() {
                                 onClick={() => {
                                     store.setVisibility("log", false);
                                     store.setVisibility("floating", true);
+                                    store.setVisibility("config", false);
                                 }}
                                 style={{
                                     lineHeight: "normal",
@@ -355,20 +346,20 @@ export function LogPanel() {
                             >
                                 {/* ❌ */}
                                 <Close
-                                    theme="filled"
-                                    size="28"
-                                    fill={theme.colors.error}
-                                    strokeWidth={7}
+                                    theme="outline"
+                                    size="24"
+                                    fill={premium.color.slate[700]}
+                                    strokeWidth={3}
                                 />
                             </MenuButton>
                         </PopOver>
                     </div>
                 </MenuBar>
 
+
                 <SimpleBar
                     id="log-panel-log-container"
                     style={{
-                        borderTop: "black 2px solid",
                         padding: "4px 8px",
                         flexGrow: 1,
                         maxHeight: 500,
@@ -383,7 +374,7 @@ export function LogPanel() {
                         }}
                     />
 
-                    {logs.map((record, index) => {
+                    {logs.map((record: any, index: number) => {
                         return (
                             // hasExtra => !disabled，避免页面上的PopOver过多，略微优化一下性能
                             <PopOver
@@ -410,6 +401,8 @@ export function LogPanel() {
                     })}
                 </SimpleBar>
             </animated.div>
-        </Rnd>
+
+            </div>
+        </Draggable>
     );
 }

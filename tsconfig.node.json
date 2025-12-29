@@ -1,17 +1,32 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "composite": true,
+    "target": "ES2022",
+    "lib": ["ES2023"],
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+
+    /* Interop */
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "resolveJsonModule": true
   },
   "include": [
-    // "metadata", // TODO 必须是metadata，不能是metadata.ts，也不能是*.ts，不知道为什么
-    "metadata.json",
-    "scripts/manifest.json",
+    "vite.config.ts",
     "build/*.ts",
+    "scripts/*.ts"
   ]
 }

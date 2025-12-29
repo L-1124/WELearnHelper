@@ -12,6 +12,7 @@ const EXTENSION_ID = "eocs-helper";
 
 const availableUrls = [
     ".sflep.com/student/course_info.aspx?", //基准页面
+    ".sflep.com/student/StudyCourse.aspx", // 学习页面
     "centercourseware.sflep.com", //练习答题页面，子页面
     ".sflep.com/test/", //考试答题页面
     "wetest.sflep.com/Test", // 新url，内容未变
@@ -28,7 +29,7 @@ function initialize() {
     }
 
     if (!isAvailable) {
-        logger.debug("not in eocs page");
+        logger.debug("not in eocs page", location.href);
         return;
     }
 
@@ -36,6 +37,16 @@ function initialize() {
     // 但是会再次触发脚本，所以需要判断一下
     if (document.querySelector(`#${EXTENSION_ID}`)) {
         logger.debug("already initialized");
+        return;
+    }
+
+    // Fix: Prevent double UI instances (Popups)
+    // StudyCourse.aspx is often just a wrapper/shell. The actual content (and the instance we want)
+    // runs in the iframe (e.g., centercourseware).
+    // If we render in both, we get two floating balls/panels.
+    // So, we skip rendering the UI in the top-level StudyCourse frame.
+    if (window.self === window.top && location.href.includes("StudyCourse.aspx")) {
+        logger.debug("Skip UI initialization in StudyCourse wrapper");
         return;
     }
 
