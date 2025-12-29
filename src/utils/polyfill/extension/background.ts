@@ -36,8 +36,10 @@ async function handleContentMessage(
         };
     }
 
-    console.log("[background] : messageToContent");
-    console.log(messageToContent);
+    if (import.meta.env.DEV) {
+        console.log("[background] : messageToContent");
+        console.log(messageToContent);
+    }
 
     sendResponse(messageToContent);
 }

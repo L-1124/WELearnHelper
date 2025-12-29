@@ -50,8 +50,10 @@ async function fromInjectToContent(messageEvent: MessageEvent<IExtensionMessage>
                             reject("[content] : messageFromBackground is undefined");
                         }
 
-                        console.log("[content] : messageFromBackground");
-                        console.log(messageFromBackground);
+                        if (import.meta.env.DEV) {
+                            console.log("[content] : messageFromBackground");
+                            console.log(messageFromBackground);
+                        }
                         resolve(messageFromBackground.payload);
                     },
                 );
@@ -66,7 +68,9 @@ async function fromInjectToContent(messageEvent: MessageEvent<IExtensionMessage>
                     // 只有sync api，并不是非要用sync
                     // value可以是object，但是必须是jsonable的
                     chrome.storage.sync.set({ [key]: value }, function () {
-                        console.log(`[content] : ${key} is set to ${value}`);
+                        if (import.meta.env.DEV) {
+                            console.log(`[content] : ${key} is set to ${value}`);
+                        }
                         resolve();
                     });
                 });
@@ -87,13 +91,17 @@ async function fromInjectToContent(messageEvent: MessageEvent<IExtensionMessage>
                             temp = result[key];
                         }
 
-                        console.log(`[content] : ${key} is ${temp}`);
+                        if (import.meta.env.DEV) {
+                            console.log(`[content] : ${key} is ${temp}`);
+                        }
 
                         if (!temp) {
                             chrome.storage.sync.set({ [key]: defaultValue });
                             temp = defaultValue;
 
-                            console.log(`[content] : ${key} is set to ${defaultValue}`);
+                            if (import.meta.env.DEV) {
+                                console.log(`[content] : ${key} is set to ${defaultValue}`);
+                            }
                         }
 
                         resolve(temp);

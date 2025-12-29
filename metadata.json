@@ -1,11 +1,11 @@
 {
     "apiServer": "http://47.100.166.53/api",
-    "homepage": "https://www.github.com/SSmJaE/",
+    "homepage": "https://www.github.com/l-1124/",
     "projects": {
         "welearn": {
             "title": "随行课堂网课助手",
             "name": "WELearn网课助手",
-            "version": "1.1.0",
+            "version": "2.0.0",
             "matches": [
                 "*://course.sflep.com/*",
                 "*://welearn.sflep.com/*",
@@ -13,7 +13,7 @@
                 "*://courseappserver.sflep.com/*",
                 "*://centercourseware.sflep.com/*"
             ],
-            "namespace": "https://github.com/SSmJaE/WELearnHelper",
+            "namespace": "https://github.com/l-1124/WELearnHelper",
             "description": "显示WE Learn随行课堂题目答案；支持班级测试；自动答题；刷时长；基于生成式AI(ChatGPT)的答案生成",
             "connect": [
                 "localhost",

@@ -120,7 +120,9 @@ export class Logger {
         this.info({ content: "即将切换题型" });
     }
     debug(...content: any) {
-        console.log(`[eocs-helper]`, ...content);
+        if (import.meta.env.DEV) {
+            console.log(`[eocs-helper]`, ...content);
+        }
     }
 }
 

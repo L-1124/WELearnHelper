@@ -3,6 +3,6 @@ import "./exam/initial";
 import "./exercise/initial";
 import "./time/initial";
 
-import { WELearnAPI } from "@core/api/welearn";
+// import { WELearnAPI } from "@core/api/welearn";
 
-WELearnAPI.checkVersion();
+// WELearnAPI.checkVersion();

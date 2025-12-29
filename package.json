@@ -1,7 +1,7 @@
 {
     "name": "welearn_helper",
     "version": "1.1.0",
-    "author": "SSmJaE",
+    "author": "l-1124",
     "license": "GPL-3.0",
     "private": true,
     "type": "module",
@@ -16,7 +16,6 @@
         "@emotion/styled": "^11.10.6",
         "@floating-ui/react": "^0.20.1",
         "@icon-park/react": "^1.4.2",
-        "@material/material-color-utilities": "^0.3.0",
         "@react-spring/web": "^9.7.1",
         "ahooks": "^3.7.6",
         "lodash": "^4.17.21",
