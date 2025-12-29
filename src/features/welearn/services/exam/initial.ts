@@ -1,7 +1,7 @@
 import { store } from "@core";
 import { sleep } from "@utils";
 import logger from "@utils/logger";
-import { WELearnAPI } from "@api/welearn";
+// import { WELearnAPI } from "@api/welearn";
 
 import { getAnswers, isFinished } from "./parser";
 import { hackPlaySound } from "./utils";
@@ -80,9 +80,10 @@ if (location.href.includes(".sflep.com/test/") || location.href.includes("wetest
 }
 
 if (location.href.includes(".sflep.com/student/course_info.aspx?")) {
-    if (store.userSettings.cloudCrowdsourcing) {
-        WELearnAPI.upload();
-    } else {
-        logger.debug("云端众筹已关闭，跳过课程信息上传");
-    }
+    // if (store.userSettings.cloudCrowdsourcing) {
+    //     WELearnAPI.upload();
+    // } else {
+    //     logger.debug("云端众筹已关闭，跳过课程信息上传");
+    // }
+    logger.debug("云端众筹已关闭，跳过课程信息上传");
 }

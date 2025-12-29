@@ -1,4 +1,4 @@
-import { WELearnAPI } from "@core/api/welearn";
+// import { WELearnAPI } from "@core/api/welearn";
 import { CONSTANT } from "@core/store";
 import { store } from "@core";
 import { sleep } from "@utils";
@@ -11,41 +11,41 @@ export function isFinished() {
     // return false;
 }
 
-function getTaskId() {
-    // https://welearn.sflep.com/test/schooltest.aspx?schooltestid=1330
-    let isSchoolTest = false;
-    let taskId: string | null = null;
+// function getTaskId() {
+//     // https://welearn.sflep.com/test/schooltest.aspx?schooltestid=1330
+//     let isSchoolTest = false;
+//     let taskId: string | null = null;
 
-    try {
-        if (location.href.includes("schooltest")) {
-            isSchoolTest = true;
-            taskId = /schooltestid=(\d*)/.exec(location.href)?.[1] || null;
-        } else {
-            taskId = /testId=(\d*)/.exec(location.href)?.[1] || null;
-        }
-    } catch {
-        logger.debug("testId获取失败");
-    }
+//     try {
+//         if (location.href.includes("schooltest")) {
+//             isSchoolTest = true;
+//             taskId = /schooltestid=(\d*)/.exec(location.href)?.[1] || null;
+//         } else {
+//             taskId = /testId=(\d*)/.exec(location.href)?.[1] || null;
+//         }
+//     } catch {
+//         logger.debug("testId获取失败");
+//     }
 
-    return {
-        isSchoolTest,
-        taskId,
-    };
-}
+//     return {
+//         isSchoolTest,
+//         taskId,
+//     };
+// }
 
-function getPartIndex() {
-    let index: number | undefined = undefined;
+// function getPartIndex() {
+//     let index: number | undefined = undefined;
 
-    for (const [index, element] of document.querySelectorAll("#ulParts > li").entries()) {
-        if (element.classList.contains("active")) {
-            return index + 1;
-        }
-    }
+//     for (const [index, element] of document.querySelectorAll("#ulParts > li").entries()) {
+//         if (element.classList.contains("active")) {
+//             return index + 1;
+//         }
+//     }
 
-    if (!index) {
-        throw new Error("无法获取PartIndex");
-    }
-}
+//     if (!index) {
+//         throw new Error("无法获取PartIndex");
+//     }
+// }
 
 /** 获取真实题号 */
 function getQuestionIndex(questionItemDiv: HTMLElement) {
@@ -62,16 +62,18 @@ function getQuestionIndex(questionItemDiv: HTMLElement) {
 }
 
 async function querySingleQuestion(questionItemDiv: HTMLElement) {
-    const domString = questionItemDiv.outerHTML;
+    // const domString = questionItemDiv.outerHTML;
     
     let questionWithAnswers: any[] = [];
-    if (store.userSettings.cloudCrowdsourcing) {
-        questionWithAnswers = await WELearnAPI.queryByDomString(domString);
-    } else {
-        logger.debug("云端众筹已关闭，跳过单题查询");
-        // Return a mock object or handle empty answers
-        questionWithAnswers = [{ answer_text: "" }]; 
-    }
+    // if (store.userSettings.cloudCrowdsourcing) {
+    //     questionWithAnswers = await WELearnAPI.queryByDomString(domString);
+    // } else {
+    //     logger.debug("云端众筹已关闭，跳过单题查询");
+    //     // Return a mock object or handle empty answers
+    //     questionWithAnswers = [{ answer_text: "" }]; 
+    // }
+    logger.debug("云端众筹已关闭，跳过单题查询");
+    questionWithAnswers = [{ answer_text: "" }];
 
     for (const [index, questionWithAnswer] of questionWithAnswers.entries()) {
         let questionIndex = "_";
@@ -141,33 +143,34 @@ export async function getAnswers() {
     // 不管是测试页面还是解析页面，都会有按钮
     store.clearLogs(1);
 
-    const { isSchoolTest, taskId } = getTaskId();
+    // const { isSchoolTest, taskId } = getTaskId();
 
     if (isFinished()) {
         try {
-            const domString = document.querySelector(".tab-content")!.outerHTML;
-            const questionItemDivNodes = document.querySelectorAll<HTMLElement>(".itemDiv");
+            // const domString = document.querySelector(".tab-content")!.outerHTML;
+            // const questionItemDivNodes = document.querySelectorAll<HTMLElement>(".itemDiv");
 
-            const html_string = document.head.innerHTML;
+            // const html_string = document.head.innerHTML;
 
-            const tt_id = /ttid\s*:\s*(-?\d*)/.exec(html_string);
-            const sheet_id = /sheetid\s*:\s*(-?\d*)/.exec(html_string);
-            const stt_id = /sttid\s*:\s*(-?\d*)/.exec(html_string);
+            // const tt_id = /ttid\s*:\s*(-?\d*)/.exec(html_string);
+            // const sheet_id = /sheetid\s*:\s*(-?\d*)/.exec(html_string);
+            // const stt_id = /sttid\s*:\s*(-?\d*)/.exec(html_string);
 
-            if (store.userSettings.cloudCrowdsourcing) {
-                await WELearnAPI.collectAll({
-                    dom_string: domString,
-                    typical: !!questionItemDivNodes.length,
-                    is_school_test: isSchoolTest,
-                    part_index: getPartIndex() || null,
-                    task_id: taskId,
-                    tt_id: tt_id ? tt_id[1] || null : null,
-                    sheet_id: sheet_id ? sheet_id[1] || null : null,
-                    stt_id: stt_id ? stt_id[1] || null : null,
-                });
-            } else {
-                logger.info({ content: "云端众筹已关闭，跳过答案收录" });
-            }
+            // if (store.userSettings.cloudCrowdsourcing) {
+            //     await WELearnAPI.collectAll({
+            //         dom_string: domString,
+            //         typical: !!questionItemDivNodes.length,
+            //         is_school_test: isSchoolTest,
+            //         part_index: getPartIndex() || null,
+            //         task_id: taskId,
+            //         tt_id: tt_id ? tt_id[1] || null : null,
+            //         sheet_id: sheet_id ? sheet_id[1] || null : null,
+            //         stt_id: stt_id ? stt_id[1] || null : null,
+            //     });
+            // } else {
+            //     logger.info({ content: "云端众筹已关闭，跳过答案收录" });
+            // }
+            logger.info({ content: "云端众筹已关闭，跳过答案收录" });
         } catch (e) {
             logger.debug(e);
         }
