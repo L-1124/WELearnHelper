@@ -4,6 +4,7 @@ import { FloatingBall } from "./FloatingBall";
 import { ThemeProvider } from "@emotion/react";
 import { Global } from "@emotion/react";
 import { useTheme } from "@styles/theme";
+import { ThemeVariables } from "@styles/ThemeVariables";
 
 const GlobalStyles = () => {
   const theme = useTheme();
@@ -31,10 +32,12 @@ const GlobalStyles = () => {
 
 const App: React.FC = () => {
     const theme = useTheme();
+  console.log("[App] Re-rendering with Theme:", (theme as any).sys.color.primary);
 
     return (
         <ErrorBoundary>
             <ThemeProvider theme={theme}>
+          <ThemeVariables />
                 <GlobalStyles />
                 <FloatingBall />
                 <MainPanel />

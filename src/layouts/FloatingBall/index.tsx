@@ -1,4 +1,4 @@
-import { animated, useSpring } from "@react-spring/web";
+import { animated, useSpring, useTransition } from "@react-spring/web";
 import { useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { store, useStore } from "../../core/store";
@@ -7,29 +7,12 @@ import { useTheme } from "@/src/styles/theme";
 import welearnIcon from "@/src/assets/welearn.png";
 
 export function FloatingBall() {
-    const { visibility } = useStore();
+    const { visibility, globalPosition } = useStore();
     const theme = useTheme();
 
     const [isDragging, setIsDragging] = useState(false);
 
-    // useEffect(() => {
-    //     store.setPosition("floating", {
-    //         x: log.x,
-    //         y: log.y,
-    //     });
-    // }, [log.x, log.y]);
-
-    // Removed unused color variables
-
-    // const breathing = keyframes
-    //     from {
-    //         box-shadow: 0px 0px 5px 0px ${breathingColor} inset;
-    //     }
-    //     to {
-    //         box-shadow: 0px 0px 25px 0px ${breathingColor} inset;
-    //     }
-    // `;
-
+    // Pulse animation (breathing)
     const [spring] = useSpring(() => ({
         from: {
             boxShadow: theme.sys.elevation.level1,
@@ -53,94 +36,66 @@ export function FloatingBall() {
 
     const nodeRef = useRef(null);
 
-    return (
+    // Visibility transition
+    const transitions = useTransition(visibility.floating, {
+        from: { opacity: 0, transform: "scale(0.12)", transformOrigin: "0 0" },
+        enter: { opacity: 1, transform: "scale(1)", transformOrigin: "0 0" },
+        leave: { opacity: 0, transform: "scale(0.12)", transformOrigin: "0 0" },
+        config: { tension: 350, friction: 25 },
+    });
+
+    return transitions((style, item) => item && (
         <Draggable
             nodeRef={nodeRef}
             handle="#floating-ball"
             bounds="body"
-            onStart={() => {
-                setIsDragging(true);
-            }}
-            // onDrag={(e, data) => {
-            //     store.setPosition("floating", {
-            //         x: data.x,
-            //         y: data.y,
-            //     });
-            // }}
-            onStop={() => {
-                setIsDragging(false);
-                // store.setPosition("floating", {
-                //     x: data.x,
-                //     y: data.y,
-                // });
-            }}
-            // position={{
-            //     x: floating.x,
-            //     y: floating.y,
-            // }}
+            defaultPosition={globalPosition}
+            onStop={(_e, data) => store.setGlobalPosition({ x: data.x, y: data.y })}
+            onStart={() => setIsDragging(true)}
         >
             <div
                 ref={nodeRef}
-                style={{
-                    position: "fixed",
-                    top: 100,
-                    right: 100,
-                    zIndex: 101,
-                    width: 48,
-                    height: 48,
-                    display: visibility.floating ? "flex" : "none",
-                }}
+                className="fixed top-0 left-0 z-[101] w-12 h-12 flex"
             >
-                {/* @ts-ignore */}
-                <animated.div
-                    id="floating-ball"
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        background: theme.sys.color.primaryContainer,
-                        color: theme.sys.color.onPrimaryContainer,
-                        borderRadius: theme.sys.shape.full,
-                        border: `1px solid ${theme.sys.color.outlineVariant}`,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: isDragging ? "grabbing" : "grab",
-                        fontWeight: 600,
-                        boxShadow: theme.sys.elevation.level2,
-                        ...(visibility.floating ? spring : {}),
-                    }}
-                    onDoubleClick={() => {
-                        store.setVisibility("floating", false);
-                        store.setVisibility("log", true);
-                    }}
-                >
-                    <PopOver
-                        content="双击打开"
-                        disabled={isDragging}
-                        placement={"top"}
-                        offsetPixel={24}
-                        // openDelay
+                {/* 
+                   Outer animated div for Enter/Leave transition.
+                   We apply style (opacity, scale) from useTransition.
+                */}
+                <animated.div style={style} className="w-full h-full">
+                    {/* 
+                       Inner animated div for Breathing animation if needed.
+                       Since `style` contains `scale`, and `spring` contains `transform: scale(...)`, 
+                       applying both to same element would conflict.
+                       Solution: Apply Transition `scale` to wrapper, Spring `scale` to inner.
+                       Note: `style` has `scale` prop if we defined it in useTransition from/enter/leave.
+                    */}
+                    {/* @ts-ignore */}
+                    <animated.div
+                        id="floating-ball"
+                        className={`w-full h-full bg-primary-container text-on-primary-container rounded-full border border-outline-variant flex justify-center items-center font-semibold shadow-level2 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+                        style={spring}
+                        onDoubleClick={() => {
+                            store.setVisibility("floating", false);
+                            store.setVisibility("log", true);
+                        }}
                     >
-                        <div
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                            }}
+                        <PopOver
+                            content="双击打开"
+                            disabled={isDragging}
+                            placement={"top"}
+                            offsetPixel={24}
                         >
-                            <img 
-                                src={welearnIcon} 
-                                alt="WELearn" 
-                                style={{ 
-                                    width: 28, 
-                                    height: 28, 
-                                    objectFit: 'contain',
-                                    pointerEvents: 'none'
-                                }} 
-                            />
-                        </div>
-                    </PopOver>
+                            <div className="w-full h-full flex items-center justify-center">
+                                <img
+                                    src={welearnIcon}
+                                    alt="WELearn" 
+                                    className="w-7 h-7 object-contain pointer-events-none"
+                                />
+                            </div>
+                        </PopOver>
+                    </animated.div>
                 </animated.div>
             </div>
         </Draggable>
-    );
+    ));
 }

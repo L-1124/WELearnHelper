@@ -1,4 +1,5 @@
 import "@src/features/welearn/services/initial";
+import "./index.css";
 import "@icon-park/react/styles/index.css";
 
 import React from "react";

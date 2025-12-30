@@ -6,6 +6,9 @@ import react from "@vitejs/plugin-react";
 
 dotenv.config(); // load env vars from .env
 
+import tailwindcss from "tailwindcss";
+import autoprefixer from "autoprefixer";
+
 export const commonConfig: UserConfig = {
     resolve: {
         alias: {
@@ -22,6 +25,14 @@ export const commonConfig: UserConfig = {
             "@utils": path.resolve(process.cwd(), "src/utils"),
             "@styles": path.resolve(process.cwd(), "src/styles"),
             "@assets": path.resolve(process.cwd(), "src/assets"),
+        },
+    },
+    css: {
+        postcss: {
+            plugins: [
+                tailwindcss() as any,
+                autoprefixer() as any,
+            ],
         },
     },
     server: {

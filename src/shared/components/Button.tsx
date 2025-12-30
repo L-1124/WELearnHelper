@@ -1,68 +1,39 @@
-import styled from "@emotion/styled";
+import React from "react";
 
 export interface IButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
     children: React.ReactNode;
     type?: "primary" | "secondary" | "text";
 }
 
-const StyledButton = styled.button<{ disabled?: boolean; btnType?: string }>`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 16px;
-    border-radius: ${props => props.theme.sys.shape.full};
-    border: none;
-    font-size: ${props => props.theme.sys.typescale.labelLarge.fontSize};
-    font-weight: 600;
-    cursor: ${props => props.disabled ? "not-allowed" : "pointer"};
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    gap: 8px;
+export default function Button({ children, type = "primary", className = "", disabled, ...props }: IButtonProps & { className?: string }) {
+    const baseStyles = "inline-flex items-center justify-center px-4 py-2 rounded-full border-none text-sm font-semibold transition-all duration-200 cursor-pointer gap-2 active:scale-95";
 
-    /* Base styles by type */
-    ${props => {
-        const { color } = props.theme.sys;
-        if (props.disabled) {
-            return `
-                background-color: ${color.surfaceVariant};
-                color: ${color.onSurfaceVariant};
-                opacity: 0.4;
-            `;
-        }
-        
-        switch (props.btnType) {
+    let variantStyles = "";
+
+    if (disabled) {
+        variantStyles = "bg-surface-variant text-on-surface-variant opacity-40 cursor-not-allowed active:scale-100";
+    } else {
+        switch (type) {
             case 'secondary':
-                return `
-                    background-color: ${color.secondaryContainer};
-                    color: ${color.onSecondaryContainer};
-                    &:hover { filter: brightness(0.95); }
-                `;
+                variantStyles = "bg-secondary-container text-on-secondary-container hover:brightness-95";
+                break;
             case 'text':
-                return `
-                    background-color: transparent;
-                    color: ${color.primary};
-                    &:hover { background-color: ${color.surfaceVariant}; }
-                `;
-            default: // primary
-                return `
-                    background-color: ${color.primary};
-                    color: ${color.onPrimary};
-                    &:hover { filter: brightness(1.1); box-shadow: ${props.theme.sys.elevation.level1}; }
-                `;
+                variantStyles = "bg-transparent text-primary hover:bg-surface-variant";
+                break;
+            case 'primary':
+            default:
+                variantStyles = "bg-primary text-on-primary hover:brightness-110 shadow-sm";
+                break;
         }
-    }}
-
-    &:active:not(:disabled) {
-        transform: scale(0.96);
     }
-`;
 
-export default function Button({ children, type = "primary", ...props }: IButtonProps) {
     return (
-        <StyledButton 
+        <button
+            className={`${baseStyles} ${variantStyles} ${className}`}
+            disabled={disabled}
             {...props}
-            btnType={type}
         >
             {children}
-        </StyledButton>
+        </button>
     );
 }

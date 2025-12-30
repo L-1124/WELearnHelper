@@ -50,18 +50,12 @@ class Store {
     setVisibility(key: keyof typeof this.visibility, value: boolean) {
         this.visibility[key] = value;
     }
-    position = {
-        floating: {
-            x: 0,
-            y: 0,
-        },
-        log: {
-            x: 0,
-            y: 0,
-        },
+    globalPosition = {
+        x: 100,
+        y: 100,
     };
-    setPosition(key: keyof typeof this.position, value: any) {
-        this.position[key] = value;
+    setGlobalPosition(position: { x: number, y: number }) {
+        this.globalPosition = position;
     }
 
     tabIndex: number = 0;

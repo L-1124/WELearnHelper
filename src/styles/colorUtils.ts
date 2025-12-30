@@ -22,7 +22,11 @@ export interface MD3ColorScheme {
         onSurface: string;
         surfaceVariant: string;
         onSurfaceVariant: string;
+        surfaceContainerLowest: string;
+        surfaceContainerLow: string;
         surfaceContainer: string;
+        surfaceContainerHigh: string;
+        surfaceContainerHighest: string;
         outline: string;
         outlineVariant: string;
     };
@@ -45,7 +49,11 @@ export interface MD3ColorScheme {
         onSurface: string;
         surfaceVariant: string;
         onSurfaceVariant: string;
+        surfaceContainerLowest: string;
+        surfaceContainerLow: string;
         surfaceContainer: string;
+        surfaceContainerHigh: string;
+        surfaceContainerHighest: string;
         outline: string;
         outlineVariant: string;
     };
@@ -73,7 +81,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#171D1C",
             surfaceVariant: "#DAE5E1",
             onSurfaceVariant: "#3F4947",
+            surfaceContainerLowest: "#F4FBFA", // surface
+            surfaceContainerLow: "#E9F1EF",    // surfaceContainer
             surfaceContainer: "#E9F1EF",
+            surfaceContainerHigh: "#DAE5E1",   // surfaceVariant
+            surfaceContainerHighest: "#DAE5E1",
             outline: "#6F7977",
             outlineVariant: "#BFC9C6",
         },
@@ -96,7 +108,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#DEE4E2",
             surfaceVariant: "#3F4947",
             onSurfaceVariant: "#BFC9C6",
+            surfaceContainerLowest: "#0E1513", // surface
+            surfaceContainerLow: "#171D1C",    // surfaceContainer
             surfaceContainer: "#171D1C",
+            surfaceContainerHigh: "#3F4947",   // surfaceVariant
+            surfaceContainerHighest: "#3F4947",
             outline: "#899391",
             outlineVariant: "#3F4947",
         },
@@ -122,7 +138,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#1C1B1F",
             surfaceVariant: "#E7E0EB",
             onSurfaceVariant: "#49454E",
+            surfaceContainerLowest: "#FFFFFF",
+            surfaceContainerLow: "#F7F2FA",
             surfaceContainer: "#F3EDF7",
+            surfaceContainerHigh: "#ECE6F0",
+            surfaceContainerHighest: "#E6E0E9",
             outline: "#79747E",
             outlineVariant: "#CAC4D0",
         },
@@ -145,7 +165,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#E6E1E5",
             surfaceVariant: "#49454E",
             onSurfaceVariant: "#CAC4D0",
+            surfaceContainerLowest: "#0F0D13",
+            surfaceContainerLow: "#1D192B",
             surfaceContainer: "#1D192B",
+            surfaceContainerHigh: "#49454E",
+            surfaceContainerHighest: "#49454E",
             outline: "#938F99",
             outlineVariant: "#49454E",
         },
@@ -171,7 +195,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#1A1C1E",
             surfaceVariant: "#E0E2EC",
             onSurfaceVariant: "#44474E",
+            surfaceContainerLowest: "#F8FAFF",
+            surfaceContainerLow: "#EDF0F7",
             surfaceContainer: "#EDF0F7",
+            surfaceContainerHigh: "#E0E2EC",
+            surfaceContainerHighest: "#E0E2EC",
             outline: "#74777F",
             outlineVariant: "#C4C6D0",
         },
@@ -194,7 +222,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#E2E2E6",
             surfaceVariant: "#44474E",
             onSurfaceVariant: "#C4C6D0",
+            surfaceContainerLowest: "#1A1C1E",
+            surfaceContainerLow: "#1C1B1F",
             surfaceContainer: "#1C1B1F",
+            surfaceContainerHigh: "#44474E",
+            surfaceContainerHighest: "#44474E",
             outline: "#8E9199",
             outlineVariant: "#44474E",
         },
@@ -220,7 +252,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#201A1B",
             surfaceVariant: "#F4DDE1",
             onSurfaceVariant: "#534346",
+            surfaceContainerLowest: "#FFFBFB",
+            surfaceContainerLow: "#F9EFF1",
             surfaceContainer: "#F9EFF1",
+            surfaceContainerHigh: "#F4DDE1",
+            surfaceContainerHighest: "#F4DDE1",
             outline: "#857376",
             outlineVariant: "#D8C2C5",
         },
@@ -243,7 +279,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#EDE0E1",
             surfaceVariant: "#534346",
             onSurfaceVariant: "#D8C2C5",
+            surfaceContainerLowest: "#201A1B",
+            surfaceContainerLow: "#2B151C",
             surfaceContainer: "#2B151C",
+            surfaceContainerHigh: "#534346",
+            surfaceContainerHighest: "#534346",
             outline: "#A08C90",
             outlineVariant: "#534346",
         },
@@ -269,7 +309,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#201B17",
             surfaceVariant: "#F3E0D1",
             onSurfaceVariant: "#52443A",
+            surfaceContainerLowest: "#FFFBFF",
+            surfaceContainerLow: "#F8EEE5",
             surfaceContainer: "#F8EEE5",
+            surfaceContainerHigh: "#F3E0D1",
+            surfaceContainerHighest: "#F3E0D1",
             outline: "#847469",
             outlineVariant: "#D7C3B5",
         },
@@ -292,7 +336,11 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             onSurface: "#EBE0D9",
             surfaceVariant: "#52443A",
             onSurfaceVariant: "#D7C3B5",
+            surfaceContainerLowest: "#201B17",
+            surfaceContainerLow: "#281806",
             surfaceContainer: "#281806",
+            surfaceContainerHigh: "#52443A",
+            surfaceContainerHighest: "#52443A",
             outline: "#9F8D81",
             outlineVariant: "#52443A",
         },

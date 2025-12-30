@@ -1,172 +1,77 @@
-import styled from "@emotion/styled";
+import { FC } from "react";
 
-const SwitchLabel = styled.label<{ width: number; height: number }>`
-    /* 限定label标签属性，也就是checkbox的包装器 */
-
-    position: relative;
-    display: inline-block;
-    width: ${(props) => props.width}px;
-    height: ${(props) => props.height}px;
-    border-radius: 38px;
-    /* vertical-align: middle; */
-
-    /* 不显示checkbox本身，通过点击外部的label实现点击input的效果 */
-    input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    /* 未选中，滑条效果 */
-    #slider {
-        position: absolute;
-        z-index: 11;
-        /* cursor: pointer; */
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        transition: 0.4s;
-        border-radius: 38px;
-        background-color: ${(props: any) => props.theme.sys?.color?.surfaceContainerHighest || "rgb(234, 234, 234)"};
-        border: 1px solid ${(props: any) => props.theme.sys?.color?.outlineVariant || "transparent"};
-    }
-
-    #switch {
-        position: absolute;
-        z-index: 12;
-        height: ${(props) => props.height - 2}px;
-        width: ${(props) => props.height - 2}px;
-        left: 1px;
-        bottom: 1px;
-        background-color: ${(props: any) => props.theme.sys?.color?.outline || "white"};
-        box-shadow: ${(props: any) => props.theme.sys?.elevation?.level1 || "0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 0 rgba(0, 0, 0, 0.08)"};
-        border-radius: 50%;
-        border-radius: 38px;
-        transition: background-color 0.2s ease;
-    }
-
-    /* 未选中，点击时滑条效果 */
-    input:not(:checked):active ~ #slider {
-        background-color: ${(props: any) => props.theme.sys?.color?.surfaceContainerHigh || "rgb(187, 187, 187)"};
-    }
-
-    /* 未选中，点击时滑块效果 */
-    /* input:active + #switch {
-        animation-name: widen_to_right;
-        animation-duration: 0.4s;
-        animation-fill-mode: forwards;
-    } */
-
-    /* 滑块点击右移效果 */
-    input:checked + #switch {
-        animation-name: slide_to_right;
-        animation-duration: 0.2s;
-        animation-fill-mode: forwards;
-        background-color: ${(props: any) => props.theme.sys?.color?.onPrimary || "white"};
-    }
-
-    /* 选中时，滑条效果 */
-    input:checked ~ #slider {
-        background-color: ${(props: any) =>
-            props.theme.sys?.color?.primary || "#00897B"};
-    }
-
-    /* 已选中，点击时滑块效果 */
-    /* input:checked:active + #switch {
-        animation-name: widen_to_left;
-        animation-duration: 0.4s;
-        animation-fill-mode: forwards;
-    } */
-
-    /* 滑块点击左移效果 */
-    input:not(:checked):not(:active) + #switch {
-        animation-name: slide_to_left;
-        animation-duration: 0.2s;
-        animation-fill-mode: forwards;
-    }
-
-    @keyframes widen_to_right {
-        0% {
-            left: 1px;
-            width: ${(props) => props.height}px;
-        }
-
-        100% {
-            left: 1px;
-            width: ${(props) => ((props.height - 2) / 2) * 3}px;
-        }
-    }
-
-    @keyframes slide_to_right {
-        0% {
-            left: 1px;
-            width: ${(props) => ((props.height - 2) / 2) * 3}px;
-        }
-
-        100% {
-            /* + 1是因为，滑块的直径是height-2，要达到right : 1的效果，就是左起 直径+1 */
-            left: ${(props) => props.height + 1}px;
-            width: ${(props) => props.height - 2}px;
-        }
-    }
-
-    @keyframes widen_to_left {
-        0% {
-            left: ${(props) => props.height + 1}px;
-            width: ${(props) => props.height - 2}px;
-        }
-
-        100% {
-            left: ${(props) => props.width - 1 - ((props.height - 2) / 2) * 3}px;
-            width: ${(props) => ((props.height - 2) / 2) * 3}px;
-        }
-    }
-
-    @keyframes slide_to_left {
-        0% {
-            left: ${(props) => props.width - 1 - ((props.height - 2) / 2) * 3}px;
-            width: ${(props) => ((props.height - 2) / 2) * 3}px;
-        }
-
-        100% {
-            left: 1px;
-            width: ${(props) => props.height - 2}px;
-        }
-    }
-`;
-
-export default function Switch({
-    checked = false,
-    onChange = () => {},
-    disabled = false,
-    // width = 50,
-    height = 25,
-    id = "",
-}: {
+interface SwitchProps {
     checked?: boolean;
     onChange?: (checked: boolean) => void;
     disabled?: boolean;
-    // width?: number;
     height?: number;
     id?: string;
-}) {
-    // const [checked, setChecked] = useState(false);
+}
+
+const Switch: FC<SwitchProps> = ({
+    checked = false,
+    onChange = () => {},
+    disabled = false,
+    height = 25,
+    id = "",
+}) => {
+    // Height determines the scale. Default (25px) is the baseline.
+    // We'll use a relative sizing approach or just inline styles for the specific dimensions if needed,
+    // but typically switches are a standard size. The original code scaled everything by height.
+
+    // Width is typically height * 2 (or slightly less per original: width={height * 2})
+    // Slider circle size is height - 2 (or slightly smaller margin)
+
+    const width = height * 2;
+    // MD3 switch logic:
+    // Track: w=52 h=32
+    // Handle: w=24 h=24 (unselected), w=28 h=28 (selected) with icon
 
     return (
-        <SwitchLabel className="my-switch" width={height * 2} height={height}>
+        <div
+            className={`
+                relative inline-flex items-center rounded-full transition-colors duration-200 cursor-pointer
+                ${disabled ? "opacity-38 cursor-not-allowed" : ""}
+            `}
+            style={{
+                width: width,
+                height: height,
+                backgroundColor: checked
+                    ? "var(--md-sys-color-primary)"
+                    : "var(--md-sys-color-surface-container-highest)",
+                border: `2px solid ${checked ? "var(--md-sys-color-primary)" : "var(--md-sys-color-outline)"}`
+            }}
+            onClick={() => !disabled && onChange(!checked)}
+        >
             <input
                 id={id}
                 type="checkbox"
+                className="sr-only"
                 checked={checked}
-                onChange={(e) => {
-                    onChange(e.target.checked);
-                    // setChecked(e.target.checked);
-                }}
+                onChange={(e) => !disabled && onChange(e.target.checked)}
                 disabled={disabled}
             />
-            <span id="switch"></span>
-            <span id="slider"></span>
-        </SwitchLabel>
+
+            {/* Handle/Thumb */}
+            <span
+                className={`
+                    absolute bg-white rounded-full shadow-sm transition-all duration-200 flex items-center justify-center
+                `}
+                style={{
+                    height: checked ? height - 6 : height - 10, // MD3: thumb grows when checked
+                    width: checked ? height - 6 : height - 10,
+                    left: checked
+                        ? `calc(100% - ${(height - 6)}px - 3px)`
+                        : "5px",
+                    // MD3 Unchecked thumb color is outline when not disabled?? 
+                    // Usually thumb is outline color when unchecked, onPrimary when checked
+                    backgroundColor: checked
+                        ? "var(--md-sys-color-on-primary)"
+                        : "var(--md-sys-color-outline)",
+                }}
+            />
+        </div>
     );
 }
+
+export default Switch;

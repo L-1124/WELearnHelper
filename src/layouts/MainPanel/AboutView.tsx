@@ -1,103 +1,64 @@
-import styled from "@emotion/styled";
 import { Github } from "@icon-park/react";
+import { Badge } from "@shared/components";
 
-const Container = styled.div`
-    padding: 24px;
-    color: ${props => props.theme.sys.color.onSurface};
-    line-height: 1.6;
-    font-family: ${props => props.theme.sys.typescale.bodyLarge.fontFamily};
-    height: 100%;
-    overflow-y: auto;
-`;
-
-const Title = styled.h1`
-    font-size: ${props => props.theme.sys.typescale.headlineSmall.fontSize};
-    font-weight: ${props => props.theme.sys.typescale.headlineSmall.fontWeight};
-    color: ${props => props.theme.sys.color.primary};
-    margin-bottom: 24px;
-`;
-
-const Footer = styled.p`
-    margin-top: 32px;
-    opacity: 0.5;
-    font-size: 0.85em;
-    border-top: 1px solid ${props => props.theme.sys.color.outlineVariant};
-    padding-top: 16px;
-`;
-
-const AuthorSection = styled.div`
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-`;
-
-const AuthorItem = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 12px;
-`;
-
-const Badge = styled.span<{ type: 'original' | 'fork' }>`
-    background: ${props => props.type === 'original' ? props.theme.sys.color.secondaryContainer : props.theme.sys.color.tertiaryContainer};
-    color: ${props => props.type === 'original' ? props.theme.sys.color.onSecondaryContainer : props.theme.sys.color.onTertiaryContainer};
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    min-width: 65px;
-    text-align: center;
-`;
-
-const Link = styled.a`
-    color: ${props => props.theme.sys.color.primary};
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    
-    &:hover {
-        border-bottom-color: ${props => props.theme.sys.color.primary};
-        filter: brightness(1.2);
-    }
-`;
+declare const GM_info: any;
 
 export function AboutView() {
+    const version = typeof GM_info !== 'undefined' ? GM_info.script.version : 'Dev';
+
     return (
-        <Container>
-            <Title>关于项目</Title>
-            <div style={{ marginBottom: 24 }}>
-                <div style={{ fontSize: '1.1em', fontWeight: 600 }}>WELearn 助手</div>
-                <div style={{ opacity: 0.7, fontSize: '0.9em' }}>版本: 1.1.0 (Fork Edition)</div>
+        <div className="h-full overflow-y-auto text-on-surface leading-normal font-body-large p-0">
+            <h1 className="text-title-medium font-semibold text-primary mb-2">关于项目</h1>
+
+            <div className="mb-4">
+                <div className="text-sm font-semibold mb-1">WELearn 助手</div>
+                <div className="opacity-70 text-xs flex items-center gap-2">
+                    <span>版本: {version}</span>
+                    <span className="px-1.5 py-0.5 rounded bg-surface-variant text-on-surface-variant text-[10px] font-medium tracking-wide">FORK EDITION</span>
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-2.5 text-[13px]">
+                    <Badge variant="secondary">Original</Badge>
+                    <a
+                        href="https://github.com/SSmJaE"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary no-underline border-b border-transparent transition-all hover:border-primary hover:brightness-125 inline-flex items-center gap-1.5 font-medium"
+                    >
+                        SSmJaE
+                    </a>
+                </div>
+
+                <div className="flex items-center gap-2.5 text-[13px]">
+                    <Badge variant="tertiary">Fork</Badge>
+                    <a
+                        href="https://github.com/l-1124"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary no-underline border-b border-transparent transition-all hover:border-primary hover:brightness-125 inline-flex items-center gap-1.5 font-medium"
+                    >
+                        l-1124
+                    </a>
+                </div>
+
+                <div className="mt-1">
+                    <a
+                        href="https://github.com/L-1124/WELearnHelper"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary no-underline border-b border-transparent transition-all hover:border-primary hover:brightness-125 inline-flex items-center gap-1.5 font-semibold text-xs bg-surface-container-high px-3 py-2 rounded-lg w-full justify-center hover:bg-surface-container-highest"
+                    >
+                        <Github theme="outline" size="16" />
+                        访问 GitHub 仓库
+                    </a>
+                </div>
             </div>
             
-            <AuthorSection>
-                <AuthorItem>
-                    <Badge type="original">Original</Badge>
-                    <Link href="https://github.com/SSmJaE" target="_blank" rel="noopener noreferrer">
-                        SSmJaE
-                    </Link>
-                </AuthorItem>
-                <AuthorItem>
-                    <Badge type="fork">Fork</Badge>
-                    <Link href="https://github.com/l-1124" target="_blank" rel="noopener noreferrer">
-                        l-1124
-                    </Link>
-                </AuthorItem>
-                <div style={{ marginTop: 8 }}>
-                    <Link href="https://github.com/L-1124/WELearnHelper" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>
-                        <Github theme="outline" size="18" />
-                        GitHub Repository
-                    </Link>
-                </div>
-            </AuthorSection>
-            
-            <Footer>
+            <div className="mt-6 opacity-50 text-[11px] border-t border-outline-variant pt-3 leading-relaxed">
                 免责声明：本工具仅供学习交流使用，对于使用本脚本造成的任何后果，均由使用者本人承担。
-            </Footer>
-        </Container>
+            </div>
+        </div>
     );
 }

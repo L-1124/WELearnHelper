@@ -1,161 +1,10 @@
 import { useState, useEffect } from "react";
-import styled from "@emotion/styled";
 import { useStore, store } from "@core";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { Button } from "../../shared/components";
 import { copyToClipboard } from "@utils";
 import { Left, Right, Copy } from "@icon-park/react";
-
-const ViewContainer = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 100%;
-`;
-
-const GridArea = styled.div`
-    padding: 12px;
-`;
-
-const GridContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-`;
-
-const GridItem = styled.div<{ active?: boolean, hasAnswer?: boolean }>`
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
-    
-    border: 2px solid ${props => {
-        if (props.active) return props.theme.sys.color.primary;
-        if (props.hasAnswer) return "#4caf50";
-        return props.theme.sys.color.outlineVariant;
-    }};
-    
-    background-color: ${props => {
-        if (props.active) return props.theme.sys.color.primaryContainer;
-        return "transparent";
-    }};
-
-    color: ${props => {
-        if (props.active) return props.theme.sys.color.onPrimaryContainer;
-        return props.theme.sys.color.onSurface;
-    }};
-
-    opacity: 1;
-
-    &:hover {
-        transform: translateY(-1px);
-        box-shadow: ${props => props.theme.sys.elevation.level1};
-        background-color: ${props => props.active ? props.theme.sys.color.primaryContainer : props.theme.sys.color.surfaceVariant};
-    }
-
-    &:active {
-        transform: translateY(0);
-    }
-`;
-
-const DetailArea = styled.div`
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-`;
-
-const DetailCard = styled.div`
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-`;
-
-const QuestionHeader = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-`;
-
-const BadgeRow = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 6px;
-`;
-
-const OrderBadge = styled.span`
-    background-color: ${props => props.theme.sys.color.primary};
-    color: ${props => props.theme.sys.color.onPrimary};
-    padding: 0px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    height: 18px;
-    display: inline-flex;
-    align-items: center;
-`;
-
-const InfoBadge = styled.span<{ color?: string }>`
-    background-color: ${props => props.color || (props.theme as any).sys.color.secondaryContainer};
-    color: ${props => props.color ? "#FFFFFF" : (props.theme as any).sys.color.onSecondaryContainer};
-    padding: 0px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    height: 18px;
-    display: inline-flex;
-    align-items: center;
-`;
-
-const AnswerContent = styled.div`
-    background-color: ${props => props.theme.sys.color.surfaceContainerLow};
-    border: 1px solid ${props => props.theme.sys.color.outlineVariant};
-    border-radius: 12px;
-    padding: 4px 10px 8px 10px;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-`;
-
-
-const AnswerText = styled.div`
-    font-size: 20px;
-    font-weight: 600;
-    color: ${props => props.theme.sys.color.onSurface};
-    line-height: 1.4;
-    word-break: break-all;
-    text-align: center;
-`;
-
-const ActionBar = styled.div`
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-`;
-
-const NavigationBar = styled.div`
-    padding: 8px 0 0 0;
-    margin-top: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-`;
-
 
 export function AnswerView() {
     const { answers } = useStore();
@@ -170,7 +19,7 @@ export function AnswerView() {
 
     if (answers.length === 0) {
         return (
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'gray', opacity: 0.5 }}>
+            <div className="flex-1 flex items-center justify-center text-gray-500 opacity-50">
                 {`// 等待解析答案...`}
             </div>
         );
@@ -184,32 +33,55 @@ export function AnswerView() {
     const goToNext = () => setSelectedIndex(prev => Math.min(answers.length - 1, prev + 1));
 
     return (
-        <ViewContainer>
+        <div className="flex-1 flex flex-col overflow-hidden h-full">
             <SimpleBar style={{ height: "100%" }}>
-                <GridArea>
-                    <GridContainer>
-                        {answers.map((ans, i) => (
-                            <GridItem
-                                key={i}
-                                active={selectedIndex === i}
-                                hasAnswer={!!ans.answerText}
-                                onClick={() => setSelectedIndex(i)}
-                        >
-                                {ans.order}
-                            </GridItem>
-                        ))}
-                    </GridContainer>
-                </GridArea>
+                <div className="p-3">
+                    <div className="flex flex-wrap gap-1.5">
+                        {answers.map((ans, i) => {
+                            const active = selectedIndex === i;
+                            const hasAnswer = !!ans.answerText;
 
-                <DetailArea>
-                    <DetailCard>
-                        <AnswerContent>
-                            <QuestionHeader style={{ alignItems: 'center', padding: '4px 0', marginBottom: '10px' }}>
-                                <BadgeRow>
-                                    <OrderBadge>#{currentAnswer.order}</OrderBadge>
-                                    <InfoBadge color={currentAnswer.info.color}>{currentAnswer.info.content}</InfoBadge>
-                                </BadgeRow>
-                                <ActionBar>
+                            let borderClass = "border-outline-variant";
+                            let bgClass = "bg-transparent";
+                            let textClass = "text-on-surface";
+
+                            if (active) {
+                                borderClass = "border-primary";
+                                bgClass = "bg-primary-container";
+                                textClass = "text-on-primary-container";
+                            } else if (hasAnswer) {
+                                borderClass = "border-[#4caf50]"; // Keep specific green for "has answer"
+                            }
+
+                            return (
+                                <div
+                                    key={i}
+                                    onClick={() => setSelectedIndex(i)}
+                                    className={`w-6 h-6 flex items-center justify-center rounded text-[10px] font-semibold cursor-pointer transition-all select-none border-2 hover:-translate-y-px hover:shadow-level1 ${borderClass} ${bgClass} ${textClass} hover:bg-surface-variant ${active ? "hover:bg-primary-container" : ""}`}
+                                >
+                                    {ans.order}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="flex-1 overflow-hidden flex flex-col">
+                    <div className="p-3 flex flex-col gap-4">
+                        <div className="bg-surface-container-low border border-outline-variant rounded-xl px-2.5 py-2 min-h-[100px] flex flex-col relative overflow-hidden">
+                            <div className="flex items-center justify-between gap-3 mb-2.5">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="bg-primary text-on-primary px-2 rounded h-[18px] text-[11px] font-bold inline-flex items-center">
+                                        #{currentAnswer.order}
+                                    </span>
+                                    <span
+                                        className="text-white px-2 rounded h-[18px] text-[10px] font-bold uppercase inline-flex items-center"
+                                        style={{ backgroundColor: currentAnswer.info.color || "var(--md-sys-color-secondary-container)" }}
+                                    >
+                                        {currentAnswer.info.content}
+                                    </span>
+                                </div>
+                                <div className="flex gap-2 justify-end">
                                     {currentAnswer.action?.map((btn, idx) => (
                                         <Button
                                             key={`action-${idx}`}
@@ -236,12 +108,14 @@ export function AnswerView() {
                                     >
                                         <Copy theme="outline" size="14" />
                                     </Button>
-                                </ActionBar>
-                            </QuestionHeader>
-                            <AnswerText style={{ marginTop: '12px' }}>
+                                </div>
+                            </div>
+
+                            <div className="text-[20px] font-semibold text-on-surface leading-snug break-all text-center mt-3">
                                 {currentAnswer.answerText || "暂无答案"}
-                            </AnswerText>
-                            <NavigationBar>
+                            </div>
+
+                            <div className="pt-2 mt-1 flex justify-between items-center gap-3">
                                 <Button
                                     type="secondary"
                                     onClick={goToPrev}
@@ -250,7 +124,7 @@ export function AnswerView() {
                                 >
                                     <Left theme="outline" size="14" />
                                 </Button>
-                                <span style={{ fontSize: '11px', fontWeight: 600, color: 'gray' }}>
+                                <span className="text-[11px] font-semibold text-gray-500">
                                     {selectedIndex + 1} / {answers.length}
                                 </span>
                                 <Button
@@ -261,12 +135,12 @@ export function AnswerView() {
                                 >
                                     <Right theme="outline" size="14" />
                                 </Button>
-                            </NavigationBar>
-                        </AnswerContent>
-                    </DetailCard>
-                </DetailArea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </SimpleBar>
-        </ViewContainer>
+        </div>
     );
 }
 
