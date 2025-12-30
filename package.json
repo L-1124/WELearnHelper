@@ -11,21 +11,21 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@emotion/react": "^11.10.6",
-        "@emotion/styled": "^11.10.6",
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
         "@floating-ui/react": "^0.27.16",
         "@icon-park/react": "^1.4.2",
         "@react-spring/web": "10.0.3",
-        "ahooks": "^3.7.6",
+        "ahooks": "^3.9.6",
         "lodash": "^4.17.21",
-        "query-string": "^8.1.0",
+        "query-string": "^9.3.1",
         "react": "^19.2.3",
         "react-dom": "^19.2.3",
         "react-draggable": "^4.5.0",
         "react-error-boundary": "^3.1.4",
         "react-rnd": "^10.5.2",
         "simplebar-react": "^3.2.3",
-        "valtio": "^1.10.3"
+        "valtio": "^2.2.0"
     },
     "devDependencies": {
         "@types/chrome": "^0.0.222",
