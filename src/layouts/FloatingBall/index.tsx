@@ -50,7 +50,10 @@ export function FloatingBall() {
             handle="#floating-ball"
             bounds="body"
             defaultPosition={globalPosition}
-            onStop={(_e, data) => store.setGlobalPosition({ x: data.x, y: data.y })}
+            onStop={(_e, data) => {
+                store.setGlobalPosition({ x: data.x, y: data.y });
+                setIsDragging(false);
+            }}
             onStart={() => setIsDragging(true)}
         >
             <div
