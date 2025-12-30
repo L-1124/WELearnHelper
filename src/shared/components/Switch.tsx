@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface SwitchProps {
     checked?: boolean;
@@ -12,34 +12,35 @@ const Switch: FC<SwitchProps> = ({
     checked = false,
     onChange = () => {},
     disabled = false,
-    height = 25,
+    height = 24, // Optimized default height
     id = "",
 }) => {
-    // Height determines the scale. Default (25px) is the baseline.
-    // We'll use a relative sizing approach or just inline styles for the specific dimensions if needed,
-    // but typically switches are a standard size. The original code scaled everything by height.
+    const width = height * 1.85; // Slightly more compact MD3 ratio
+    const [isMounted, setIsMounted] = useState(false);
 
-    // Width is typically height * 2 (or slightly less per original: width={height * 2})
-    // Slider circle size is height - 2 (or slightly smaller margin)
-
-    const width = height * 2;
-    // MD3 switch logic:
-    // Track: w=52 h=32
-    // Handle: w=24 h=24 (unselected), w=28 h=28 (selected) with icon
+    useEffect(() => {
+        // Enable transitions after first render
+        requestAnimationFrame(() => setIsMounted(true));
+    }, []);
 
     return (
         <div
             className={`
-                relative inline-flex items-center rounded-full transition-colors duration-200 cursor-pointer
+                relative inline-flex items-center rounded-full cursor-pointer
+                ${isMounted ? 'transition-[background-color,border-color] duration-200 ease-in-out' : ''}
                 ${disabled ? "opacity-38 cursor-not-allowed" : ""}
             `}
             style={{
                 width: width,
                 height: height,
                 backgroundColor: checked
-                    ? "var(--md-sys-color-primary)"
+                    ? "var(--md-sys-color-primary-container)" // Tonal style: Lighter background
                     : "var(--md-sys-color-surface-container-highest)",
-                border: `2px solid ${checked ? "var(--md-sys-color-primary)" : "var(--md-sys-color-outline)"}`
+                borderColor: checked
+                    ? "var(--md-sys-color-primary)"
+                    : "var(--md-sys-color-outline)",
+                borderWidth: "2px",
+                borderStyle: "solid"
             }}
             onClick={() => !disabled && onChange(!checked)}
         >
@@ -54,19 +55,15 @@ const Switch: FC<SwitchProps> = ({
 
             {/* Handle/Thumb */}
             <span
-                className={`
-                    absolute bg-white rounded-full shadow-sm transition-all duration-200 flex items-center justify-center
-                `}
+                className={`absolute rounded-full flex items-center justify-center pointer-events-none ${isMounted ? 'transition-[left,width,height,background-color] duration-200 ease-in-out' : ''} ${checked ? 'shadow-md' : 'shadow-sm'}`}
                 style={{
-                    height: checked ? height - 6 : height - 10, // MD3: thumb grows when checked
-                    width: checked ? height - 6 : height - 10,
+                    height: checked ? height - 4 : height - 12, // Larger thumb when checked (approx 20px)
+                    width: checked ? height - 4 : height - 12,
                     left: checked
-                        ? `calc(100% - ${(height - 6)}px - 3px)`
-                        : "5px",
-                    // MD3 Unchecked thumb color is outline when not disabled?? 
-                    // Usually thumb is outline color when unchecked, onPrimary when checked
+                        ? `calc(100% - ${(height - 4)}px - 2px)` // Adjusted offset for larger thumb
+                        : "6px",
                     backgroundColor: checked
-                        ? "var(--md-sys-color-on-primary)"
+                        ? "var(--md-sys-color-primary)" // Primary color thumb for strong identification
                         : "var(--md-sys-color-outline)",
                 }}
             />

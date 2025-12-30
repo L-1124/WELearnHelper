@@ -1,10 +1,50 @@
 /** @type {import('tailwindcss').Config} */
+
+// Helper to generate px spacing (following Tailwind 1 unit = 0.25rem = 4px scale)
+const generateSpacing = () => {
+  const scale = [
+    0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 
+    14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 96
+  ];
+  
+  const spacing = {
+    px: '1px',
+    0: '0px',
+  };
+
+  scale.forEach(n => {
+    spacing[n] = `${n * 4}px`;
+  });
+
+  return spacing;
+};
+
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    // Override default spacing to use fixed px values instead of rem
+    spacing: generateSpacing(),
+    
+    // Override default font sizes to use fixed px values
+    fontSize: {
+      xs: ['12px', { lineHeight: '16px' }],
+      sm: ['14px', { lineHeight: '20px' }],
+      base: ['16px', { lineHeight: '24px' }],
+      lg: ['18px', { lineHeight: '28px' }],
+      xl: ['20px', { lineHeight: '28px' }],
+      '2xl': ['24px', { lineHeight: '32px' }],
+      '3xl': ['30px', { lineHeight: '36px' }],
+      '4xl': ['36px', { lineHeight: '40px' }],
+      '5xl': ['48px', { lineHeight: '1' }],
+      '6xl': ['60px', { lineHeight: '1' }],
+      '7xl': ['72px', { lineHeight: '1' }],
+      '8xl': ['96px', { lineHeight: '1' }],
+      '9xl': ['128px', { lineHeight: '1' }],
+    },
+
     extend: {
       colors: {
         primary: "var(--md-sys-color-primary)",
@@ -67,6 +107,8 @@ export default {
         "level4": "var(--md-sys-elevation-level4)",
         "level5": "var(--md-sys-elevation-level5)",
       },
+      // Note: We are using extend here for custom MD3 typescale, but overwriting standard fontSize above.
+      // Tailwind merges `extend` into `fontSize`, so standard sizes are replaced by the object above, and these custom ones are added.
       fontFamily: {
         "display-large": "var(--md-sys-typescale-display-large-font)",
         "headline-small": "var(--md-sys-typescale-headline-small-font)",
@@ -77,6 +119,7 @@ export default {
         "label-large": "var(--md-sys-typescale-label-large-font)",
         "label-small": "var(--md-sys-typescale-label-small-font)",
       },
+      // Keep using these specific variables but verify they resolve to px in styles/md3.ts (which they do)
       fontSize: {
         "display-large": ["var(--md-sys-typescale-display-large-size)", { lineHeight: "var(--md-sys-typescale-display-large-line-height)", fontWeight: "var(--md-sys-typescale-display-large-weight)" }],
         "headline-small": ["var(--md-sys-typescale-headline-small-size)", { lineHeight: "var(--md-sys-typescale-headline-small-line-height)", fontWeight: "var(--md-sys-typescale-headline-small-weight)" }],

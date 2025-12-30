@@ -1,6 +1,6 @@
 import "@src/features/welearn/services/initial";
-import "./index.css";
-import "@icon-park/react/styles/index.css";
+import styles from "./index.css?inline";
+import iconStyles from "@icon-park/react/styles/index.css?inline";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
@@ -8,6 +8,7 @@ import { createRoot } from "react-dom/client";
 import logger from "./utils/logger";
 import { initialUserSettings } from "./utils/setting";
 import App from "./layouts/App";
+import { ShadowRootContext } from "@utils/ShadowRootContext";
 
 const EXTENSION_ID = "eocs-helper";
 
@@ -46,16 +47,36 @@ function initialize() {
         return;
     }
 
-    createRoot(
-        (() => {
-            const app = document.createElement("div");
-            app.id = EXTENSION_ID;
-            document.body.append(app);
-            return app;
-        })(),
-    ).render(
+    // Simplified mounting: Mount directly to Shadow Root
+    const shadowRoot = (() => {
+        const host = document.createElement("div");
+        host.id = "eocs-helper-host";
+
+        // Host styles: ensure it doesn't interfere with layout but allows fixed children
+        host.style.position = 'absolute';
+        host.style.top = '0';
+        host.style.left = '0';
+        host.style.width = '0';
+        host.style.height = '0';
+        host.style.overflow = 'visible'; // Allow children (fixed elements) to be seen
+        host.style.zIndex = '2147483647'; // Max Z-Index
+
+        document.body.append(host);
+        return host.attachShadow({ mode: "open" });
+    })();
+
+    // Mount React App directly into Shadow Root
+    createRoot(shadowRoot).render(
         <React.StrictMode>
-            <App />
+            {/* Inject Styles inside React Tree */}
+            <style>{`${styles}\n${iconStyles}`}</style>
+
+            <ShadowRootContext.Provider value={shadowRoot}>
+                {/* Maintain ID for CSS Selectors but as part of React Tree */}
+                <div id={EXTENSION_ID}>
+                    <App />
+                </div>
+            </ShadowRootContext.Provider>
         </React.StrictMode>,
     );
 }

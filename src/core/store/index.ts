@@ -50,10 +50,20 @@ class Store {
     setVisibility(key: keyof typeof this.visibility, value: boolean) {
         this.visibility[key] = value;
     }
+    panelSize = {
+        width: 400,
+        height: 300,
+        autoHeight: true,
+    };
+    setPanelSize(size: Partial<{ width: number, height: number, autoHeight: boolean }>) {
+        this.panelSize = { ...this.panelSize, ...size };
+    }
+
     globalPosition = {
         x: 100,
         y: 100,
     };
+
     setGlobalPosition(position: { x: number, y: number }) {
         this.globalPosition = position;
     }

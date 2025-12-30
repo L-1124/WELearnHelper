@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Scoped Reset / CSS Firewall */
+/* Use :where() to ensure 0 specificity, allowing Tailwind classes to override these resets */
+:where(#eocs-helper) {
+  /* Reset root font and line-height to consistent values */
+  font-family: 'Roboto', 'Segoe UI', sans-serif, system-ui;
+  font-size: 16px !important;
+  /* Lock line-height to a fixed value instead of 'normal' to avoid font metric differences */
+  line-height: 1.5 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+}
+
+:where(#eocs-helper) * {
+  /* Force border-box model */
+  box-sizing: border-box !important;
+  /* Prevent style leakage from host page */
+  outline: none;
+  /* Aggressively reset default spacing which host pages might pollute */
+  margin: 0; 
+  padding: 0;
+}
+
+:where(#eocs-helper) img, 
+:where(#eocs-helper) svg, 
+:where(#eocs-helper) video, 
+:where(#eocs-helper) canvas, 
+:where(#eocs-helper) audio, 
+:where(#eocs-helper) iframe, 
+:where(#eocs-helper) embed, 
+:where(#eocs-helper) object {
+  /* Fix magic vertical space below inline elements by making them block */
+  display: block; 
+}
+
+/* Reset inherit vulnerabilities */
+#eocs-helper button,
+#eocs-helper input,
+#eocs-helper optgroup,
+#eocs-helper select,
+#eocs-helper textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15; 
+  margin: 0;
+}

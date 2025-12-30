@@ -7,13 +7,14 @@ import Switch from "./Switch";
 import { StyledInput, StyledTextArea, StyledSelect } from "./styles";
 
 export function ConfigControl({
-    genericSetting: { id, valueType, readonly, type, options },
+    genericSetting: { id, valueType, readonly, type, options, default: defaultValue },
 }: {
     genericSetting: GenericSetting;
 }) {
     const { userSettings } = useStore();
 
-    const value = userSettings[id as keyof typeof userSettings];
+    // Use defaultValue as fallback to prevent flash when userSettings is loading/empty
+    const value = userSettings[id as keyof typeof userSettings] ?? defaultValue;
 
     const [localValue, setLocalValue] = useState(value);
 

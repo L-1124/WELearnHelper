@@ -5,10 +5,9 @@ import { ConfigControl } from "./ConfigControl";
 import { SettingDesc, SettingItem, SettingLabel, SettingName } from "./styles";
 
 export function ConfigSection({ settings }: { settings: readonly GenericSetting[] }) {
-    const theme = useTheme();
-
     return (
-        <>
+
+        <div className="flex flex-col gap-2">
             {settings.map((setting) => (
                 <SettingItem key={`${String(setting.id)}-${setting.name}`}>
                     <SettingLabel>
@@ -18,6 +17,7 @@ export function ConfigSection({ settings }: { settings: readonly GenericSetting[
                     <ConfigControl genericSetting={setting} />
                 </SettingItem>
             ))}
-        </>
+        </div>
     );
+
 }

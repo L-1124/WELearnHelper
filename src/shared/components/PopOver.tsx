@@ -12,6 +12,7 @@ import {
     FloatingPortal,
 } from "@floating-ui/react";
 import { useTheme } from "@emotion/react";
+import { useShadowRoot } from "@utils/ShadowRootContext";
 
 export default function PopOver({
     children,
@@ -33,6 +34,7 @@ export default function PopOver({
     border?: boolean;
 }) {
     const theme = useTheme();
+    const shadowRoot = useShadowRoot();
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -69,8 +71,8 @@ export default function PopOver({
             >
                 {children}
             </div>
-            {/* 确保即使父容器overflow hidden时，popover也能正常显示，通过直接挂在在body上 */}
-            <FloatingPortal>
+            {/* 确保即使父容器overflow hidden时，popover也能正常显示，通过直接挂在在body上(改为ShadowRoot内的Portal容器) */}
+            <FloatingPortal root={shadowRoot}>
                 {isOpen && !disabled && (
                     <div
                         key={`PopOver-tooltip-${content}`}

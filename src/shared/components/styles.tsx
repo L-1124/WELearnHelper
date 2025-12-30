@@ -14,7 +14,7 @@ export const SectionTitle: FC<HTMLAttributes<HTMLHeadingElement>> = ({ className
 );
 
 export const SettingItem: FC<HTMLAttributes<HTMLDivElement>> = ({ className = "", children, ...props }) => (
-    <div className={`flex justify-between items-center px-4 py-3 bg-surface-container-low rounded-md mb-2 transition-all border border-transparent hover:bg-surface-container-high hover:border-outline-variant ${className}`} {...props}>
+    <div className={`flex justify-between items-center px-4 py-3 bg-surface-container-low rounded-xl transition-all border border-transparent hover:bg-surface-container-high hover:border-outline-variant ${className}`} {...props}>
         {children}
     </div>
 );
