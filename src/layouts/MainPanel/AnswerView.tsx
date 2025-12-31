@@ -3,7 +3,9 @@ import { useStore, store } from "@core";
 import SimpleBar from "simplebar-react";
 import { Button } from "../../shared/components";
 import { copyToClipboard } from "@utils";
-import { Left, Right, Copy } from "@icon-park/react";
+import Left from "@icon-park/react/es/icons/Left";
+import Right from "@icon-park/react/es/icons/Right";
+import Copy from "@icon-park/react/es/icons/Copy";
 
 export function AnswerView() {
     const { answers, panelSize } = useStore();

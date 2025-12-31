@@ -24,6 +24,19 @@ export default defineConfig({
     server: {
         open: true,
     },
+    build: {
+        minify: "terser",
+        terserOptions: {
+            compress: {
+                defaults: true,
+                drop_console: true,
+                drop_debugger: true,
+            },
+            format: {
+                comments: false,
+            },
+        },
+    },
     plugins: [
         react(),
         monkey({
@@ -50,7 +63,14 @@ export default defineConfig({
             },
             server: { mountGmApi: true },
             build: {
-                externalGlobals: {},
+                externalGlobals: {
+                    react: cdn.jsdelivr("React", "umd/react.production.min.js"),
+                    "react-dom": cdn.jsdelivr("ReactDOM", "umd/react-dom.production.min.js"),
+                    lodash: cdn.jsdelivr("_", "lodash.min.js"),
+                },
+                // "@floating-ui/react": cdn.jsdelivr("FloatingUIReact", "dist/floating-ui.react.umd.min.js"), // 风险较高，暂不开启
+                // "react-draggable": cdn.jsdelivr("ReactDraggable", "build/web/react-draggable.min.js"), // 风险较高，暂不开启
+
                 fileName: `WELearnHelper${metadata.projects.welearn.version}.user.js`,
                 autoGrant: false,
             },

@@ -1,4 +1,4 @@
-import { Github } from "@icon-park/react";
+import Github from "@icon-park/react/es/icons/Github";
 import { Badge } from "@shared/components";
 import logo from "@assets/welearn.png";
 
