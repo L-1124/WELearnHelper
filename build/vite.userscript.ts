@@ -38,17 +38,22 @@ export default defineConfig({
                 homepage: metadata.homepage,
                 "run-at": "document-end",
                 version: project.version,
-                grant: ["GM_setClipboard"],
+                grant: [
+                    "GM_info",
+                    "GM_setValue",
+                    "GM_getValue",
+                    "GM_xmlhttpRequest",
+                    "GM_setClipboard",
+                    "unsafeWindow",
+                    "GM_addStyle",
+                ],
             },
             server: { mountGmApi: true },
             build: {
-                externalGlobals: {
-                    react: cdn.jsdelivr("React", "umd/react.production.min.js"),
-                    "react-dom": cdn.jsdelivr("ReactDOM", "umd/react-dom.production.min.js"),
-                },
+                externalGlobals: {},
                 fileName: `WELearnHelper${metadata.projects.welearn.version}.user.js`,
+                autoGrant: false,
             },
         }),
-        // visualizer(),
     ],
 });

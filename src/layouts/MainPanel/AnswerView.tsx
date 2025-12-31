@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useStore, store } from "@core";
 import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
 import { Button } from "../../shared/components";
 import { copyToClipboard } from "@utils";
 import { Left, Right, Copy } from "@icon-park/react";
@@ -51,7 +50,7 @@ export function AnswerView() {
                 const targetHeight = contentHeight + chromeHeight;
 
                 // Clamp height to reasonable bounds
-                const clampedHeight = Math.min(Math.max(targetHeight, 300), 800);
+                const clampedHeight = Math.min(Math.max(targetHeight, 300), 600);
 
                 if (Math.abs(clampedHeight - panelSize.height) > 2) {
                     store.setPanelSize({ height: clampedHeight });
@@ -79,7 +78,7 @@ export function AnswerView() {
     const goToNext = () => setSelectedIndex(prev => Math.min(answers.length - 1, prev + 1));
 
     return (
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0">
             <SimpleBar style={{ height: "100%", width: '100%' }}>
                 <div ref={measureRef} className="flex flex-col">
                     {/* Question Grid */}

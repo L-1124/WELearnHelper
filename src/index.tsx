@@ -1,6 +1,7 @@
 import "@src/features/welearn/services/initial";
 import styles from "./index.css?inline";
 import iconStyles from "@icon-park/react/styles/index.css?inline";
+import simplebarStyles from "simplebar-react/dist/simplebar.min.css?inline";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
@@ -69,7 +70,7 @@ function initialize() {
     createRoot(shadowRoot).render(
         <React.StrictMode>
             {/* Inject Styles inside React Tree */}
-            <style>{`${styles}\n${iconStyles}`}</style>
+            <style>{`${styles}\n${iconStyles}\n${simplebarStyles}`}</style>
 
             <ShadowRootContext.Provider value={shadowRoot}>
                 {/* Maintain ID for CSS Selectors but as part of React Tree */}

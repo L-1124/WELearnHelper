@@ -1,14 +1,5 @@
 import { store } from "@store";
 
-function scrollDown() {
-    //等待message渲染完成，不然不会拉到最底
-    setTimeout(() => {
-        document
-            .querySelector("#log-panel-log-container .simplebar-content-wrapper")
-            ?.scrollBy(0, 1000);
-    }, 10);
-}
-
 export const RECORD_TYPES = ["info", "error", "hr"] as const;
 
 export type RecordType = typeof RECORD_TYPES[number];
@@ -51,10 +42,6 @@ export class Logger {
     private addLog(log: IRecord) {
 
         store.logs.push(log);
-
-        if (store.userSettings.autoScrollDown) {
-            scrollDown();
-        }
     }
 
     log(option: Pick<IRecord, "type" | "content" | "extra"> & Partial<IRecord>) {
@@ -73,9 +60,7 @@ export class Logger {
     }
 
     debug(...content: any) {
-        if (import.meta.env.DEV) {
-            console.log(`[WeLearnHelper]`, ...content);
-        }
+        console.log(`[WeLearnHelper]`, ...content);
     }
 }
 

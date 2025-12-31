@@ -15,9 +15,7 @@
             ],
             "namespace": "https://github.com/l-1124/WELearnHelper",
             "description": "显示WE Learn随行课堂题目答案",
-            "connect": [
-                "localhost"
-            ]
+            "connect": []
         },
         "tsinghua": {
             "title": "清华社网课助手",
