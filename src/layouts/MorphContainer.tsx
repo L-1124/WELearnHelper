@@ -5,10 +5,11 @@ import Draggable from "react-draggable";
 import { store, useStore } from "@core";
 import { FloatingBall } from "@layouts/FloatingBall";
 import { MainPanel } from "@layouts/MainPanel";
+import { Snackbar } from "@components/Snackbar";
 
 export function MorphContainer() {
-    const { visibility, panelSize, globalPosition } = useStore();
-    const nodeRef = useRef(null);
+    const { visibility, panelSize, globalPosition, msg } = useStore();
+    const containerRef = useRef(null);
 
     const isPanel = visibility.panel;
     const isFloating = visibility.floating;
@@ -24,32 +25,46 @@ export function MorphContainer() {
 
     return (
         <Draggable
-            nodeRef={nodeRef}
+            nodeRef={containerRef}
             handle={isPanel ? ".app-drag-handle" : undefined}
-            position={globalPosition}
+            defaultPosition={globalPosition}
             onStop={(_e, data) => store.setGlobalPosition({ x: data.x, y: data.y })}
         >
-            <animated.div
-                ref={nodeRef}
-                className="fixed z-[9999] overflow-hidden bg-surface-container shadow-level3 text-on-surface"
-                style={{
-                    ...styles,
-                    top: 0, left: 0,
-                }}
-            >
-                <div className="w-full h-full relative">
+            <div ref={containerRef} className="fixed z-[9999]">
+                {isPanel && msg && (
                     <div
-                        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${isFloating ? "opacity-100 delay-100" : "opacity-0 pointer-events-none"}`}
+                        className="absolute z-[10000] pointer-events-none"
+                        style={{
+                            left: 0,
+                            top: 0,
+                            width: isPanel ? panelSize.width : 48,
+                            transform: 'translateY(calc(-100% - 8px))',
+                        }}
                     >
-                        <FloatingBall />
+                        <Snackbar className="w-full animate-in fade-in slide-in-from-top-2">
+                            {msg}
+                        </Snackbar>
                     </div>
-                    <div
-                        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${isPanel ? "opacity-100" : "opacity-0 pointer-events-none"}`}
-                    >
-                        <MainPanel />
+                )}
+
+                <animated.div
+                    className="overflow-hidden bg-surface-container shadow-level3 text-on-surface"
+                    style={styles}
+                >
+                    <div className="w-full h-full relative">
+                        <div
+                            className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${isFloating ? "opacity-100 delay-100" : "opacity-0 pointer-events-none"}`}
+                        >
+                            <FloatingBall />
+                        </div>
+                        <div
+                            className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${isPanel ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                        >
+                            <MainPanel />
+                        </div>
                     </div>
-                </div>
-            </animated.div>
+                </animated.div>
+            </div>
         </Draggable>
     );
 }

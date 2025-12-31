@@ -13,7 +13,6 @@ export function ConfigControl({
 }) {
     const { userSettings } = useStore();
 
-    // Use defaultValue as fallback to prevent flash when userSettings is loading/empty
     const value = userSettings[id as keyof typeof userSettings] ?? defaultValue;
 
     const [localValue, setLocalValue] = useState(value);
@@ -22,12 +21,11 @@ export function ConfigControl({
         (newValue: unknown) => {
             if (newValue === value) return;
 
-            // Use setUserSettings to properly trigger valtio reactivity
             store.setUserSettings({ [id]: newValue });
-            store.setStatusMessage("设置已生效");
+            store.showMsg("设置已生效");
         },
         {
-            wait: 800, // Increased debounce for stability
+            wait: 800,
         },
     );
 
@@ -73,7 +71,6 @@ export function ConfigControl({
             break;
     }
 
-    // Override with selection dropdown if type is 'selection' and options exist
     if (type === 'selection' && options && options.length > 0) {
         element = (
             <StyledSelect

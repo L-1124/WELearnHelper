@@ -180,9 +180,9 @@ export function AnswerView() {
                                             onClick={async () => {
                                                 const success = await copyToClipboard(currentAnswer.answerText);
                                                 if (success) {
-                                                    store.setStatusMessage("已复制到剪贴板");
+                                                    store.showMsg("已复制到剪贴板");
                                                 } else {
-                                                    store.setStatusMessage("复制失败，请手动尝试");
+                                                    store.showMsg("复制失败，请手动尝试");
                                                 }
                                             }}
                                             style={{ height: '24px', width: '24px', padding: '0', borderRadius: '4px' }}

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { store, useStore } from "@core";
+import { store } from "@core";
 import { SettingsView } from "./SettingsView";
 import { AboutView } from "./AboutView";
 import { DevView } from "./DevView";
@@ -9,18 +9,10 @@ import { AnswerView } from "./AnswerView";
 const isDev = import.meta.env.DEV;
 
 export function MainPanel() {
-    const { statusMessage, panelSize } = useStore();
     const [activeTab, setActiveTab] = useState<"log" | "config" | "about" | "dev">("log");
 
     return (
         <div className="w-full h-full flex flex-col overflow-hidden">
-            {statusMessage && (
-                <div className="absolute bottom-[60px] left-0 right-0 z-50 px-4 flex justify-center pointer-events-none">
-                    <div className="bg-inverse-surface text-inverse-on-surface text-body-medium py-2 px-4 rounded shadow-level3 animate-in fade-in slide-in-from-bottom-2">
-                        {statusMessage}
-                    </div>
-                </div>
-            )}
 
             <div className="panel-header app-drag-handle h-12 flex-shrink-0 bg-surface-container flex items-center justify-between px-4 cursor-grab select-none active:cursor-grabbing">
                 <div className="font-semibold text-title-small !text-primary flex items-center gap-3">

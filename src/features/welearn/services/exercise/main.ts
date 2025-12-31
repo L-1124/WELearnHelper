@@ -90,8 +90,6 @@ async function outputAnswers(answers: Answer[]) {
             // await sleep(store.userSettings.solveInterval);
         }
 
-        const logId = `q-${Math.random().toString(36).substr(2, 9)}`;
-
         AnswerHub.addQuestion({
             order: `${String(answer.index).padStart(2, "0")}`,
             info: {
@@ -122,7 +120,7 @@ export async function determineCourseType(iframeUrl: string) {
     let identifier: string | undefined = undefined;
     try {
         identifier = (/#(.*)\?/.exec(iframeUrl) || [])[1];
-    } catch (error) {}
+    } catch (error) { }
 
     let manifestUrl = `https://centercourseware.sflep.com/${courseInfo}/resource/manifest.xml`;
     let answerUrl = `https://centercourseware.sflep.com/${courseInfo}/data${identifier}.html`;
@@ -130,57 +128,67 @@ export async function determineCourseType(iframeUrl: string) {
     let answers: Answer[] = [];
 
     let hasAnswer = false;
+    let hasShownCountdown = false;
+
+    const triggerAutoSolve = (solver: (answers: Answer[]) => void, answers: Answer[]) => {
+        if (store.userSettings.autoSolve) {
+            const totalSeconds = Math.floor(store.userSettings.solveInterval / 1000);
+            if (!hasShownCountdown) {
+                hasShownCountdown = true;
+                (async () => {
+                    for (let i = totalSeconds; i > 0; i--) {
+                        store.showMsg(`${i}s 后开始自动答题`, 1000);
+                        await sleep(1000);
+                    }
+                })();
+            }
+            solver(answers);
+        }
+    };
 
     if (MANIFEST.includes(courseInfo)) {
         store.courseContext = { courseInfo, identifier: identifier || "", type: "MANIFEST" };
-        //需要查询名单
+
         dom = await queryManifest(manifestUrl, identifier as string, courseInfo);
-
         answers = parseManifest(dom);
-        if (document.querySelector('div[id^="word"]')) parseWordTest();
 
-        if (store.userSettings.autoSolve) solveManifest(answers);
+        if (document.querySelector('div[id^="word"]')) parseWordTest();
+        triggerAutoSolve(solveManifest, answers);
     } else if (ET.includes(courseInfo)) {
         store.courseContext = { courseInfo, identifier: identifier || "", type: "ET" };
         dom = await queryData(answerUrl);
-
         answers = parseEt(dom);
-        if (store.userSettings.autoSolve) solveEt(answers);
+        triggerAutoSolve(solveEt, answers);
     } else if (DATA_SOLUTION.includes(courseInfo)) {
         store.courseContext = { courseInfo, identifier: identifier || "", type: "DATA_SOLUTION" };
-        //直接在原始页面查找
+
         setTimeout(() => {
             answers = parseDataSolution();
-
             logger.debug(answers);
 
             if (answers.length) {
                 outputAnswers(answers);
-                if (store.userSettings.autoSolve) solveDataSolution(answers);
-            } else {
-                if (!hasAnswer) {
-                    logger.info({ content: "此页面已适配，无答案" });
-                }
+                triggerAutoSolve(solveDataSolution, answers);
+            } else if (!hasAnswer) {
+                logger.info({ content: "此页面已适配，无答案" });
             }
         }, 2000);
+        return;
     } else if (READING.includes(courseInfo)) {
         store.courseContext = { courseInfo, identifier: identifier || "", type: "READING" };
-        let answerUrl =
-            (location.href.split("&")[0] || "").replace("web.html?courseurl=", "data/") + ".xml";
-        dom = await queryData(answerUrl);
+
+        const readingAnswerUrl = (location.href.split("&")[0] || "")
+            .replace("web.html?courseurl=", "data/") + ".xml";
+        dom = await queryData(readingAnswerUrl);
         answers = parseReading(dom);
     } else if (APP.includes(courseInfo)) {
         store.courseContext = { courseInfo, identifier: identifier || "", type: "APP" };
     } else {
         store.courseContext = { courseInfo, identifier: identifier || "", type: "UNSOLVED" };
-        logger.info({ content: `未适配的课程类型，请在Github反馈` });
-        logger.info({ content: `${courseInfo}` });
-        logger.info({ content: `注意页面上是否有二维码，且注明需在app中使用，这种题型只能用app` });
-        logger.debug("未处理的课程类型");
-        logger.debug(courseInfo);
-        logger.debug(identifier);
-        // add_to_container("", document.querySelectorAll(".daan"));
-        // add_to_container("", document.querySelectorAll(".tianking .tl_daan"));
+        logger.info({ content: "未适配的课程类型，请在 Github 反馈" });
+        logger.info({ content: courseInfo });
+        logger.info({ content: "注意页面上是否有二维码，且注明需在 app 中使用，这种题型只能用 app" });
+        logger.debug("未处理的课程类型", courseInfo, identifier);
     }
 
     logger.debug(answers);

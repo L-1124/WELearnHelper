@@ -17,12 +17,12 @@ class Store {
         identifier: "",
         type: "" as "MANIFEST" | "ET" | "DATA_SOLUTION" | "READING" | "APP" | "UNSOLVED" | "",
     };
-    statusMessage = "";
-    private messageQueue: string[] = [];
+    msg = "";
+    private messageQueue: Array<{ message: string; duration: number }> = [];
     private isDisplayingMessage = false;
 
-    setStatusMessage(message: string) {
-        this.messageQueue.push(message);
+    showMsg(message: string, duration: number = 1500) {
+        this.messageQueue.push({ message, duration });
         if (!this.isDisplayingMessage) {
             this.processMessageQueue();
         }
@@ -33,17 +33,13 @@ class Store {
             this.isDisplayingMessage = false;
             return;
         }
-
         this.isDisplayingMessage = true;
-        this.statusMessage = this.messageQueue.shift()!;
-
-        // Show for 1.5s
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // Brief clear gap before next message
-        this.statusMessage = "";
+        const { message, duration } = this.messageQueue.shift()!;
+        this.msg = message;
+        logger.debug("showMsg", message, duration);
+        await new Promise(resolve => setTimeout(resolve, duration));
+        this.msg = "";
         await new Promise(resolve => setTimeout(resolve, 200));
-
         this.processMessageQueue();
     }
     setVisibility(key: keyof typeof this.visibility, value: boolean) {
