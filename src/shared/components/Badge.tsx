@@ -1,28 +1,55 @@
 import React, { FC, HTMLAttributes } from "react";
 
 export interface IBadgeProps extends HTMLAttributes<HTMLSpanElement> {
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'error';
-    children: React.ReactNode;
+    variant?: 'dot' | 'standard'; // 'dot' = small red point, 'standard' = number/text
+    type?: 'error' | 'primary' | 'secondary' | 'tertiary'; // Extended colors
+    children?: React.ReactNode;
 }
 
-const VARIANTS = {
-    primary: "bg-primary-container text-on-primary-container border-primary/10",
-    secondary: "bg-secondary-container text-on-secondary-container border-secondary/10",
-    tertiary: "bg-tertiary-container text-on-tertiary-container border-tertiary/10",
-    error: "bg-error-container text-on-error-container border-error/10"
-};
+// MD3 Badge Specs:
+// Small (Dot): 6dp diameter. Color: Error.
+// Large (Standard): Height 16dp. Min-Width 16dp. Padding 4dp (horizontal) if > 1 char? Spec says Width varies.
+// Font: Label Small (11sp).
 
-export const Badge: FC<IBadgeProps> = ({ variant = 'primary', className = "", children, ...props }) => {
-    // 基础样式:
-    // - 字体优化: 采用 Medium 字重, 增加字间距以提升极小尺寸下的可读性
-    // - 视觉优化: 增加极细的内边框 (Border) 提升层级感, 移除阴影改为更平面的现代感
-    const baseStyles = "rounded-full text-[9px] font-medium uppercase inline-flex items-center justify-center px-2 py-2 leading-none tracking-wider transition-all duration-200 cursor-default border";
+export const Badge: FC<IBadgeProps> = ({ variant = 'standard', type = 'error', className = "", children, ...props }) => {
 
-    const variantStyles = `${VARIANTS[variant]} hover:brightness-110`;
+    // Common Base
+    const baseClasses = "inline-flex items-center justify-center rounded-full leading-none transition-all";
+
+    // Type Colors
+    let colorClasses = "";
+    switch (type) {
+        case 'primary':
+            colorClasses = "bg-primary text-on-primary";
+            break;
+        case 'secondary':
+            colorClasses = "bg-secondary-container text-on-secondary-container";
+            break;
+        case 'tertiary':
+            colorClasses = "bg-tertiary-container text-on-tertiary-container";
+            break;
+        case 'error':
+        default:
+            colorClasses = "bg-error text-on-error";
+            break;
+    }
+
+    // Variant Specs
+    let sizeClasses = "";
+    if (variant === 'dot') {
+        sizeClasses = "w-1.5 h-1.5 p-0";
+    } else {
+        // Standard
+        // Height 16px -> h-4
+        // Min Width 16px -> min-w-[16px]
+        // Text: text-[11px] font-medium tracking-wide (0.5px)
+        // Horizontal padding: if single digit, center. if multiple, px-1?
+        sizeClasses = "h-4 min-w-[16px] px-1 text-[11px] font-medium tracking-wider";
+    }
 
     return (
-        <span className={`${baseStyles} ${variantStyles} ${className}`} {...props}>
-            {children}
+        <span className={`${baseClasses} ${colorClasses} ${sizeClasses} ${className}`} {...props}>
+            {variant === 'standard' && children}
         </span>
     );
 };

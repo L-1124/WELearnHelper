@@ -41,6 +41,24 @@ export interface MD3Colors {
     inversePrimary: string;
     shadow: string;
     scrim: string;
+
+    primaryFixed: string;
+    primaryFixedDim: string;
+    onPrimaryFixed: string;
+    onPrimaryFixedVariant: string;
+
+    secondaryFixed: string;
+    secondaryFixedDim: string;
+    onSecondaryFixed: string;
+    onSecondaryFixedVariant: string;
+
+    tertiaryFixed: string;
+    tertiaryFixedDim: string;
+    onTertiaryFixed: string;
+    onTertiaryFixedVariant: string;
+
+    surfaceDim: string;
+    surfaceBright: string;
 }
 
 export interface MD3TypeScale {
@@ -130,6 +148,24 @@ const terminalDarkColors: MD3Colors = {
     inversePrimary: "#2e7d32",
     shadow: "#000000",
     scrim: "#000000",
+    
+    primaryFixed: "#c8e6c9",
+    primaryFixedDim: "#4caf50",
+    onPrimaryFixed: "#003b00",
+    onPrimaryFixedVariant: "#2e7d32",
+
+    secondaryFixed: "#bbdefb",
+    secondaryFixedDim: "#2196f3",
+    onSecondaryFixed: "#002b5e",
+    onSecondaryFixedVariant: "#1976d2",
+
+    tertiaryFixed: "#e1bee7",
+    tertiaryFixedDim: "#9c27b0",
+    onTertiaryFixed: "#4a0072",
+    onTertiaryFixedVariant: "#7b1fa2",
+
+    surfaceDim: "#141414",
+    surfaceBright: "#323232",
 };
 
 // Terminal Theme (Dark)

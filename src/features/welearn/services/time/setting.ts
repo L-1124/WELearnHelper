@@ -41,7 +41,7 @@ export const WELearnTimeSettings: SectionSetting<IWELearnTimeSettings>[] = [
                 name: "切换下限",
                 default: 5,
                 valueType: "number",
-                description: "单位分钟；we learn允许一个页面最多挂30分钟，所以不要大于30",
+                description: "单位分钟；允许一个页面最多挂30分钟",
             },
             {
                 id: "refreshIntervalMax",

@@ -1,3 +1,2 @@
 // Layouts Barrel Export
-export { FloatingBall } from './FloatingBall';
-export { MainPanel } from './MainPanel';
+export { MorphContainer } from './MorphContainer';

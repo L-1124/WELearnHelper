@@ -108,7 +108,7 @@ export function AnswerView() {
                                             setSelectedIndex(i);
                                             store.setPanelSize({ autoHeight: true });
                                         }}
-                                        className={`w-7 h-7 flex items-center justify-center rounded text-[10px] font-semibold cursor-pointer transition-all select-none border-2 hover:-translate-y-px hover:shadow-level1 ${borderClass} ${bgClass} ${textClass} hover:bg-surface-variant ${active ? "hover:bg-primary-container" : ""}`}
+                                        className={`w-7 h-7 flex items-center justify-center rounded text-label-small font-semibold cursor-pointer transition-all select-none border-2 hover:-translate-y-px hover:shadow-level1 ${borderClass} ${bgClass} ${textClass} hover:bg-surface-variant ${active ? "hover:bg-primary-container" : ""}`}
                                     >
                                         {ans.order}
                                     </div>
@@ -120,7 +120,7 @@ export function AnswerView() {
                     {/* Navigation Bar */}
                     <div className="px-4 py-2 flex justify-between items-center gap-3">
                         <Button
-                            type="secondary"
+                            variant="tonal"
                             onClick={() => {
                                 goToPrev();
                                 store.setPanelSize({ autoHeight: true });
@@ -130,11 +130,11 @@ export function AnswerView() {
                         >
                             <Left theme="outline" size="12" />
                         </Button>
-                        <span className="text-[10px] font-bold text-on-surface-variant/60 tracking-widest uppercase">
+                        <span className="text-label-small text-on-surface-variant/60 tracking-widest uppercase">
                             {selectedIndex + 1} / {answers.length}
                         </span>
                         <Button
-                            type="secondary"
+                            variant="tonal"
                             onClick={() => {
                                 goToNext();
                                 store.setPanelSize({ autoHeight: true });
@@ -152,11 +152,11 @@ export function AnswerView() {
                             <div className="bg-surface-container-low border border-outline-variant rounded-md px-2.5 py-2.5 min-h-[80px] flex flex-col relative overflow-hidden">
                                 <div className="flex items-center justify-between gap-3 mb-2">
                                     <div className="flex items-center gap-1.5">
-                                        <span className="bg-primary text-on-primary px-2 rounded h-[18px] text-[11px] font-bold inline-flex items-center">
+                                        <span className="bg-primary text-on-primary px-2 rounded h-[18px] text-label-small inline-flex items-center">
                                             #{currentAnswer.order}
                                         </span>
                                         <span
-                                            className="text-white px-2 rounded h-[18px] text-[10px] font-bold uppercase inline-flex items-center"
+                                            className="text-white px-2 rounded h-[18px] text-label-small uppercase inline-flex items-center"
                                             style={{ backgroundColor: currentAnswer.info.color || "var(--md-sys-color-secondary-container)" }}
                                         >
                                             {currentAnswer.info.content}
@@ -166,16 +166,17 @@ export function AnswerView() {
                                         {currentAnswer.action?.map((btn, idx) => (
                                             <Button
                                                 key={`action-${idx}`}
-                                                type="secondary"
+                                                variant="tonal"
                                                 onClick={btn.onClick}
                                                 disabled={btn.disabled}
-                                                style={{ height: '24px', padding: '0 8px', fontSize: '10px', borderRadius: '4px' }}
+                                                style={{ height: '24px', padding: '0 8px', borderRadius: '4px' }}
+                                                className="!text-[10px]"
                                             >
                                                 {btn.label}
                                             </Button>
                                         ))}
                                         <Button
-                                            type="text"
+                                            variant="text"
                                             onClick={async () => {
                                                 const success = await copyToClipboard(currentAnswer.answerText);
                                                 if (success) {
@@ -192,7 +193,7 @@ export function AnswerView() {
                                     </div>
                                 </div>
 
-                                <div className="text-[20px] font-semibold text-on-surface leading-snug break-all text-center my-auto py-2">
+                                <div className="text-headline-small text-on-surface leading-snug break-all text-center my-auto py-2">
                                     {currentAnswer.answerText || "暂无答案"}
                                 </div>
                             </div>

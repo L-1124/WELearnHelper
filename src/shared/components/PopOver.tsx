@@ -9,7 +9,9 @@ import {
     FloatingArrow,
     arrow,
     Placement,
+    Platform,
     FloatingPortal,
+    autoUpdate,
 } from "@floating-ui/react";
 import { useTheme } from "@emotion/react";
 import { useShadowRoot } from "@utils/ShadowRootContext";
@@ -51,6 +53,7 @@ export default function PopOver({
                 element: arrowRef,
             }),
         ],
+        whileElementsMounted: autoUpdate,
     });
 
     const hover = useHover(context, {
@@ -71,7 +74,6 @@ export default function PopOver({
             >
                 {children}
             </div>
-            {/* 确保即使父容器overflow hidden时，popover也能正常显示，通过直接挂在在body上(改为ShadowRoot内的Portal容器) */}
             <FloatingPortal root={shadowRoot}>
                 {isOpen && !disabled && (
                     <div
@@ -82,18 +84,19 @@ export default function PopOver({
                             top: y ?? 0,
                             left: x ?? 0,
                             backgroundColor: (theme as any).sys.color.inverseSurface || "#313033",
+                            width: "max-content",
                             maxWidth: "400px",
                             color: (theme as any).sys.color.inverseOnSurface || "#F4EFF4",
                             border: border ? `1px solid ${(theme as any).sys.color.outline}` : undefined,
-                            borderRadius: (theme as any).sys.shape.small || "4px",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            padding: "6px 12px",
+                            borderRadius: (theme as any).sys.shape.extraSmall || "4px",
+                            fontSize: (theme as any).sys.typescale.bodySmall.fontSize || "12px",
+                            fontWeight: (theme as any).sys.typescale.bodySmall.fontWeight || 400,
+                            padding: "4px 8px",
+                            letterSpacing: (theme as any).sys.typescale.bodySmall.letterSpacing || "0.4px",
                             zIndex: 11000,
-                            fontFamily: (theme as any).sys.typescale.bodySmall.fontFamily,
-                            lineHeight: "1.4",
+                            fontFamily: (theme as any).sys.typescale.bodySmall.fontFamily || "Roboto, sans-serif",
+                            lineHeight: (theme as any).sys.typescale.bodySmall.lineHeight || "16px",
                             whiteSpace: "pre-wrap",
-                            boxShadow: (theme as any).sys.elevation.level2,
                         }}
                         {...getFloatingProps()}
                     >

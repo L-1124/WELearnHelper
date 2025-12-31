@@ -9,8 +9,7 @@ import { ICommonSettings } from "../../utils/setting/common";
 
 class Store {
     visibility = {
-        log: true,
-        config: false,
+        panel: true,
         floating: false,
     };
     courseContext = {

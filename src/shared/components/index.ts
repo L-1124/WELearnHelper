@@ -9,4 +9,4 @@ export { ConfigSection } from './ConfigSection';
 export { TabContainer, type IPanel } from './TabContainer';
 export { default as Button, type IButtonProps } from './Button';
 export { Badge, type IBadgeProps } from './Badge';
-
+export * from "./Snackbar";

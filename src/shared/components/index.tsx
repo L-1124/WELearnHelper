@@ -5,14 +5,15 @@ import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import Close from "@icon-park/react/es/icons/Close";
 import { animated, config, useSpring } from "@react-spring/web";
-import { premium } from "@/src/styles/premium";
+import { premium } from "../../styles/premium"; 
 
-import { store, useStore } from "../../store";
+import { store, useStore } from "../../core/store";
 import { MenuBar } from "../components/MenuBar";
 import { MenuButton } from "../components/MenuButton";
 import PopOver from "../components/PopOver";
 import { ConfigSection } from "./ConfigSection";
 import { IPanel, TabContainer } from "./TabContainer";
+import { SectionSetting } from "../../utils/setting";
 
 export const ConfigItem = styled.div(
     {
@@ -56,7 +57,7 @@ export function ConfigPanel() {
     const theme = useTheme();
 
     const panel: IPanel[] = useMemo(() => {
-        return sectionSettings.map((sectionSetting, index) => ({
+        return sectionSettings.map((sectionSetting: SectionSetting<any>, index: number) => ({
             label: sectionSetting.title,
             content: <ConfigSection settings={sectionSetting.settings} />,
         }));

@@ -1,6 +1,5 @@
 import { ErrorBoundary } from "@shared/components";
-import { MainPanel } from "./MainPanel";
-import { FloatingBall } from "./FloatingBall";
+import { MorphContainer } from "./MorphContainer";
 import { ThemeProvider } from "@emotion/react";
 import { Global } from "@emotion/react";
 import { useTheme } from "@styles/theme";
@@ -39,8 +38,7 @@ const App: React.FC = () => {
             <ThemeProvider theme={theme}>
           <ThemeVariables />
                 <GlobalStyles />
-                <FloatingBall />
-                <MainPanel />
+          <MorphContainer />
             </ThemeProvider>
         </ErrorBoundary>
     );

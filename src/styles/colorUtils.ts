@@ -29,6 +29,33 @@ export interface MD3ColorScheme {
         surfaceContainerHighest: string;
         outline: string;
         outlineVariant: string;
+        
+        inverseSurface: string;
+        inverseOnSurface: string;
+        inversePrimary: string;
+        
+        error: string;
+        onError: string;
+        errorContainer: string;
+        onErrorContainer: string;
+        
+        shadow: string;
+        scrim: string;
+        
+        primaryFixed: string;
+        primaryFixedDim: string;
+        onPrimaryFixed: string;
+        onPrimaryFixedVariant: string;
+        secondaryFixed: string;
+        secondaryFixedDim: string;
+        onSecondaryFixed: string;
+        onSecondaryFixedVariant: string;
+        tertiaryFixed: string;
+        tertiaryFixedDim: string;
+        onTertiaryFixed: string;
+        onTertiaryFixedVariant: string;
+        surfaceDim: string;
+        surfaceBright: string;
     };
     dark: {
         primary: string;
@@ -56,6 +83,34 @@ export interface MD3ColorScheme {
         surfaceContainerHighest: string;
         outline: string;
         outlineVariant: string;
+        
+        inverseSurface: string;
+        inverseOnSurface: string;
+        inversePrimary: string;
+        
+        error: string;
+        onError: string;
+        errorContainer: string;
+        onErrorContainer: string;
+        
+        shadow: string;
+        scrim: string;
+        
+        // Fixed & Dim
+        primaryFixed: string;
+        primaryFixedDim: string;
+        onPrimaryFixed: string;
+        onPrimaryFixedVariant: string;
+        secondaryFixed: string;
+        secondaryFixedDim: string;
+        onSecondaryFixed: string;
+        onSecondaryFixedVariant: string;
+        tertiaryFixed: string;
+        tertiaryFixedDim: string;
+        onTertiaryFixed: string;
+        onTertiaryFixedVariant: string;
+        surfaceDim: string;
+        surfaceBright: string;
     };
 }
 
@@ -88,6 +143,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#DAE5E1",
             outline: "#6F7977",
             outlineVariant: "#BFC9C6",
+            
+            inverseSurface: "#2C3331",
+            inverseOnSurface: "#EDF1EF",
+            inversePrimary: "#4ECDC4",
+            
+            error: "#BA1A1A",
+            onError: "#FFFFFF",
+            errorContainer: "#FFDAD6",
+            onErrorContainer: "#410002",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#A7FFEB",
+            primaryFixedDim: "#4ECDC4", // Dark Primary
+            onPrimaryFixed: "#002019",
+            onPrimaryFixedVariant: "#00897B", // Light Primary
+            secondaryFixed: "#CCE8E2",
+            secondaryFixedDim: "#B0CCC7", // Dark Secondary
+            onSecondaryFixed: "#05201C",
+            onSecondaryFixedVariant: "#4A635F", // Light Secondary
+            tertiaryFixed: "#CCE5FF",
+            tertiaryFixedDim: "#B0C9E8", // Dark Tertiary
+            onTertiaryFixed: "#001E32",
+            onTertiaryFixedVariant: "#456179", // Light Tertiary
+            surfaceDim: "#DAE5E1", // Container High
+            surfaceBright: "#F4FBFA", // Surface
         },
         dark: {
             primary: "#4ECDC4",
@@ -115,6 +197,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#3F4947",
             outline: "#899391",
             outlineVariant: "#3F4947",
+            
+            inverseSurface: "#DEE4E2",
+            inverseOnSurface: "#2C3331",
+            inversePrimary: "#00897B",
+            
+            error: "#FFB4AB",
+            onError: "#690005",
+            errorContainer: "#93000A",
+            onErrorContainer: "#FFDAD6",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#A7FFEB",
+            primaryFixedDim: "#4ECDC4",
+            onPrimaryFixed: "#002019",
+            onPrimaryFixedVariant: "#00897B",
+            secondaryFixed: "#CCE8E2",
+            secondaryFixedDim: "#B0CCC7",
+            onSecondaryFixed: "#05201C",
+            onSecondaryFixedVariant: "#4A635F",
+            tertiaryFixed: "#CCE5FF",
+            tertiaryFixedDim: "#B0C9E8",
+            onTertiaryFixed: "#001E32",
+            onTertiaryFixedVariant: "#456179",
+            surfaceDim: "#0E1513",
+            surfaceBright: "#3F4947",
         },
     },
     violet: {
@@ -145,6 +254,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#E6E0E9",
             outline: "#79747E",
             outlineVariant: "#CAC4D0",
+            
+            inverseSurface: "#322F35",
+            inverseOnSurface: "#F5EFF7",
+            inversePrimary: "#D0BCFF",
+            
+            error: "#BA1A1A",
+            onError: "#FFFFFF",
+            errorContainer: "#FFDAD6",
+            onErrorContainer: "#410002",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#EADDFF",
+            primaryFixedDim: "#D0BCFF",
+            onPrimaryFixed: "#21005D",
+            onPrimaryFixedVariant: "#6750A4",
+            secondaryFixed: "#E8DEF8",
+            secondaryFixedDim: "#CCC2DC",
+            onSecondaryFixed: "#1D192B",
+            onSecondaryFixedVariant: "#625B71",
+            tertiaryFixed: "#FFD8E4",
+            tertiaryFixedDim: "#EFB8C8",
+            onTertiaryFixed: "#31111D",
+            onTertiaryFixedVariant: "#7D5260",
+            surfaceDim: "#ECE6F0",
+            surfaceBright: "#FEFBFF",
         },
         dark: {
             primary: "#D0BCFF",
@@ -172,6 +308,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#49454E",
             outline: "#938F99",
             outlineVariant: "#49454E",
+            
+            inverseSurface: "#E6E1E5",
+            inverseOnSurface: "#322F35",
+            inversePrimary: "#6750A4",
+            
+            error: "#FFB4AB",
+            onError: "#690005",
+            errorContainer: "#93000A",
+            onErrorContainer: "#FFDAD6",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#EADDFF",
+            primaryFixedDim: "#D0BCFF",
+            onPrimaryFixed: "#21005D",
+            onPrimaryFixedVariant: "#6750A4",
+            secondaryFixed: "#E8DEF8",
+            secondaryFixedDim: "#CCC2DC",
+            onSecondaryFixed: "#1D192B",
+            onSecondaryFixedVariant: "#625B71",
+            tertiaryFixed: "#FFD8E4",
+            tertiaryFixedDim: "#EFB8C8",
+            onTertiaryFixed: "#31111D",
+            onTertiaryFixedVariant: "#7D5260",
+            surfaceDim: "#1C1B1F",
+            surfaceBright: "#49454E",
         },
     },
     blue: {
@@ -202,6 +365,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#E0E2EC",
             outline: "#74777F",
             outlineVariant: "#C4C6D0",
+            
+            inverseSurface: "#2F3033",
+            inverseOnSurface: "#F1F0F4",
+            inversePrimary: "#90CAF9",
+            
+            error: "#BA1A1A",
+            onError: "#FFFFFF",
+            errorContainer: "#FFDAD6",
+            onErrorContainer: "#410002",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#BBDEFB",
+            primaryFixedDim: "#90CAF9",
+            onPrimaryFixed: "#001A33",
+            onPrimaryFixedVariant: "#1976D2",
+            secondaryFixed: "#D8E3F8",
+            secondaryFixedDim: "#BCC7DC",
+            onSecondaryFixed: "#111C2B",
+            onSecondaryFixedVariant: "#545F70",
+            tertiaryFixed: "#F6D9FF",
+            tertiaryFixedDim: "#D9BDE3",
+            onTertiaryFixed: "#27132F",
+            onTertiaryFixedVariant: "#6E5676",
+            surfaceDim: "#E0E2EC",
+            surfaceBright: "#F8FAFF",
         },
         dark: {
             primary: "#90CAF9",
@@ -229,6 +419,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#44474E",
             outline: "#8E9199",
             outlineVariant: "#44474E",
+            
+            inverseSurface: "#E2E2E6",
+            inverseOnSurface: "#2F3033",
+            inversePrimary: "#1976D2",
+            
+            error: "#FFB4AB",
+            onError: "#690005",
+            errorContainer: "#93000A",
+            onErrorContainer: "#FFDAD6",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#BBDEFB",
+            primaryFixedDim: "#90CAF9",
+            onPrimaryFixed: "#001A33",
+            onPrimaryFixedVariant: "#1976D2",
+            secondaryFixed: "#D8E3F8",
+            secondaryFixedDim: "#BCC7DC",
+            onSecondaryFixed: "#111C2B",
+            onSecondaryFixedVariant: "#545F70",
+            tertiaryFixed: "#F6D9FF",
+            tertiaryFixedDim: "#D9BDE3",
+            onTertiaryFixed: "#27132F",
+            onTertiaryFixedVariant: "#6E5676",
+            surfaceDim: "#1A1C1E",
+            surfaceBright: "#44474E",
         },
     },
     magenta: {
@@ -259,6 +476,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#F4DDE1",
             outline: "#857376",
             outlineVariant: "#D8C2C5",
+            
+            inverseSurface: "#362F30",
+            inverseOnSurface: "#FAEEEF",
+            inversePrimary: "#FFB0CA",
+            
+            error: "#BA1A1A",
+            onError: "#FFFFFF",
+            errorContainer: "#FFDAD6",
+            onErrorContainer: "#410002",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#FFD9E3",
+            primaryFixedDim: "#FFB0CA",
+            onPrimaryFixed: "#3E001B",
+            onPrimaryFixedVariant: "#C2185B",
+            secondaryFixed: "#FFD9E3",
+            secondaryFixedDim: "#E2BDC7",
+            onSecondaryFixed: "#2B151C",
+            onSecondaryFixedVariant: "#74565F",
+            tertiaryFixed: "#FFDBCA",
+            tertiaryFixedDim: "#EFBC95",
+            onTertiaryFixed: "#301400",
+            onTertiaryFixedVariant: "#7D5635",
+            surfaceDim: "#F4DDE1",
+            surfaceBright: "#FFFBFB",
         },
         dark: {
             primary: "#FFB0CA",
@@ -286,6 +530,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#534346",
             outline: "#A08C90",
             outlineVariant: "#534346",
+            
+            inverseSurface: "#EDE0E1",
+            inverseOnSurface: "#362F30",
+            inversePrimary: "#C2185B",
+            
+            error: "#FFB4AB",
+            onError: "#690005",
+            errorContainer: "#93000A",
+            onErrorContainer: "#FFDAD6",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#FFD9E3",
+            primaryFixedDim: "#FFB0CA",
+            onPrimaryFixed: "#3E001B",
+            onPrimaryFixedVariant: "#C2185B",
+            secondaryFixed: "#FFD9E3",
+            secondaryFixedDim: "#E2BDC7",
+            onSecondaryFixed: "#2B151C",
+            onSecondaryFixedVariant: "#74565F",
+            tertiaryFixed: "#FFDBCA",
+            tertiaryFixedDim: "#EFBC95",
+            onTertiaryFixed: "#301400",
+            onTertiaryFixedVariant: "#7D5635",
+            surfaceDim: "#201A1B",
+            surfaceBright: "#534346",
         },
     },
     orange: {
@@ -316,6 +587,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#F3E0D1",
             outline: "#847469",
             outlineVariant: "#D7C3B5",
+            
+            inverseSurface: "#36302C",
+            inverseOnSurface: "#FAF0EB",
+            inversePrimary: "#FFB77C",
+            
+            error: "#BA1A1A",
+            onError: "#FFFFFF",
+            errorContainer: "#FFDAD6",
+            onErrorContainer: "#410002",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#FFDCC2",
+            primaryFixedDim: "#FFB77C",
+            onPrimaryFixed: "#2A1800",
+            onPrimaryFixedVariant: "#F57C00",
+            secondaryFixed: "#FFDCC2",
+            secondaryFixedDim: "#E0C2A8",
+            onSecondaryFixed: "#281806",
+            onSecondaryFixedVariant: "#735943",
+            tertiaryFixed: "#E0E7B3",
+            tertiaryFixedDim: "#C4CB98",
+            onTertiaryFixed: "#191D00",
+            onTertiaryFixedVariant: "#5C6239",
+            surfaceDim: "#F3E0D1",
+            surfaceBright: "#FFFBFF",
         },
         dark: {
             primary: "#FFB77C",
@@ -343,6 +641,33 @@ export const presetColorSchemes: Record<string, MD3ColorScheme> = {
             surfaceContainerHighest: "#52443A",
             outline: "#9F8D81",
             outlineVariant: "#52443A",
+            
+            inverseSurface: "#EBE0D9",
+            inverseOnSurface: "#36302C",
+            inversePrimary: "#F57C00",
+            
+            error: "#FFB4AB",
+            onError: "#690005",
+            errorContainer: "#93000A",
+            onErrorContainer: "#FFDAD6",
+            
+            shadow: "#000000",
+            scrim: "#000000",
+            
+            primaryFixed: "#FFDCC2",
+            primaryFixedDim: "#FFB77C",
+            onPrimaryFixed: "#2A1800",
+            onPrimaryFixedVariant: "#F57C00",
+            secondaryFixed: "#FFDCC2",
+            secondaryFixedDim: "#E0C2A8",
+            onSecondaryFixed: "#281806",
+            onSecondaryFixedVariant: "#735943",
+            tertiaryFixed: "#E0E7B3",
+            tertiaryFixedDim: "#C4CB98",
+            onTertiaryFixed: "#191D00",
+            onTertiaryFixedVariant: "#5C6239",
+            surfaceDim: "#201B17",
+            surfaceBright: "#52443A",
         },
     },
 };

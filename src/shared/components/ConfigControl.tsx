@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { store, useStore } from "@core";
 import { GenericSetting } from "@utils/setting";
 import Switch from "./Switch";
-import { StyledInput, StyledTextArea, StyledSelect } from "./styles";
+import { StyledInput, StyledTextArea, StyledSelect, NumberInput } from "./styles";
 
 export function ConfigControl({
     genericSetting: { id, valueType, readonly, type, options, default: defaultValue },
@@ -54,20 +54,17 @@ export function ConfigControl({
             break;
         case "number":
             element = (
-                <StyledInput
-                    type={"number"}
+                <NumberInput
                     value={localValue as number}
-                    onBlur={(e) => setLocalValue(e.target.value)}
-                    onChange={(e) => setLocalValue(e.target.value)}
+                    onValueChange={(val) => setLocalValue(val)}
+                    onBlur={(e) => setLocalValue(Number(e.target.value))}
                     disabled={readonly}
-                    style={{ width: "100px" }}
                 />
             );
             break;
         case "boolean":
             element = (
                 <Switch
-                    height={24}
                     checked={localValue as boolean}
                     onChange={setLocalValue}
                     disabled={readonly}

@@ -1,5 +1,3 @@
-import { useTheme } from "@emotion/react";
-
 import { GenericSetting } from "../../utils/setting";
 import { ConfigControl } from "./ConfigControl";
 import { SettingDesc, SettingItem, SettingLabel, SettingName } from "./styles";

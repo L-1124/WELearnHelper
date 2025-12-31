@@ -90,6 +90,24 @@ export default {
         
         shadow: "var(--md-sys-color-shadow)",
         scrim: "var(--md-sys-color-scrim)",
+
+        "primary-fixed": "var(--md-sys-color-primary-fixed)",
+        "primary-fixed-dim": "var(--md-sys-color-primary-fixed-dim)",
+        "on-primary-fixed": "var(--md-sys-color-on-primary-fixed)",
+        "on-primary-fixed-variant": "var(--md-sys-color-on-primary-fixed-variant)",
+        
+        "secondary-fixed": "var(--md-sys-color-secondary-fixed)",
+        "secondary-fixed-dim": "var(--md-sys-color-secondary-fixed-dim)",
+        "on-secondary-fixed": "var(--md-sys-color-on-secondary-fixed)",
+        "on-secondary-fixed-variant": "var(--md-sys-color-on-secondary-fixed-variant)",
+        
+        "tertiary-fixed": "var(--md-sys-color-tertiary-fixed)",
+        "tertiary-fixed-dim": "var(--md-sys-color-tertiary-fixed-dim)",
+        "on-tertiary-fixed": "var(--md-sys-color-on-tertiary-fixed)",
+        "on-tertiary-fixed-variant": "var(--md-sys-color-on-tertiary-fixed-variant)",
+        
+        "surface-dim": "var(--md-sys-color-surface-dim)",
+        "surface-bright": "var(--md-sys-color-surface-bright)",
       },
       borderRadius: {
         "xs": "var(--md-sys-shape-extra-small)",

@@ -25,17 +25,15 @@ export const md3 = {
             errorContainer: "#F9DEDC",
             onErrorContainer: "#410E0B",
             
-            background: "#FFFBFE",
-            onBackground: "#1C1B1F",
+            background: "#FEF7FF", 
+            onBackground: "#1D1B20",
             
-            surface: "#FFFBFE",
-            onSurface: "#1C1B1F",
+            surface: "#FEF7FF",
+            onSurface: "#1D1B20",
             
-            // Surface Variants (for different elevation/states)
             surfaceVariant: "#E7E0EC",
             onSurfaceVariant: "#49454F",
             
-            // Surface Container (New in MD3 for Dialogs/Panels)
             surfaceContainerLowest: "#FFFFFF",
             surfaceContainerLow: "#F7F2FA",
             surfaceContainer: "#F3EDF7",
@@ -45,12 +43,30 @@ export const md3 = {
             outline: "#79747E",
             outlineVariant: "#CAC4D0",
             
-            inverseSurface: "#313033",
-            inverseOnSurface: "#F4EFF4",
+            inverseSurface: "#322F35",
+            inverseOnSurface: "#F5EFF7",
             inversePrimary: "#D0BCFF",
             
             shadow: "#000000",
             scrim: "#000000",
+
+            primaryFixed: "#EADDFF",
+            primaryFixedDim: "#D0BCFF",
+            onPrimaryFixed: "#21005D",
+            onPrimaryFixedVariant: "#4F378B",
+
+            secondaryFixed: "#E8DEF8",
+            secondaryFixedDim: "#CCC2DC",
+            onSecondaryFixed: "#1D192B",
+            onSecondaryFixedVariant: "#4A4458",
+
+            tertiaryFixed: "#FFD8E4",
+            tertiaryFixedDim: "#EFB8C8",
+            onTertiaryFixed: "#31111D",
+            onTertiaryFixedVariant: "#633B48",
+
+            surfaceDim: "#DED8E1",
+            surfaceBright: "#FEF7FF",
         },
         elevation: {
             level0: "none",
@@ -65,22 +81,23 @@ export const md3 = {
             small: "8px",
             medium: "12px",
             large: "16px",
-            extraLarge: "28px", // FAB, Dialog
-            full: "9999px", // Pill
+            extraLarge: "28px", 
+            full: "9999px", 
         },
         typescale: {
-            // Simplied Typescale for Utility
             displayLarge: {
                 fontFamily: "Roboto, sans-serif",
                 lineHeight: "64px",
                 fontSize: "57px",
                 fontWeight: 400,
+                letterSpacing: "-0.25px"
             },
             headlineSmall: {
                 fontFamily: "Roboto, sans-serif",
                 lineHeight: "32px",
                 fontSize: "24px",
                 fontWeight: 400,
+                letterSpacing: "0px"
             },
             titleMedium: {
                 fontFamily: "Roboto, sans-serif",
