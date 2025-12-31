@@ -208,7 +208,7 @@ export function getSystemTheme(): "dark" | "light" {
 export function useTheme() {
     const [systemTheme, setSystemTheme] = useState<"dark" | "light">(getSystemTheme);
     const { userSettings } = useStore();
-    const themeScheme = userSettings.themeColor || "teal";
+    const themeScheme = userSettings.themeColor || "green";
 
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');

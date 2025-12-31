@@ -35,7 +35,7 @@ export function MainPanel() {
                 {[
                     { id: "log", label: "答案" },
                     { id: "config", label: "设置" },
-                    { id: "about", label: "说明" },
+                    { id: "about", label: "关于" },
                     ...(isDev ? [{ id: "dev", label: "调试" }] : [])
                 ].map(tab => (
                     <div

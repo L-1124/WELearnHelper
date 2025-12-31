@@ -47,7 +47,7 @@ class Store {
     }
     panelSize = {
         width: 400,
-        height: 300,
+        height: 360,
         autoHeight: true,
     };
     setPanelSize(size: Partial<{ width: number, height: number, autoHeight: boolean }>) {

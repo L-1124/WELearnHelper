@@ -84,15 +84,15 @@ export function mergeSettings(...arrayOfSectionSettings: SectionSetting[][]) {
 
             let index: number | undefined;
             for (let i = 0; i < sectionSettings.length; i++) {
-                if (sectionSettings[i].title == section.title) {
+                if (sectionSettings[i]!.title == section.title) {
                     index = i;
                 }
             }
             if (typeof index == "undefined") throw Error("error during get index ");
             for (const generic of section.settings) {
-                const settings = sectionSettings[index].settings;
+                const settings = sectionSettings[index]!.settings;
                 if (!settings.some((setting) => setting.id == generic.id))
-                    sectionSettings[index].settings.push(generic);
+                    sectionSettings[index]!.settings.push(generic);
             }
         }
     }
@@ -122,7 +122,12 @@ export async function initialUserSettings() {
 
     store.sectionSettings = sectionSettings;
 
-    // TODO 是都需要检查取出的值的合法性？
+    // TODO 是否需要检查取出的值的合法性？
+    // 实现建议：可以添加值验证逻辑，例如：
+    // 1. 检查类型是否匹配（boolean/string/number）
+    // 2. 如果是 selection 类型，检查值是否在 options 中
+    // 3. 如果验证失败，使用默认值替代
+    // 目前依赖 setDefaultValues() 来设置缺失的值，对于已存在但不合法的值暂不做处理
     // 不能直接=，需要保证object的引用不变，因为subscribe了
     store.setUserSettings(await getValue("userSettings", {}));
     logger.debug("设置已读取", { ...store.userSettings });

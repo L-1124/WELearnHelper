@@ -29,8 +29,8 @@ export function AboutView() {
             </div>
 
             {/* Contributors */}
-            <div className="mt-6 mb-6">
-                <div className="flex flex-col gap-2">
+            <div className="mt-6 mb-2">
+                <div className="flex flex-col gap-1">
                     {contributors.map(c => (
                         <div key={c.name} className="flex items-center justify-between group p-2 rounded-lg hover:bg-surface-container-high/50 transition-colors -mx-2">
                             <div className="flex items-center gap-2">
@@ -53,12 +53,12 @@ export function AboutView() {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-outline-variant/10 pt-6 flex flex-col items-center gap-4">
+            <div className="border-t border-outline-variant/10 pt-2 flex flex-col items-center gap-4">
                 <a
                     href="https://github.com/L-1124/WELearnHelper"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm font-medium text-primary hover:brightness-110 transition-all bg-primary/5 px-4 py-2 rounded-full hover:bg-primary/10"
+                    className="flex items-center gap-2 text-sm font-medium text-primary hover:brightness-110 transition-all bg-primary/5 rounded-full hover:bg-primary/10"
                 >
                     <Github theme="outline" size="20" />
                     <span className="text-label-medium">View Project on GitHub</span>
