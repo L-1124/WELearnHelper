@@ -168,6 +168,7 @@ export async function determineCourseType(iframeUrl: string) {
 
             if (answers.length) {
                 outputAnswers(answers);
+                if (!document.querySelector(".cmd.cmd_submit")?.hasAttribute("data-submitted"))
                 triggerAutoSolve(solveDataSolution, answers);
             } else if (!hasAnswer) {
                 logger.info({ content: "此页面已适配，无答案" });
